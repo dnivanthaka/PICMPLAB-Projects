@@ -1,0 +1,42 @@
+MPLINK 4.30.01, Linker
+Linker Map File - Created Thu Feb 09 21:18:25 2012
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_1       code   0x000000    program   0x000018
+                   .cinit    romdata   0x000018    program   0x000002
+                   .org_2       code   0x000300    program   0x000010
+   .config_300001_BLINK.O    romdata   0x300001    program   0x000001
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000019      
+                            0x000300    0x00030f      
+                            0x300001    0x300001      
+            43 out of 33048 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    Delay   0x000300    program     static C:\Users\Dinusha\Documents\PICProjects\BlinkLED\blink.asm
+                     Loop   0x000304    program     static C:\Users\Dinusha\Documents\PICProjects\BlinkLED\blink.asm
+                   LpHere   0x000006    program     static C:\Users\Dinusha\Documents\PICProjects\BlinkLED\blink.asm
+                     Main   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\BlinkLED\blink.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     Main   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\BlinkLED\blink.asm
+                   LpHere   0x000006    program     static C:\Users\Dinusha\Documents\PICProjects\BlinkLED\blink.asm
+                    Delay   0x000300    program     static C:\Users\Dinusha\Documents\PICProjects\BlinkLED\blink.asm
+                     Loop   0x000304    program     static C:\Users\Dinusha\Documents\PICProjects\BlinkLED\blink.asm
+
+

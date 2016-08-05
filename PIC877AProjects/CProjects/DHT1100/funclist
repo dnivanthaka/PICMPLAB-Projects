@@ -1,0 +1,19 @@
+_TX_newline: CODE, 763 0 11
+_init: CODE, 606 0 36
+_TX_printline: CODE, 729 0 23
+i1_TX_poll: CODE, 782 0 8
+_TX_poll: CODE, 774 0 8
+__stringtab: STRING, 512 0 16
+__stringdata: STRING, 528 0 36
+_main: CODE, 26 0 183
+_dht11_start_signal: CODE, 677 0 28
+_tc_int: CODE, 705 0 24
+_dht11_response: CODE, 752 0 11
+__initialization: CODE, 21 0 1
+___lwdiv: CODE, 335 0 64
+_dht11_read_byte: CODE, 399 0 55
+___lwmod: CODE, 454 0 54
+_itoa: CODE, 564 0 42
+_utoa: CODE, 209 0 126
+_TX_print: CODE, 642 0 35
+Total: 761

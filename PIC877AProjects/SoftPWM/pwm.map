@@ -1,0 +1,127 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Tue Jul 08 23:34:17 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000008
+               INT_VECTOR       code   0x000004    program   0x000086
+                   .cinit    romdata   0x000047    program   0x000004
+                MAIN_PROG       code   0x000049    program   0x00013e
+                    .code       code   0x0000e8    program   0x00009a
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                 TEMP_VAR      udata   0x000020       data   0x000009
+                   .udata      udata   0x000029       data   0x000004
+                   G_DATA      udata   0x00002d       data   0x000002
+                  INT_VAR      udata   0x000070       data   0x000003
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000134      
+                            0x002007    0x002007      
+            310 out of 8454 program addresses used, program memory utilization is 3%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+              _.code_0019   0x000125    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+              _.code_0024   0x000130    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+          _MAIN_PROG_000E   0x000057    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+          _MAIN_PROG_002B   0x000074    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+               _duty_done   0x000033    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                  _ischar   0x0000dd    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                   _isnum   0x0000d8    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                    _send   0x0000e1    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                channel_0   0x00001f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                channel_1   0x000029    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                     init   0x000090    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                     loop   0x00004b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                   mDelay   0x0000f2    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                    mloop   0x0000f5    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                   sDelay   0x0000ff    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                    scale   0x00008a    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                    sloop   0x000102    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                    start   0x000049    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                   uDelay   0x0000e8    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                    uloop   0x0000eb    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+          usart_hex2ascii   0x0000bd    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+           usart_hexprint   0x0000cd    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+               usart_init   0x00010c    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+            usart_rx_byte   0x00012d    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+            usart_tx_byte   0x00011f    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+                PWM1_duty   0x000023       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+               PWM1_value   0x000027       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                PWM2_duty   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+               PWM2_value   0x000028       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                    count   0x00002d       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                     flag   0x00002d       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                   mcount   0x00002a       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                  periodc   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                   sPORTB   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                   scount   0x00002b       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                     temp   0x000025       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                    temp2   0x000026       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+               temp_count   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                   ucount   0x000029       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                    utemp   0x00002c       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                channel_0   0x00001f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                channel_1   0x000029    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+               _duty_done   0x000033    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                    start   0x000049    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                     loop   0x00004b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+          _MAIN_PROG_000E   0x000057    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+          _MAIN_PROG_002B   0x000074    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                    scale   0x00008a    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                     init   0x000090    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+          usart_hex2ascii   0x0000bd    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+           usart_hexprint   0x0000cd    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                   _isnum   0x0000d8    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                  _ischar   0x0000dd    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                    _send   0x0000e1    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                   uDelay   0x0000e8    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                    uloop   0x0000eb    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                   mDelay   0x0000f2    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                    mloop   0x0000f5    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                   sDelay   0x0000ff    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                    sloop   0x000102    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+               usart_init   0x00010c    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+            usart_tx_byte   0x00011f    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+              _.code_0019   0x000125    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+            usart_rx_byte   0x00012d    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+              _.code_0024   0x000130    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+                   sPORTB   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+               temp_count   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                  periodc   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                PWM1_duty   0x000023       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                PWM2_duty   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                     temp   0x000025       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                    temp2   0x000026       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+               PWM1_value   0x000027       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+               PWM2_value   0x000028       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                   ucount   0x000029       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                   mcount   0x00002a       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                   scount   0x00002b       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\DELAYS.ASM
+                    utemp   0x00002c       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\USART.ASM
+                    count   0x00002d       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                     flag   0x00002d       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\SoftPWM\MAIN.ASM
+
+

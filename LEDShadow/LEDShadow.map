@@ -1,0 +1,58 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Sat Oct 05 19:13:55 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000010
+                MAIN_PROG       code   0x00000c    program   0x000032
+    .config_2007_SHADOW.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                  INT_VAR      udata   0x000070       data   0x000005
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x000024      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            41 out of 2182 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+              CounterLoop   0x000017    program     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                  Delay_1   0x000020    program     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                 MainLoop   0x000015    program     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                  Counter   0x000074       data     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                   Delay1   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                   Delay2   0x000073       data     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                 MainLoop   0x000015    program     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+              CounterLoop   0x000017    program     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                  Delay_1   0x000020    program     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                   Delay1   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                   Delay2   0x000073       data     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+                  Counter   0x000074       data     static C:\Users\Dinusha\Documents\PICProjects\LEDShadow\shadow.ASM
+
+

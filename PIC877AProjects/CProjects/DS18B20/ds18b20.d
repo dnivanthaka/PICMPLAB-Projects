@@ -1,0 +1,1 @@
+ ds18b20.d  ds18b20.p1:  C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/DS18B20/ds18b20.c C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/DS18B20/ds18b20.h

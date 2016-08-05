@@ -1,0 +1,91 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Sun Mar 23 21:56:42 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000008
+               INT_VECTOR       code   0x000004    program   0x000018
+                   .cinit    romdata   0x000010    program   0x000004
+                    .code       code   0x000012    program   0x000048
+                MAIN_PROG       code   0x000036    program   0x000046
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                   .udata      udata   0x000020       data   0x000004
+                   G_DATA      udata   0x000024       data   0x000002
+                 TEMP_VAR      udata   0x000026       data   0x000001
+                  INT_VAR      udata   0x000070       data   0x000003
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000058      
+                            0x002007    0x002007      
+            90 out of 8454 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                   _1loop   0x00003d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                _1ret_one   0x00004b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+               _1ret_zero   0x000049    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+          _MAIN_PROG_0014   0x00004a    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                  debRead   0x000027    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\SWITCHES.asm
+                     init   0x000053    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                     loop   0x000029    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\SWITCHES.asm
+                       m0   0x00001a    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                   mDelay   0x000018    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                 mainloop   0x00003b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                       s0   0x000020    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                   sDelay   0x00001e    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                    start   0x000036    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                       u0   0x000013    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                   uDelay   0x000012    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                    count   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                    count   0x000023       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\SWITCHES.asm
+                     flag   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                   mcount   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                   scount   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+               temp_count   0x000026       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                   ucount   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                   uDelay   0x000012    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                       u0   0x000013    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                   mDelay   0x000018    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                       m0   0x00001a    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                   sDelay   0x00001e    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                       s0   0x000020    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                  debRead   0x000027    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\SWITCHES.asm
+                     loop   0x000029    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\SWITCHES.asm
+                    start   0x000036    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                 mainloop   0x00003b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                   _1loop   0x00003d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+               _1ret_zero   0x000049    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+          _MAIN_PROG_0014   0x00004a    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                _1ret_one   0x00004b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                     init   0x000053    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                   ucount   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                   mcount   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                   scount   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\DELAYS.ASM
+                    count   0x000023       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\SWITCHES.asm
+                    count   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                     flag   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+               temp_count   0x000026       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Blink\MAIN.ASM
+
+

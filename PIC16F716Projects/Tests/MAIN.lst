@@ -1,0 +1,352 @@
+MPASM  5.43                          MAIN.ASM   7-13-2014  12:33:15         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;**********************************************************************
+                      00002 ;   This file is a basic code template for object module code         *
+                      00003 ;   generation on the PIC16F716. This file contains the               *
+                      00004 ;   basic code building blocks to build upon.                         *
+                      00005 ;                                                                     *
+                      00006 ;   Refer to the MPASM User's Guide for additional information on     *
+                      00007 ;   features of the assembler and linker (Document DS33014).          *
+                      00008 ;                                                                     *
+                      00009 ;   Refer to the respective PIC data sheet for additional             *
+                      00010 ;   information on the instruction set.                               *
+                      00011 ;                                                                     *
+                      00012 ;**********************************************************************
+                      00013 ;                                                                     *
+                      00014 ;    Filename:      xxx.asm                                           *
+                      00015 ;    Date:                                                            *
+                      00016 ;    File Version:                                                    *
+                      00017 ;                                                                     *
+                      00018 ;    Author:                                                          *
+                      00019 ;    Company:                                                         *
+                      00020 ;                                                                     *
+                      00021 ;                                                                     *
+                      00022 ;**********************************************************************
+                      00023 ;                                                                     *
+                      00024 ;    Files required: P16F716.INC                                      *
+                      00025 ;                                                                     *
+                      00026 ;                                                                     *
+                      00027 ;                                                                     *
+                      00028 ;**********************************************************************
+                      00029 ;                                                                     *
+                      00030 ;    Notes:                                                           *
+                      00031 ;                                                                     *
+                      00032 ;                                                                     *
+                      00033 ;                                                                     *
+                      00034 ;                                                                     *
+                      00035 ;**********************************************************************
+                      00036 
+                      00037     list      p=16F716              ; list directive to define processor
+                      00038     #include <p16F716.inc>          ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F716 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2011 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00370         LIST
+                      00039 
+                      00040     errorlevel  -302                ; suppress message 302 from list file
+                      00041 
+                      00042 ; '__CONFIG' directive is used to embed configuration word within .asm file.
+                      00043 ; The lables following the directive are located in the respective .inc file.
+                      00044 ; See data sheet for additional information on configuration word settings.
+MPASM  5.43                          MAIN.ASM   7-13-2014  12:33:15         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00045 
+2007   3F32           00046     __CONFIG    _CP_OFF & _VBOR_25 & _BOREN_OFF & _PWRTE_ON & _WDT_OFF & _HS_OSC
+                      00047 
+                      00048 ;***** VARIABLE DEFINITIONS (examples)
+                      00049 
+                      00050 ; example of using Shared Uninitialized Data Section
+                      00051 INT_VAR     UDATA    
+0000                  00052 w_temp      RES     1       ; variable used for context saving 
+0001                  00053 status_temp RES     1       ; variable used for context saving
+                      00054 
+                      00055 INT_VAR1    UDATA   
+0000                  00056 w1_temp     RES 1           ; bank 1 w_temp register
+                      00057 
+                      00058 ;**********************************************************************
+                      00059 RESET_VECTOR    CODE    0x0000  ; processor reset vector
+0000   2???           00060         goto    start           ; go to beginning of program
+                      00061 
+                      00062 INT_VECTOR      CODE    0x0004  ; interrupt vector location
+                      00063 
+0004                  00064 INTERRUPT
+                      00065 
+0004   00??           00066         movwf   w_temp          ; save off current W register contents
+0005   0803           00067         movf    STATUS,w        ; move status register into W register
+0006   1283           00068         bcf STATUS,RP0  ; select bank0
+0007   00??           00069         movwf   status_temp     ; save off contents of STATUS register
+                      00070 
+                      00071 ; isr code can go here or be located as a call subroutine elsewhere
+                      00072 
+                      00073 
+0008   1283           00074         bcf STATUS,RP0  ; select bank0
+0009   08??           00075         movf    status_temp,W   ; retrieve copy of STATUS register
+000A   0083           00076         movwf   STATUS          ; restore pre-isr STATUS register contents
+000B   0E??           00077         swapf   w_temp,F
+000C   0E??           00078         swapf   w_temp,W        ; restore pre-isr W register contents
+000D   0009           00079         retfie                  ; return from interrupt
+                      00080        
+                      00081 MAIN_PROG       CODE
+                      00082 
+0000                  00083 start
+0000   1283           00084                 bcf     STATUS, RP0
+0001   0186           00085                 clrf    PORTB
+                      00086                 ; Switching to Bank1
+0002   1683           00087                 bsf     STATUS, RP0
+                      00088 
+0003   0186           00089                 clrf    TRISB
+                      00090 
+                      00091                 ; Switching to Bank0
+0004   1283           00092                 bcf     STATUS, RP0
+                      00093 
+                      00094                 ; Turning Motor
+                      00095                 ;movlw  b'11001100'
+0005   3005           00096                 movlw   b'00000101'
+                      00097                 ;movlw  b'00111111'
+MPASM  5.43                          MAIN.ASM   7-13-2014  12:33:15         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0006   0086           00098                 movwf   PORTB   
+0007                  00099 loop
+                      00100 
+0007   2???           00101         goto loop
+                      00102 
+3F32                  00103         END                     ; directive 'end of program'
+MPASM  5.43                          MAIN.ASM   7-13-2014  12:33:15         PAGE  4
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRES                             0000001E
+C                                 00000000
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+DATACCP                           00000006
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+DCCP                              00000003
+DT1CK                             00000001
+ECCPAS                            00000019
+ECCPAS0                           00000004
+ECCPAS1                           00000005
+ECCPAS2                           00000006
+ECCPASE                           00000007
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+GO_NOT_DONE                       00000002
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTERRUPT                         00000004
+INTF                              00000001
+IRP                               00000007
+NOT_BO                            00000000
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+MPASM  5.43                          MAIN.ASM   7-13-2014  12:33:15         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OPTION_REG                        00000081
+P1M0                              00000006
+P1M1                              00000007
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PDC0                              00000000
+PDC1                              00000001
+PDC2                              00000002
+PDC3                              00000003
+PDC4                              00000004
+PDC5                              00000005
+PDC6                              00000006
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PRSEN                             00000007
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSSAC0                            00000002
+PSSAC1                            00000003
+PSSBD0                            00000000
+PSSBD1                            00000001
+PWM1CON                           00000018
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RP0                               00000005
+RP1                               00000006
+STATUS                            00000003
+T0CS                              00000005
+MPASM  5.43                          MAIN.ASM   7-13-2014  12:33:15         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TCCP                              00000003
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISCP                            00000086
+TT1CK                             00000001
+W                                 00000000
+Z                                 00000002
+_BODENV_25                        00003F7F
+_BODENV_40                        00003FFF
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+MPASM  5.43                          MAIN.ASM   7-13-2014  12:33:15         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CP_ALL                           00001FFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DEVID1                           00002006
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_RC                          00003FFF
+_FOSC_XT                          00003FFD
+_HS_OSC                           00003FFE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_LP_OSC                           00003FFC
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_VBOR_25                          00003F7F
+_VBOR_40                          00003FFF
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F716                          00000001
+__DEBUG                           1
+loop                              00000007
+start                             00000000
+status_temp                       00000001
+w1_temp                           00000000
+w_temp                            00000000
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     1 suppressed
+
+

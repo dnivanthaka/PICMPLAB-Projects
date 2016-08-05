@@ -1,0 +1,991 @@
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;**********************************************************************
+                      00002 ;   This file is a basic code template for object module code         *
+                      00003 ;   generation on the PIC16F628A. This file contains the              *
+                      00004 ;   basic code building blocks to build upon.                         *
+                      00005 ;                                                                     *
+                      00006 ;   Refer to the MPASM User's Guide for additional information on     *
+                      00007 ;   features of the assembler and linker (Document DS33014).          *
+                      00008 ;                                                                     *
+                      00009 ;   Refer to the respective PIC data sheet for additional             *
+                      00010 ;   information on the instruction set.                               *
+                      00011 ;                                                                     *
+                      00012 ;**********************************************************************
+                      00013 ;                                                                     *
+                      00014 ;    Filename:        xxx.asm                                         *
+                      00015 ;    Date:                                                            *
+                      00016 ;    File Version:                                                    *
+                      00017 ;                                                                     *
+                      00018 ;    Author:                                                          *
+                      00019 ;    Company:                                                         *
+                      00020 ;                                                                     *
+                      00021 ;                                                                     *
+                      00022 ;**********************************************************************
+                      00023 ;                                                                     *
+                      00024 ;    Files required: P16F628A.INC                                     *
+                      00025 ;                                                                     *
+                      00026 ;**********************************************************************
+                      00027 ;                                                                     *
+                      00028 ;    Notes:                                                           *
+                      00029 ;                                                                     *
+                      00030 ;**********************************************************************
+                      00031 
+                      00032     list      p=16F628A           ; list directive to define processor
+                      00033     #include <p16F628A.inc>       ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F628A processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2011 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00383         LIST
+                      00034 
+                      00035     errorlevel  -302              ; suppress message 302 from list file
+                      00036 
+                      00037     ;__CONFIG   _CP_OFF & _DATA_CP_OFF & _LVP_OFF & _BOREN_OFF & _MCLRE_ON & _WDT_OFF & _PWRTE_ON & _INT
+                            OSC_OSC_NOCLKOUT 
+2007   3F61           00038         __CONFIG   _XT_OSC & _LVP_OFF & _WDT_OFF & _PWRTE_ON & _BODEN_ON
+                      00039 
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00040 EXTERN Delay255
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00041 EXTERN Delay30
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00042 EXTERN Delay15
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00043 EXTERN Delay5
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00044 EXTERN Delay3
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00045 EXTERN Delay1
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00046 EXTERN uDelay
+                      00047 
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00048 EXTERN  lcd_init
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00049 EXTERN  lcd_cmd
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00050 EXTERN  lcd_newline
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00051 EXTERN  lcd_char
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00052 EXTERN  lcd_pulse
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00053 EXTERN  lcd_busy
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00054 EXTERN  lcd_put_at
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00055 EXTERN  lcd_home
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00056 EXTERN  lcd_clear
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00057 EXTERN  lcd_display
+                      00058 
+                      00059 ; '__CONFIG' directive is used to embed configuration word within .asm file.
+                      00060 ; The lables following the directive are located in the respective .inc file.
+                      00061 ; See data sheet for additional information on configuration word settings.
+                      00062 
+                      00063 #define sensor_port             PORTA
+                      00064 #define sensor_pin              RA1
+                      00065 #define sensor_tris             TRISA
+                      00066 
+                      00067 OW_HI:MACRO
+                      00068         bsf             STATUS, RP0                             ; Switching to Bank 1
+                      00069         bsf             sensor_tris, sensor_pin ; Setting pin as input high impedence
+                      00070         bcf             STATUS, RP0                             ; Switching to Bank 0
+                      00071         ENDM
+                      00072 
+                      00073 OW_LO:MACRO
+                      00074         bcf             STATUS, RP0                             ; Switching to Bank 0
+                      00075         bcf             sensor_port, sensor_pin ; Setting sensor pin as low
+                      00076         bsf             STATUS, RP0                             ; Switching to Bank 1
+                      00077         bcf             sensor_tris, sensor_pin ; Setting pin as output
+                      00078         bcf             STATUS, RP0                             ; Switching to Bank 0
+                      00079         ENDM
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00080 
+                      00081 ;***** VARIABLE DEFINITIONS (examples)
+                      00082 
+                      00083 ; example of using Shared Uninitialized Data Section
+                      00084 INT_VAR        UDATA_SHR     
+0000                  00085 w_temp         RES     1        ; variable used for context saving 
+0001                  00086 status_temp    RES     1        ; variable used for context saving
+                      00087 
+Warning[205]: Found directive in column 1. (UDATA)
+                      00088 UDATA
+0000                  00089 byte_data                       RES     1
+0001                  00090 temp                            RES     1
+0002                  00091 bcounter                        RES     1
+                      00092 
+0003                  00093 ds18b20_temp_lsb        RES     1
+0004                  00094 ds18b20_temp_msb        RES     1
+0005                  00095 ds18b20_user_lsb        RES     1
+0006                  00096 ds18b20_user_msb        RES     1
+0007                  00097 ds18b20_conf_reg        RES     1
+0008                  00098 ds18b20_data_crc        RES     1
+0009                  00099 ds18b20_family_id       RES     1
+                      00100 
+000A                  00101 ds18b20_addr_b0         RES     1
+000B                  00102 ds18b20_addr_b1         RES     1
+000C                  00103 ds18b20_addr_b2         RES     1
+000D                  00104 ds18b20_addr_b3         RES     1
+000E                  00105 ds18b20_addr_b4         RES     1
+000F                  00106 ds18b20_addr_b5         RES     1
+0010                  00107 ds18b20_addr_b6         RES     1
+0011                  00108 ds18b20_addr_b7         RES     1
+0012                  00109 ds18b20_temp_val        RES     1
+0013                  00110 ds18b20_temp_dec        RES     1
+                      00111 
+                      00112 
+                      00113 ;**********************************************************************
+                      00114 RESET_VECTOR    CODE   0x0000     ; processor reset vector
+0000   2???           00115         goto    START             ; go to beginning of program
+                      00116     
+                      00117 INT_VECTOR    CODE    0x0004      ; interrupt vector location
+                      00118 
+0004                  00119 INTERRUPT
+                      00120 
+0004   00??           00121         movwf   w_temp            ; save off current W register contents
+0005   0803           00122         movf    STATUS,w          ; move status register into W register
+0006   00??           00123         movwf   status_temp       ; save off contents of STATUS register
+                      00124 
+                      00125 
+                      00126 ; isr code can go here or be located as a call subroutine elsewhere
+                      00127 
+                      00128 
+0007   08??           00129         movf    status_temp,w     ; retrieve copy of STATUS register
+0008   0083           00130         movwf   STATUS            ; restore pre-isr STATUS register contents
+0009   0E??           00131         swapf   w_temp,f
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000A   0E??           00132         swapf   w_temp,w          ; restore pre-isr W register contents
+000B   0009           00133         retfie                    ; return from interrupt
+                      00134 
+                      00135 MAIN_PROG     CODE
+                      00136 
+0000                  00137 START
+                      00138 ; Turning off comparators
+0000   3007           00139                 movlw   0x07
+0001   009F           00140                 movwf   CMCON
+                      00141 
+                      00142                 ;bsf            STATUS, RP0                     ; Switching to Bank 1
+                      00143 
+                      00144                 
+                      00145                 ;bsf            sensor_tris, sensor_pin         ; Setting sensor pin as high impedence
+                      00146 
+                      00147                 ;movlw  b'00000000'                             ; Timer0 Enabled, No prescaler
+                      00148                 ;movwf  OPTION_REG
+                      00149 
+                      00150                 ;bcf            STATUS, RP0                     ; Switching to Bank 0
+                      00151 
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00152                 pagesel lcd_init
+0002   2???           00153                 call    lcd_init
+0003   3001           00154                 movlw   b'000000001'    ;Clear display
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00155                 pagesel lcd_cmd
+0004   2???           00156                 call    lcd_cmd
+                      00157 
+                      00158 
+                      00159 
+                      00160                 ;DS18B20 Command Sequence
+                      00161                 ; Initialization
+                      00162                 ; ROM Command
+                      00163                 ; DS18B20 Function Command
+                      00164 
+                      00165                 ;call   ds18b20_init
+                      00166 
+0005   01??           00167                 clrf    ds18b20_family_id
+                      00168 
+0006                  00169 mainloop
+                      00170                 ;call   Delay255
+                      00171                 ;call   Delay255
+                      00172                 ;call   Delay255
+                      00173                 ;call   Delay255
+                      00174 
+                      00175                 ;movlw  .1
+                      00176                 ;call   _decimal
+                      00177                 ;pagesel        lcd_char
+                      00178                 ;call   lcd_char
+                      00179                 ;call   ds18b20_init
+                      00180                 ; Send Reset Pulse to Device
+0006   2???           00181                 call    ds18b20_init
+                      00182                 ; Read ROM Command
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0007   3033           00183                 movlw   0x33
+0008   2???           00184                 call    ds18b20_write_byte
+0009   2???           00185                 call    ds18b20_read_byte
+000A   00??           00186                 movwf   ds18b20_family_id
+                      00187 
+                      00188                 ;---Reading the 64bit address---
+000B   2???           00189                 call    ds18b20_read_byte
+000C   00??           00190                 movwf   ds18b20_addr_b0
+000D   2???           00191                 call    ds18b20_read_byte
+000E   00??           00192                 movwf   ds18b20_addr_b1
+000F   2???           00193                 call    ds18b20_read_byte
+0010   00??           00194                 movwf   ds18b20_addr_b2
+0011   2???           00195                 call    ds18b20_read_byte
+0012   00??           00196                 movwf   ds18b20_addr_b3
+0013   2???           00197                 call    ds18b20_read_byte
+0014   00??           00198                 movwf   ds18b20_addr_b4
+0015   2???           00199                 call    ds18b20_read_byte
+0016   00??           00200                 movwf   ds18b20_addr_b5
+0017   2???           00201                 call    ds18b20_read_byte
+0018   00??           00202                 movwf   ds18b20_addr_b6
+0019   2???           00203                 call    ds18b20_read_byte
+001A   00??           00204                 movwf   ds18b20_addr_b7
+                      00205                 ;--------------------------------
+                      00206                 ;call   ds18b20_init
+                      00207 
+001B   3028           00208                 movlw   0x28
+001C   06??           00209                 xorwf   ds18b20_family_id, w
+001D   1D03           00210                 btfss   STATUS, Z
+001E   0000           00211                 nop                                                     ; Show device not found error
+001F   2???           00212                 call    device_ok
+                      00213 
+                      00214                 ;movlw  '.'
+                      00215                 ;call   lcd_char
+                      00216                 
+                      00217         
+                      00218                 ;call   Delay255
+                      00219                 ;call   Delay255
+                      00220                 
+                      00221                 ; Addressing the device ----------
+                      00222                 ;call   ds18b20_init
+                      00223                 ;movlw  0x55
+                      00224                 ;call   ds18b20_write_byte
+                      00225 
+                      00226                 ;movf   ds18b20_addr_b0
+                      00227                 ;call   ds18b20_write_byte
+                      00228                 ;movf   ds18b20_addr_b1
+                      00229                 ;call   ds18b20_write_byte
+                      00230                 ;movf   ds18b20_addr_b2
+                      00231                 ;call   ds18b20_write_byte
+                      00232                 ;movf   ds18b20_addr_b3
+                      00233                 ;call   ds18b20_write_byte
+                      00234                 ;movf   ds18b20_addr_b4
+                      00235                 ;call   ds18b20_write_byte
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00236                 ;movf   ds18b20_addr_b5
+                      00237                 ;call   ds18b20_write_byte
+                      00238                 ;movf   ds18b20_addr_b6
+                      00239                 ;call   ds18b20_write_byte
+                      00240                 ;movf   ds18b20_addr_b7
+                      00241                 ;call   ds18b20_write_byte
+                      00242 
+                      00243                 ;movlw  0x55
+                      00244                 ;call   ds18b20_write_byte
+                      00245                 ;---------------------------------
+0020                  00246 _reading_start
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00247                 pagesel lcd_home
+0020   2???           00248                 call    lcd_home
+                      00249                 ;movlw  b'000000001'    ;Clear display
+                      00250                 ;pagesel lcd_cmd
+                      00251                 ;call   lcd_cmd
+                      00252                 ;---------------------------------
+0021   2???           00253                 call    ds18b20_init
+0022   30CC           00254                 movlw   0xCC
+0023   2???           00255                 call    ds18b20_write_byte
+0024   0000           00256                 nop
+0025   0000           00257                 nop
+0026   3044           00258                 movlw   0x44
+0027   2???           00259                 call    ds18b20_write_byte
+                      00260                 ;---------------------------------
+                      00261                 ;call   Delay30
+0028   0000           00262                 nop
+0029   0000           00263                 nop
+002A   1C85           00264                 btfss   sensor_port, sensor_pin
+002B   2???           00265                 goto    $-1
+                      00266                 
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00267                 pagesel Delay255
+002C   2???           00268                 call    Delay255
+002D   2???           00269                 call    Delay255
+002E   2???           00270                 call    Delay255
+                      00271                 ;call   Delay255
+                      00272 
+                      00273                 ; Addressing the device ----------
+                      00274                 ;call   ds18b20_init
+                      00275                 ;movlw  0x55
+                      00276                 ;call   ds18b20_write_byte
+                      00277 
+                      00278                 ;movf   ds18b20_addr_b0
+                      00279                 ;call   ds18b20_write_byte
+                      00280                 ;movf   ds18b20_addr_b1
+                      00281                 ;call   ds18b20_write_byte
+                      00282                 ;movf   ds18b20_addr_b2
+                      00283                 ;call   ds18b20_write_byte
+                      00284                 ;movf   ds18b20_addr_b3
+                      00285                 ;call   ds18b20_write_byte
+                      00286                 ;movf   ds18b20_addr_b4
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00287                 ;call   ds18b20_write_byte
+                      00288                 ;movf   ds18b20_addr_b5
+                      00289                 ;call   ds18b20_write_byte
+                      00290                 ;movf   ds18b20_addr_b6
+                      00291                 ;call   ds18b20_write_byte
+                      00292                 ;movf   ds18b20_addr_b7
+                      00293                 ;call   ds18b20_write_byte
+                      00294                 ;----------------------------------
+002F   2???           00295                 call    ds18b20_init
+0030   30CC           00296                 movlw   0xCC
+0031   2???           00297                 call    ds18b20_write_byte
+                      00298 
+0032   30BE           00299                 movlw   0xBE
+0033   2???           00300                 call    ds18b20_write_byte
+                      00301 
+0034   2???           00302                 call    ds18b20_read_byte
+0035   00??           00303                 movwf   ds18b20_temp_lsb
+0036   2???           00304                 call    ds18b20_read_byte
+0037   00??           00305                 movwf   ds18b20_temp_msb
+                      00306 
+                      00307                 ;--- Stopping data read
+0038   2???           00308                 call    ds18b20_init
+                      00309                 ;call   ds18b20_read_byte
+                      00310                 ;movwf  ds18b20_user_lsb
+                      00311                 ;call   ds18b20_read_byte
+                      00312                 ;movwf  ds18b20_user_msb
+                      00313                 ;call   ds18b20_read_byte
+                      00314                 ;movwf  ds18b20_conf_reg
+                      00315                 ;call   ds18b20_read_byte
+                      00316                 ;call   ds18b20_read_byte
+                      00317                 ;call   ds18b20_read_byte
+                      00318                 ;call   ds18b20_read_byte
+                      00319                 ;movwf  ds18b20_data_crc
+                      00320                 ;---------------------------------
+                      00321                 ;ds18b20_temp_lsb       RES     1
+                      00322                 ;ds18b20_temp_msb       RES     1
+                      00323                 ;ds18b20_user_lsb       RES     1
+                      00324                 ;ds18b20_user_msb       RES     1
+                      00325                 ;ds18b20_conf_reg       RES     1
+                      00326                 ;ds18b20_data_crc       RES     1
+                      00327                 ;call   lcd_put
+                      00328                 ;movlw  'X'
+                      00329                 ;call   lcd_char
+                      00330                 ;movlw  ' '
+                      00331                 ;call   lcd_put_at
+                      00332 
+                      00333                 ;call   lcd_home
+0039   3058           00334                 movlw   'X'
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00335                 pagesel lcd_char
+003A   2???           00336                 call    lcd_char
+                      00337 
+                      00338                 
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00339                 
+                      00340                 ;swapf  byte_data, w
+                      00341                 ;movlw  0x0F
+                      00342                 ;andwf  byte_data, f
+                      00343                 ;andlw  0x0F
+                      00344                 ;movf   byte_data, w
+                      00345                 ;movf   ds18b20_temp_lsb, w
+                      00346                 ;clrf   ds18b20_temp_dec
+003B   0E??           00347                 swapf   ds18b20_temp_lsb, w
+003C   390F           00348                 andlw   0x0F
+003D   00??           00349                 movwf   ds18b20_temp_val
+                      00350 
+                      00351                 ; Reading the Decimal Value
+                      00352                 ;swapf  ds18b20_temp_lsb, w
+                      00353                 ;andlw  0x0F
+                      00354                 ;movlw  .1
+                      00355                 ;movwf  temp
+                      00356                 ;pagesel        ds18b20_temp_dec
+                      00357                 ;movwf  ds18b20_temp_dec
+                      00358                 ;pagesel $
+                      00359 
+003E   0E??           00360                 swapf   ds18b20_temp_msb, w
+003F   39F0           00361                 andlw   0xF0
+0040   07??           00362                 addwf   ds18b20_temp_val, f
+                      00363 
+0041   08??           00364                 movf    ds18b20_temp_val, w
+                      00365                 ;movlw  0x28
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00366                 pagesel lcd_display
+0042   2???           00367                 call    lcd_display
+                      00368                 ;pagesel $
+                      00369 
+                      00370                 ;call   lcd_newline
+                      00371 
+                      00372                 ;movlw  'Y'
+                      00373                 ;pagesel lcd_char
+                      00374                 ;call   lcd_char
+                      00375                 ;pagesel $
+                      00376                 
+                      00377                 ;rlf            temp, w
+                      00378                 ;movlw  .0
+                      00379                 ;btfss  STATUS, C
+                      00380                 ;movlw  .5
+                      00381                 ;nop
+                      00382                 ;pagesel        print_decimal
+                      00383                 ;call   print_decimal
+                      00384                 ;pagesel        $
+                      00385 
+                      00386                 ; Reading the Decimal Value
+                      00387                 ;movf   ds18b20_temp_lsb, w
+                      00388                 ;andlw  0x0F
+                      00389                 ;pagesel        ds18b20_temp_dec
+                      00390                 ;movwf  ds18b20_temp_dec
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00391                 ;rlf            ds18b20_temp_dec, w
+                      00392                 ;call   _decimal
+                      00393                 ;call   lcd_char
+                      00394 
+                      00395                 ;movf   byte_data, w
+                      00396                 ;andlw  0x0F
+                      00397                 ;call   _decimal
+                      00398                 ;call   lcd_char
+                      00399                 ;call   Delay255
+                      00400                 ;call   Delay255
+                      00401                 ;call   Delay255
+                      00402                 ;call   Delay255
+                      00403 
+0043   2???           00404         goto     _reading_start                ; loop forever
+                      00405                 ;goto     $                ; loop forever
+                      00406 
+                      00407 
+                      00408 
+                      00409 ;--------------------------------------
+0044                  00410 ds18b20_init
+                      00411                 ; Send Reset Pulse to Device
+                      00412                 OW_HI
+0044   1683               M         bsf             STATUS, RP0                             ; Switching to Bank 1
+0045   1485               M         bsf             sensor_tris, sensor_pin ; Setting pin as input high impedence
+0046   1283               M         bcf             STATUS, RP0                             ; Switching to Bank 0
+0047   0000           00413                 nop
+0048   0000           00414                 nop
+                      00415                 OW_LO
+0049   1283               M         bcf             STATUS, RP0                             ; Switching to Bank 0
+004A   1085               M         bcf             sensor_port, sensor_pin ; Setting sensor pin as low
+004B   1683               M         bsf             STATUS, RP0                             ; Switching to Bank 1
+004C   1085               M         bcf             sensor_tris, sensor_pin ; Setting pin as output
+004D   1283               M         bcf             STATUS, RP0                             ; Switching to Bank 0
+                      00416                 ; Delay at least 480us
+004E   305F           00417                 movlw   .95
+004F   2???           00418                 call    uDelay
+                      00419 
+                      00420                 OW_HI
+0050   1683               M         bsf             STATUS, RP0                             ; Switching to Bank 1
+0051   1485               M         bsf             sensor_tris, sensor_pin ; Setting pin as input high impedence
+0052   1283               M         bcf             STATUS, RP0                             ; Switching to Bank 0
+                      00421                 ; Check the presence of the device
+0053   1885           00422                 btfsc   sensor_port, sensor_pin
+0054   2???           00423                 goto $-1
+                      00424 
+0055   305F           00425                 movlw   .95
+0056   2???           00426                 call    uDelay
+0057   0000           00427                 nop
+0058   0000           00428                 nop
+                      00429 
+0059   0008           00430                 return
+                      00431 
+                      00432 ;--------------------------------------
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00433 
+005A                  00434 ds18b20_write_byte
+005A   00??           00435                 movwf   temp
+                      00436                 ; low bit first
+005B   3008           00437                 movlw   .8
+005C   00??           00438                 movwf   bcounter
+                      00439 
+005D                  00440 _brloop
+                      00441                 OW_LO
+005D   1283               M         bcf             STATUS, RP0                             ; Switching to Bank 0
+005E   1085               M         bcf             sensor_port, sensor_pin ; Setting sensor pin as low
+005F   1683               M         bsf             STATUS, RP0                             ; Switching to Bank 1
+0060   1085               M         bcf             sensor_tris, sensor_pin ; Setting pin as output
+0061   1283               M         bcf             STATUS, RP0                             ; Switching to Bank 0
+0062   0000           00442                 nop
+0063   0000           00443                 nop
+0064   0000           00444                 nop
+0065   0000           00445                 nop             
+0066   0C??           00446                 rrf             temp, f
+0067   1803           00447                 btfsc   STATUS, C
+0068   1485           00448                 bsf             sensor_port, sensor_pin
+0069   3008           00449                 movlw   .8
+006A   2???           00450                 call    uDelay
+                      00451                 OW_HI
+006B   1683               M         bsf             STATUS, RP0                             ; Switching to Bank 1
+006C   1485               M         bsf             sensor_tris, sensor_pin ; Setting pin as input high impedence
+006D   1283               M         bcf             STATUS, RP0                             ; Switching to Bank 0
+006E   0000           00452                 nop
+006F   0000           00453                 nop                     ; Recovery time 2us
+0070   0B??           00454                 decfsz  bcounter, f
+0071   2???           00455                 goto    _brloop
+0072   0000           00456                 nop
+0073   0008           00457                 return
+                      00458 
+                      00459 ;--------------------------------------
+                      00460 
+0074                  00461 ds18b20_read_byte
+0074   01??           00462                 clrf    temp
+0075   3008           00463                 movlw   .8
+0076   00??           00464                 movwf   bcounter
+0077                  00465 _bwloop
+                      00466                 OW_LO
+0077   1283               M         bcf             STATUS, RP0                             ; Switching to Bank 0
+0078   1085               M         bcf             sensor_port, sensor_pin ; Setting sensor pin as low
+0079   1683               M         bsf             STATUS, RP0                             ; Switching to Bank 1
+007A   1085               M         bcf             sensor_tris, sensor_pin ; Setting pin as output
+007B   1283               M         bcf             STATUS, RP0                             ; Switching to Bank 0
+007C   0000           00467                 nop
+007D   0000           00468                 nop
+007E   0000           00469                 nop
+007F   0000           00470                 nop
+                      00471                 OW_HI
+0080   1683               M         bsf             STATUS, RP0                             ; Switching to Bank 1
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0081   1485               M         bsf             sensor_tris, sensor_pin ; Setting pin as input high impedence
+0082   1283               M         bcf             STATUS, RP0                             ; Switching to Bank 0
+0083   0000           00472                 nop
+0084   0000           00473                 nop
+0085   0000           00474                 nop
+0086   0000           00475                 nop
+0087   1403           00476                 bsf             STATUS, C
+0088   1C85           00477                 btfss   sensor_port, sensor_pin
+0089   1003           00478                 bcf             STATUS, C
+008A   0000           00479                 nop
+008B   0C??           00480                 rrf             temp, f
+                      00481 
+008C   3008           00482                 movlw   .8
+008D   2???           00483                 call    uDelay
+                      00484 
+008E   0B??           00485                 decfsz  bcounter, f
+008F   2???           00486                 goto    _bwloop
+0090   08??           00487                 movf    temp, w
+0091   0008           00488                 return
+                      00489         
+                      00490 
+                      00491 ;--------------------------------------
+0092                  00492 _decimal
+0092   0782           00493                 addwf   PCL, f
+0093   3430           00494                 retlw   b'00110000'                             ; Decimal 0
+0094   3431           00495                 retlw   b'00110001'                             ; Decimal 1
+0095   3432           00496                 retlw   b'00110010'                             ; Decimal 2
+0096   3433           00497                 retlw   b'00110011'                             ; Decimal 3
+0097   3434           00498                 retlw   b'00110100'                             ; Decimal 4
+0098   3435           00499                 retlw   b'00110101'                             ; Decimal 5
+0099   3436           00500                 retlw   b'00110110'                             ; Decimal 6
+009A   3437           00501                 retlw   b'00110111'                             ; Decimal 7
+009B   3438           00502                 retlw   b'00111000'                             ; Decimal 8
+009C   3439           00503                 retlw   b'00111001'                             ; Decimal 9
+                      00504 
+                      00505 ;----- Messages-------------------------
+009D                  00506 device_ok
+009D   3044           00507                 movlw   'D'
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00508                 pagesel lcd_char
+009E   2???           00509                 call    lcd_char
+009F   3065           00510                 movlw   'e'
+00A0   2???           00511                 call    lcd_char
+00A1   3076           00512                 movlw   'v'
+00A2   2???           00513                 call    lcd_char
+00A3   3069           00514                 movlw   'i'
+00A4   2???           00515                 call    lcd_char
+00A5   3063           00516                 movlw   'c'
+00A6   2???           00517                 call    lcd_char
+00A7   3065           00518                 movlw   'e'
+00A8   2???           00519                 call    lcd_char
+00A9   3020           00520                 movlw   ' '
+00AA   2???           00521                 call    lcd_char
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00AB   304F           00522                 movlw   'O'
+00AC   2???           00523                 call    lcd_char
+00AD   304B           00524                 movlw   'K'
+00AE   2???           00525                 call    lcd_char
+                      00526 
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00527                 pagesel Delay255
+00AF   2???           00528                 call    Delay255
+00B0   2???           00529                 call    Delay255
+                      00530 
+00B1   0008           00531                 return
+                      00532 ;---------------------------------------
+                      00533 
+                      00534 ; initialize eeprom locations
+                      00535 
+                      00536 EE        CODE    0x2100
+2100   0000 0001 0002 00537         DE    0x00, 0x01, 0x02, 0x03
+       0003 
+                      00538 
+3F61                  00539         END                       ; directive 'end of program'
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADDEN                             00000003
+ADEN                              00000003
+BRGH                              00000002
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000001F
+CMIE                              00000006
+CMIF                              00000006
+CREN                              00000004
+CSRC                              00000007
+DATA_CP_OFF                       00003FFF
+DATA_CP_ON                        00003EFF
+DC                                00000001
+Delay1                            00000000
+Delay15                           00000000
+Delay255                          00000000
+Delay3                            00000000
+Delay30                           00000000
+Delay5                            00000000
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTERRUPT                         00000004
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+INTF                              00000001
+IRP                               00000007
+NOT_BO                            00000000
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OERR                              00000001
+OPTION_REG                        00000081
+OSCF                              00000003
+OW_HI                             
+OW_LO                             
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RA7                               00000007
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RX9                               00000006
+RX9D                              00000000
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+START                             00000000
+STATUS                            00000003
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISA6                            00000006
+TRISA7                            00000007
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISB7                            00000007
+TRMT                              00000001
+TX9                               00000006
+TX9D                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             0000009F
+VREN                              00000007
+VROE                              00000006
+VRR                               00000005
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DEVID1                           00002006
+_ER_OSC_CLKOUT                    00003FFF
+_ER_OSC_NOCLKOUT                  00003FFE
+_EXTCLK_OSC                       00003FEF
+_FOSC_ECIO                        00003FEF
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FEE
+_FOSC_INTOSCCLK                   00003FFD
+_FOSC_INTOSCIO                    00003FFC
+_FOSC_LP                          00003FEC
+_FOSC_XT                          00003FED
+_HS_OSC                           00003FEE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INTOSC_OSC_CLKOUT                00003FFD
+_INTOSC_OSC_NOCLKOUT              00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FEC
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_MAIN_PROG_002B                   0000002B
+_MAIN_PROG_0054                   00000054
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC_CLKOUT                    00003FFF
+_RC_OSC_NOCLKOUT                  00003FFE
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FED
+__16F628A                         00000001
+__DEBUG                           1
+_brloop                           0000005D
+_bwloop                           00000077
+_decimal                          00000092
+_reading_start                    00000020
+bcounter                          00000002
+byte_data                         00000000
+device_ok                         0000009D
+ds18b20_addr_b0                   0000000A
+ds18b20_addr_b1                   0000000B
+ds18b20_addr_b2                   0000000C
+ds18b20_addr_b3                   0000000D
+ds18b20_addr_b4                   0000000E
+ds18b20_addr_b5                   0000000F
+ds18b20_addr_b6                   00000010
+ds18b20_addr_b7                   00000011
+ds18b20_conf_reg                  00000007
+ds18b20_data_crc                  00000008
+ds18b20_family_id                 00000009
+ds18b20_init                      00000044
+ds18b20_read_byte                 00000074
+ds18b20_temp_dec                  00000013
+ds18b20_temp_lsb                  00000003
+ds18b20_temp_msb                  00000004
+ds18b20_temp_val                  00000012
+ds18b20_user_lsb                  00000005
+ds18b20_user_msb                  00000006
+ds18b20_write_byte                0000005A
+lcd_busy                          00000000
+lcd_char                          00000000
+lcd_clear                         00000000
+lcd_cmd                           00000000
+lcd_display                       00000000
+lcd_home                          00000000
+lcd_init                          00000000
+lcd_newline                       00000000
+lcd_pulse                         00000000
+MPASM  5.43                          MAIN.ASM   3-2-2014  21:08:01         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+lcd_put_at                        00000000
+mainloop                          00000006
+sensor_pin                        RA1
+sensor_port                       PORTA
+sensor_tris                       TRISA
+status_temp                       00000001
+temp                              00000001
+uDelay                            00000000
+w_temp                            00000000
+
+Errors   :     0
+Warnings :    18 reported,     0 suppressed
+Messages :     8 reported,     7 suppressed
+
+

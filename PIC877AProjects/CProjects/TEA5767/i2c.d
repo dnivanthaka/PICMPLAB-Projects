@@ -1,0 +1,1 @@
+ i2c.d  i2c.p1:  C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/TEA5767/i2c.c C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/TEA5767/i2c.h

@@ -1,0 +1,312 @@
+
+
+HI-TECH Software PIC LITE Macro Assembler V9.83 build 10920 
+                                                                                               Sun Mar 02 21:39:55 2014
+
+HI-TECH Software Omniscient Code Generator (Lite mode) build 10920
+     1  0000                     opt subtitle "HI-TECH Software Omniscient Code Generator (Lite mode) build 10920"
+     2                           
+     3                           opt pagewidth 120
+     4                           
+     5                           	opt lm
+     6                           
+     7                           	processor	16F628A
+     8                           clrc	macro
+     9                           	bcf	3,0
+    10  0000                     	endm
+    11                           clrz	macro
+    12                           	bcf	3,2
+    13  0000                     	endm
+    14                           setc	macro
+    15                           	bsf	3,0
+    16  0000                     	endm
+    17                           setz	macro
+    18                           	bsf	3,2
+    19  0000                     	endm
+    20                           skipc	macro
+    21                           	btfss	3,0
+    22  0000                     	endm
+    23                           skipz	macro
+    24                           	btfss	3,2
+    25  0000                     	endm
+    26                           skipnc	macro
+    27                           	btfsc	3,0
+    28  0000                     	endm
+    29                           skipnz	macro
+    30                           	btfsc	3,2
+    31  0000                     	endm
+    32  0000                     indf	equ	0
+    33  0000                     indf0	equ	0
+    34  0002                     pc	equ	2
+    35  0002                     pcl	equ	2
+    36  0003                     status	equ	3
+    37  0004                     fsr	equ	4
+    38  0004                     fsr0	equ	4
+    39  0001                     c	equ	1
+    40  0000                     z	equ	0
+    41  000A                     pclath	equ	10
+    42                           	FNCALL	_main,__delay_ms
+    43                           	FNROOT	_main
+    44                           	global	_PORTB
+    45                           psect	maintext,global,class=CODE,delta=2
+    46                           global __pmaintext
+    47  07E5                     __pmaintext:
+    48  0006                     _PORTB	set	6
+    49                           	global	_CARRY
+    50  0018                     _CARRY	set	24
+    51                           	global	_GIE
+    52  005F                     _GIE	set	95
+    53                           	global	_EEADR
+    54  009B                     _EEADR	set	155
+    55                           	global	_EECON1
+    56  009C                     _EECON1	set	156
+    57                           	global	_EECON2
+    58  009D                     _EECON2	set	157
+    59                           	global	_EEDATA
+    60  009A                     _EEDATA	set	154
+    61                           	global	_TRISB
+    62  0086                     _TRISB	set	134
+    63                           	global	_RD
+    64  04E0                     _RD	set	1248
+    65                           	global	_WR
+    66  04E1                     _WR	set	1249
+    67                           	global	_WREN
+    68  04E2                     _WREN	set	1250
+    69                           	file	"test.as"
+    70                           	line	#
+    71                           psect cinit,class=CODE,delta=2
+    72                           global start_initialization
+    73  07E3                     start_initialization:
+    74                           
+    75                           psect cinit,class=CODE,delta=2
+    76                           global end_of_initialization
+    77                           
+    78                           ;End of C runtime variable initialization code
+    79                           
+    80  07E3                     end_of_initialization:
+    81  07E3  0183               clrf status
+    82  07E4  2FE5               ljmp _main	;jump to C main() function
+    83                           psect	cstackCOMMON,class=COMMON,space=1
+    84                           global __pcstackCOMMON
+    85  0070                     __pcstackCOMMON:
+    86                           	global	?_main
+    87  0070                     ?_main:	; 0 bytes @ 0x0
+    88                           	global	?__delay_ms
+    89  0070                     ?__delay_ms:	; 2 bytes @ 0x0
+    90  0070                     	ds	2
+    91                           	global	??__delay_ms
+    92  0072                     ??__delay_ms:	; 0 bytes @ 0x2
+    93                           	global	??_main
+    94  0072                     ??_main:	; 0 bytes @ 0x2
+    95 ;;Data sizes: Strings 0, constant 0, data 0, bss 0, persistent 0 stack 0
+    96 ;;Auto spaces:   Size  Autos    Used
+    97 ;; COMMON          14      2       2
+    98 ;; BANK0           80      0       0
+    99 ;; BANK1           80      0       0
+   100 ;; BANK2           48      0       0
+   101                           
+   102 ;;
+   103 ;; Pointer list with targets:
+   104                           
+   105                           
+   106                           
+   107 ;;
+   108 ;; Critical Paths under _main in COMMON
+   109 ;;
+   110 ;;   _main->__delay_ms
+   111 ;;
+   112 ;; Critical Paths under _main in BANK0
+   113 ;;
+   114 ;;   None.
+   115 ;;
+   116 ;; Critical Paths under _main in BANK1
+   117 ;;
+   118 ;;   None.
+   119 ;;
+   120 ;; Critical Paths under _main in BANK2
+   121 ;;
+   122 ;;   None.
+   123                           
+   124 ;;
+   125 ;;Main: autosize = 0, tempsize = 0, incstack = 0, save=0
+   126 ;;
+   127                           
+   128 ;;
+   129 ;;Call Graph Tables:
+   130 ;;
+   131 ;; ---------------------------------------------------------------------------------
+   132 ;; (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+   133 ;; ---------------------------------------------------------------------------------
+   134 ;; (0) _main                                                 0     0      0       0
+   135 ;;                          __delay_ms
+   136 ;; ---------------------------------------------------------------------------------
+   137 ;; (1) __delay_ms                                            2     0      2       0
+   138 ;;                                              0 COMMON     2     0      2
+   139 ;; ---------------------------------------------------------------------------------
+   140 ;; Estimated maximum stack depth 1
+   141 ;; ---------------------------------------------------------------------------------
+   142                           
+   143 ;; Call Graph Graphs:
+   144                           
+   145 ;; _main (ROOT)
+   146 ;;   __delay_ms
+   147 ;;
+   148                           
+   149 ;; Address spaces:
+   150                           
+   151 ;;Name               Size   Autos  Total    Cost      Usage
+   152 ;;BITCOMMON            E      0       0       0        0.0%
+   153 ;;EEDATA              80      0       0       0        0.0%
+   154 ;;NULL                 0      0       0       0        0.0%
+   155 ;;CODE                 0      0       0       0        0.0%
+   156 ;;COMMON               E      2       2       1       14.3%
+   157 ;;BITSFR0              0      0       0       1        0.0%
+   158 ;;SFR0                 0      0       0       1        0.0%
+   159 ;;BITSFR1              0      0       0       2        0.0%
+   160 ;;SFR1                 0      0       0       2        0.0%
+   161 ;;STACK                0      0       1       2        0.0%
+   162 ;;BANK0               50      0       0       3        0.0%
+   163 ;;BITSFR3              0      0       0       4        0.0%
+   164 ;;SFR3                 0      0       0       4        0.0%
+   165 ;;ABS                  0      0       0       4        0.0%
+   166 ;;BITBANK0            50      0       0       5        0.0%
+   167 ;;BITSFR2              0      0       0       5        0.0%
+   168 ;;SFR2                 0      0       0       5        0.0%
+   169 ;;BITBANK1            50      0       0       6        0.0%
+   170 ;;BANK1               50      0       0       7        0.0%
+   171 ;;BITBANK2            30      0       0       8        0.0%
+   172 ;;BANK2               30      0       0       9        0.0%
+   173 ;;DATA                 0      0       0      10        0.0%
+   174                           
+   175                           	global	_main
+   176                           psect	maintext
+   177                           
+   178 ;; *************** function _main *****************
+   179 ;; Defined at:
+   180 ;;		line 4 in file "C:\Users\Dinusha\Documents\PICProjects\CProjects\test_hit\main.c"
+   181 ;; Parameters:    Size  Location     Type
+   182 ;;		None
+   183 ;; Auto vars:     Size  Location     Type
+   184 ;;		None
+   185 ;; Return value:  Size  Location     Type
+   186 ;;		None               void
+   187 ;; Registers used:
+   188 ;;		wreg, fsr0l, fsr0h, fsr1l, fsr1h, status,2, status,0, btemp+1, pclath, cstack
+   189 ;; Tracked objects:
+   190 ;;		On entry : 17F/0
+   191 ;;		On exit  : 0/0
+   192 ;;		Unchanged: 0/0
+   193 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
+   194 ;;      Params:         0       0       0       0
+   195 ;;      Locals:         0       0       0       0
+   196 ;;      Temps:          0       0       0       0
+   197 ;;      Totals:         0       0       0       0
+   198 ;;Total ram usage:        0 bytes
+   199 ;; Hardware stack levels required when called:    1
+   200 ;; This function calls:
+   201 ;;		__delay_ms
+   202 ;; This function is called by:
+   203 ;;		Startup code after reset
+   204 ;; This function uses a non-reentrant model
+   205 ;;
+   206                           psect	maintext
+   207                           	file	"C:\Users\Dinusha\Documents\PICProjects\CProjects\test_hit\main.c"
+   208                           	line	4
+   209                           	global	__size_of_main
+   210  001B                     	__size_of_main	equ	__end_of_main-_main
+   211                           	
+   212  07E5                     _main:	
+   213                           	opt	stack 7
+   214                           ; Regs used in _main: [allreg]
+   215                           	line	5
+   216                           	
+   217  07E5                     l2011:	
+   218                           ;main.c: 5: TRISB=0X00;
+   219  07E5  1683               	bsf	status, 5	;RP0=1, select bank1
+   220  07E6  1303               	bcf	status, 6	;RP1=0, select bank1
+   221  07E7  0186               	clrf	(134)^080h	;volatile
+   222                           	line	6
+   223                           ;main.c: 6: PORTB=0X00;
+   224  07E8  1283               	bcf	status, 5	;RP0=0, select bank0
+   225  07E9  1303               	bcf	status, 6	;RP1=0, select bank0
+   226  07EA  0186               	clrf	(6)	;volatile
+   227  07EB  2FEC               	goto	l2013
+   228                           	line	7
+   229                           ;main.c: 7: while(1)
+   230                           	
+   231  07EC                     l379:	
+   232                           	line	9
+   233                           	
+   234  07EC                     l2013:	
+   235                           ;main.c: 8: {
+   236                           ;main.c: 9: PORTB=0XFF;
+   237  07EC  30FF               	movlw	(0FFh)
+   238  07ED  1283               	bcf	status, 5	;RP0=0, select bank0
+   239  07EE  1303               	bcf	status, 6	;RP1=0, select bank0
+   240  07EF  0086               	movwf	(6)	;volatile
+   241                           	line	10
+   242                           	
+   243  07F0                     l2015:	
+   244                           ;main.c: 10: _delay_ms(100);
+   245  07F0  3064               	movlw	low(064h)
+   246  07F1  00F0               	movwf	(?__delay_ms)
+   247  07F2  3000               	movlw	high(064h)
+   248  07F3  00F1               	movwf	((?__delay_ms))+1
+   249  07F4  2000               	fcall	__delay_ms
+   250                           	line	11
+   251                           	
+   252  07F5                     l2017:	
+   253                           ;main.c: 11: PORTB=0X00;
+   254  07F5  1283               	bcf	status, 5	;RP0=0, select bank0
+   255  07F6  1303               	bcf	status, 6	;RP1=0, select bank0
+   256  07F7  0186               	clrf	(6)	;volatile
+   257                           	line	12
+   258                           	
+   259  07F8                     l2019:	
+   260                           ;main.c: 12: _delay_ms(100);
+   261  07F8  3064               	movlw	low(064h)
+   262  07F9  00F0               	movwf	(?__delay_ms)
+   263  07FA  3000               	movlw	high(064h)
+   264  07FB  00F1               	movwf	((?__delay_ms))+1
+   265  07FC  2000               	fcall	__delay_ms
+   266  07FD  2FEC               	goto	l2013
+   267                           	line	13
+   268                           	
+   269  07FE                     l380:	
+   270                           	line	7
+   271  07FE  2FEC               	goto	l2013
+   272                           	
+   273  07FF                     l381:	
+   274                           	line	14
+   275                           	
+   276  07FF                     l382:	
+   277                           	global	start
+   278  07FF  2800               	ljmp	start
+   279                           	opt stack 0
+   280                           GLOBAL	__end_of_main
+   281  0800                     	__end_of_main:
+   282 ;; =============== function _main ends ============
+   283                           
+   284                           	signat	_main,88
+   285                           	global	__delay_ms
+   286                           psect	maintext
+   287                           	global	btemp
+   288  007E                     	btemp set 07Eh
+   289                           
+   290                           	DABS	1,126,2	;btemp
+   291                           	global	wtemp0
+   292  007E                     	wtemp0 set btemp
+
+
+HI-TECH Software PICC Macro Assembler V9.83 build 10920 
+Symbol Table                                                                                   Sun Mar 02 21:39:55 2014
+
+                  _RD 04E0                    _WR 04E1                   l380 07FE                   l381 07FF  
+                 l382 07FF                   l379 07EC                   _GIE 005F                  l2011 07E5  
+                l2013 07EC                  l2015 07F0                  l2017 07F5                  l2019 07F8  
+                _WREN 04E2                  _main 07E5                  btemp 007E                  start 0000  
+               ?_main 0070                 _EEADR 009B                 _CARRY 0018                 _PORTB 0006  
+               _TRISB 0086                 status 0003                 wtemp0 007E          __end_of_main 0800  
+              ??_main 0072                _EEDATA 009A                _EECON1 009C                _EECON2 009D  
+      __pcstackCOMMON 0070            __pmaintext 07E5  end_of_initialization 07E3   start_initialization 07E3  
+           __delay_ms 0000            ?__delay_ms 0070           ??__delay_ms 0072         __size_of_main 001B  

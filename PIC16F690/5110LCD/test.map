@@ -1,0 +1,129 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Thu Jul 31 22:59:52 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000018
+                MAIN_PROG       code   0x000010    program   0x00026c
+                    .code       code   0x000146    program   0x000044
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                   .org_0       code   0x002100    program   0x000104
+                     ARR1      udata   0x000020       data   0x000032
+                   .udata      udata   0x000052       data   0x000009
+                  INT_VAR      udata   0x000070       data   0x000003
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x000167      
+                            0x002007    0x002007      
+                            0x002100    0x002181      
+            490 out of 4359 program addresses used, program memory utilization is 11%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+          _MAIN_PROG_0061   0x000071    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+          _MAIN_PROG_00DD   0x0000ed    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+               _charloop_   0x00008b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+              _clearloop_   0x000102    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                 _fbdisp_   0x000068    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                 _fbinit_   0x000048    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+              _flashloop_   0x000121    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+           delay_5_cycles   0x00003b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+              device_init   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+               fb_display   0x000052    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                  fb_init   0x00003e    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                     loop   0x00001c    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                   mDelay   0x000150    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                    mloop   0x000153    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+            pcd8544_clear   0x0000f5    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+            pcd8544_flash   0x00011d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+             pcd8544_init   0x0000ab    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+        pcd8544_modeblank   0x000119    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+          pcd8544_putchar   0x000081    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+         pcd8544_putpixel   0x000135    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+            pcd8544_reset   0x00009d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+          pcd8544_resetxy   0x00013f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+         pcd8544_sendbyte   0x0000de    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+          pcd8544_sendcmd   0x0000c3    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+         pcd8544_senddata   0x0000cf    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                   sDelay   0x00015c    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                    sloop   0x00015f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                    start   0x000010    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                   uDelay   0x000146    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                    uloop   0x000149    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                  chcount   0x000056       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                    clsch   0x000055       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                  fb_temp   0x000057       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+              framebuffer   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                 lcounter   0x000054       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                   mcount   0x000059       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                   scount   0x00005a       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                     temp   0x000052       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+               temp_flash   0x000053       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                   ucount   0x000058       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                    start   0x000010    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                     loop   0x00001c    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+              device_init   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+           delay_5_cycles   0x00003b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                  fb_init   0x00003e    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                 _fbinit_   0x000048    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+               fb_display   0x000052    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                 _fbdisp_   0x000068    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+          _MAIN_PROG_0061   0x000071    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+          pcd8544_putchar   0x000081    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+               _charloop_   0x00008b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+            pcd8544_reset   0x00009d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+             pcd8544_init   0x0000ab    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+          pcd8544_sendcmd   0x0000c3    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+         pcd8544_senddata   0x0000cf    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+         pcd8544_sendbyte   0x0000de    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+          _MAIN_PROG_00DD   0x0000ed    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+            pcd8544_clear   0x0000f5    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+              _clearloop_   0x000102    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+        pcd8544_modeblank   0x000119    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+            pcd8544_flash   0x00011d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+              _flashloop_   0x000121    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+         pcd8544_putpixel   0x000135    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+          pcd8544_resetxy   0x00013f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                   uDelay   0x000146    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                    uloop   0x000149    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                   mDelay   0x000150    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                    mloop   0x000153    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                   sDelay   0x00015c    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                    sloop   0x00015f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+              framebuffer   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                     temp   0x000052       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+               temp_flash   0x000053       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                 lcounter   0x000054       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                    clsch   0x000055       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                  chcount   0x000056       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                  fb_temp   0x000057       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+                   ucount   0x000058       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                   mcount   0x000059       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                   scount   0x00005a       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\DELAYS.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCD\MAIN.ASM
+
+

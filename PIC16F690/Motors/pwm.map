@@ -1,0 +1,54 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Fri Jun 27 23:29:18 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000018
+                MAIN_PROG       code   0x000010    program   0x000058
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                  INT_VAR      udata   0x000070       data   0x000003
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x00003b      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            64 out of 4359 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+          _MAIN_PROG_0001   0x000011    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+          _MAIN_PROG_0026   0x000036    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+                     init   0x000012    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+                    start   0x000010    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+                    start   0x000010    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+          _MAIN_PROG_0001   0x000011    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+                     init   0x000012    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+          _MAIN_PROG_0026   0x000036    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\Motors\MAIN.ASM
+
+

@@ -1,0 +1,1 @@
+ main.d  main.p1:  C:/Users/Dinusha/Documents/PICProjects/CProjects/LCD01/main.c C:/Users/Dinusha/Documents/PICProjects/CProjects/LCD01/hd44780.h

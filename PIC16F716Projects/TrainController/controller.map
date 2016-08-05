@@ -1,0 +1,99 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Sun Aug 17 19:53:16 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000064
+                MAIN_PROG       code   0x000036    program   0x0000aa
+                    .code       code   0x00008b    program   0x000034
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                  INT_VAR      udata   0x0000a0       data   0x00000a
+                   .udata      udata   0x0000aa       data   0x000003
+                 INT_VAR1      udata   0x0000ad       data   0x000001
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x0000a4      
+                            0x002007    0x002007      
+            165 out of 2054 program addresses used, program memory utilization is 8%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+          _MAIN_PROG_000A   0x000040    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+          _MAIN_PROG_001D   0x000053    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+               _duty_done   0x000027    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                channel_0   0x000019    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                channel_1   0x000020    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                     init   0x000064    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                     loop   0x000037    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                   mDelay   0x000093    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                    mloop   0x000095    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                   sDelay   0x00009c    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                    scale   0x00005f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                    sloop   0x00009e    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                    start   0x000036    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                   uDelay   0x00008b    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                    uloop   0x00008d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                PWM1_duty   0x0000a4       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+               PWM1_value   0x0000a8       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                PWM2_duty   0x0000a5       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+               PWM2_value   0x0000a9       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                   mcount   0x0000ab       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                  periodc   0x0000a3       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                   sPORTB   0x0000a2       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                   scount   0x0000ac       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+              status_temp   0x0000a1       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                     temp   0x0000a6       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                    temp2   0x0000a7       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                   ucount   0x0000aa       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                  w1_temp   0x0000ad       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                   w_temp   0x0000a0       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                channel_0   0x000019    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                channel_1   0x000020    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+               _duty_done   0x000027    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                    start   0x000036    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                     loop   0x000037    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+          _MAIN_PROG_000A   0x000040    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+          _MAIN_PROG_001D   0x000053    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                    scale   0x00005f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                     init   0x000064    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                   uDelay   0x00008b    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                    uloop   0x00008d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                   mDelay   0x000093    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                    mloop   0x000095    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                   sDelay   0x00009c    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                    sloop   0x00009e    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                   w_temp   0x0000a0       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+              status_temp   0x0000a1       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                   sPORTB   0x0000a2       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                  periodc   0x0000a3       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                PWM1_duty   0x0000a4       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                PWM2_duty   0x0000a5       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                     temp   0x0000a6       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                    temp2   0x0000a7       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+               PWM1_value   0x0000a8       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+               PWM2_value   0x0000a9       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+                   ucount   0x0000aa       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                   mcount   0x0000ab       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                   scount   0x0000ac       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\DELAYS.ASM
+                  w1_temp   0x0000ad       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\TrainController\MAIN.ASM
+
+

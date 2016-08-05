@@ -1,0 +1,165 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Fri Jan 31 22:38:39 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000010
+                MAIN_PROG       code   0x00000c    program   0x00024a
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                  INT_VAR      udata   0x000070       data   0x000002
+                   .udata      udata   0x000120       data   0x00000f
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x000130      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            309 out of 2182 program addresses used, program memory utilization is 14%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   Delay1   0x00011c    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  Delay15   0x000116    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 Delay255   0x000112    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   Delay3   0x00011a    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  Delay30   0x000114    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   Delay5   0x000118    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  Delay_0   0x000122    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 Delayu30   0x00012b    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 Delayu80   0x000129    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+          _MAIN_PROG_0117   0x000123    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              _check_end_   0x000056    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 _decimal   0x0000e3    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   _done_   0x00006d    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                     _hi_   0x000062    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  _hi_s1_   0x000039    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                _hundreds   0x0000bd    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                     _lo_   0x000060    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  _lo_s1_   0x000037    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  _lo_s2_   0x00003b    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                      _o_   0x00006c    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                    _ones   0x0000d1    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+             _read_loop2_   0x000076    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              _read_loop_   0x00005f    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                _readloop   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                    _tens   0x0000c7    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   _uloop   0x00012e    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                      _z_   0x00006a    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                       d0   0x00011d    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                       d1   0x00011e    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+             data_display   0x0000b9    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 lcd_char   0x0000a8    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  lcd_cmd   0x000099    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 lcd_init   0x000080    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              lcd_newline   0x0000a5    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                lcd_pulse   0x0000b5    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 mainloop   0x00001b    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                read_byte   0x00005c    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+               read_byte2   0x000073    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              sensor_init   0x000032    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+          sensor_response   0x000037    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+             sensor_start   0x00003e    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                    text1   0x0000ee    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                    text2   0x0000fb    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   uDelay   0x00012d    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                bit_count   0x000124       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   count1   0x000120       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   counta   0x000121       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   countb   0x000122       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              data_buffer   0x00012e       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+            data_checksum   0x000129       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+           hundreds_count   0x00012d       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+               ones_count   0x00012b       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+               rh_decimal   0x000126       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+               rh_integer   0x000125       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                     temp   0x00012a       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+             temp_decimal   0x000128       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+             temp_integer   0x000127       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+               tens_count   0x00012c       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   ucount   0x000123       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 mainloop   0x00001b    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                _readloop   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              sensor_init   0x000032    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  _lo_s1_   0x000037    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+          sensor_response   0x000037    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  _hi_s1_   0x000039    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  _lo_s2_   0x00003b    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+             sensor_start   0x00003e    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              _check_end_   0x000056    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                read_byte   0x00005c    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              _read_loop_   0x00005f    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                     _lo_   0x000060    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                     _hi_   0x000062    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                      _z_   0x00006a    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                      _o_   0x00006c    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   _done_   0x00006d    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+               read_byte2   0x000073    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+             _read_loop2_   0x000076    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 lcd_init   0x000080    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  lcd_cmd   0x000099    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              lcd_newline   0x0000a5    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 lcd_char   0x0000a8    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                lcd_pulse   0x0000b5    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+             data_display   0x0000b9    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                _hundreds   0x0000bd    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                    _tens   0x0000c7    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                    _ones   0x0000d1    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 _decimal   0x0000e3    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                    text1   0x0000ee    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                    text2   0x0000fb    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 Delay255   0x000112    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  Delay30   0x000114    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  Delay15   0x000116    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   Delay5   0x000118    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   Delay3   0x00011a    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   Delay1   0x00011c    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                       d0   0x00011d    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                       d1   0x00011e    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                  Delay_0   0x000122    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+          _MAIN_PROG_0117   0x000123    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 Delayu80   0x000129    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                 Delayu30   0x00012b    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   uDelay   0x00012d    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   _uloop   0x00012e    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   count1   0x000120       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   counta   0x000121       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   countb   0x000122       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                   ucount   0x000123       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                bit_count   0x000124       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+               rh_integer   0x000125       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+               rh_decimal   0x000126       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+             temp_integer   0x000127       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+             temp_decimal   0x000128       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+            data_checksum   0x000129       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+                     temp   0x00012a       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+               ones_count   0x00012b       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+               tens_count   0x00012c       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+           hundreds_count   0x00012d       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+              data_buffer   0x00012e       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11Test\MAIN.ASM
+
+

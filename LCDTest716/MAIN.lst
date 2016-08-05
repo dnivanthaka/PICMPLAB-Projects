@@ -1,0 +1,615 @@
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;**********************************************************************
+                      00002 ;   This file is a basic code template for object module code         *
+                      00003 ;   generation on the PIC16F716. This file contains the               *
+                      00004 ;   basic code building blocks to build upon.                         *
+                      00005 ;                                                                     *
+                      00006 ;   Refer to the MPASM User's Guide for additional information on     *
+                      00007 ;   features of the assembler and linker (Document DS33014).          *
+                      00008 ;                                                                     *
+                      00009 ;   Refer to the respective PIC data sheet for additional             *
+                      00010 ;   information on the instruction set.                               *
+                      00011 ;                                                                     *
+                      00012 ;**********************************************************************
+                      00013 ;                                                                     *
+                      00014 ;    Filename:      xxx.asm                                           *
+                      00015 ;    Date:                                                            *
+                      00016 ;    File Version:                                                    *
+                      00017 ;                                                                     *
+                      00018 ;    Author:                                                          *
+                      00019 ;    Company:                                                         *
+                      00020 ;                                                                     *
+                      00021 ;                                                                     *
+                      00022 ;**********************************************************************
+                      00023 ;                                                                     *
+                      00024 ;    Files required: P16F716.INC                                      *
+                      00025 ;                                                                     *
+                      00026 ;                                                                     *
+                      00027 ;                                                                     *
+                      00028 ;**********************************************************************
+                      00029 ;                                                                     *
+                      00030 ;    Notes:                                                           *
+                      00031 ;                                                                     *
+                      00032 ;                                                                     *
+                      00033 ;                                                                     *
+                      00034 ;                                                                     *
+                      00035 ;**********************************************************************
+                      00036 
+                      00037     list      p=16F716              ; list directive to define processor
+                      00038     #include <p16F716.inc>          ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F716 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2011 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00370         LIST
+                      00039 
+                      00040     errorlevel  -302                ; suppress message 302 from list file
+                      00041 
+                      00042 ; '__CONFIG' directive is used to embed configuration word within .asm file.
+                      00043 ; The lables following the directive are located in the respective .inc file.
+                      00044 ; See data sheet for additional information on configuration word settings.
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00045 
+2007   3F31           00046     __CONFIG    _CP_OFF & _VBOR_25 & _BOREN_OFF & _PWRTE_ON & _WDT_OFF & _XT_OSC
+                      00047 
+                      00048 ;***** VARIABLE DEFINITIONS (examples)
+                      00049 
+                      00050 ; example of using Shared Uninitialized Data Section
+                      00051 INT_VAR     UDATA    
+0000                  00052 w_temp      RES     1       ; variable used for context saving 
+0001                  00053 status_temp RES     1       ; variable used for context saving
+0002                  00054 count1              RES 1       ;variable used in delay routines.
+0003                  00055 counta              RES 1       ;variable used in delay routines.
+0004                  00056 countb              RES 1       ;variable used in delay routines.
+0005                  00057 temp                    RES     1
+                      00058 
+                      00059 INT_VAR1    UDATA   
+0000                  00060 w1_temp     RES 1           ; bank 1 w_temp register
+                      00061 
+                      00062 #define         LCD_RS  PORTB, 0
+                      00063 #define         LCD_RW  PORTB, 1
+                      00064 #define         LCD_E   PORTB, 2
+                      00065 
+                      00066 #define lcd_port            PORTB
+                      00067 #define lcd_port_tris   TRISB
+                      00068 #define lcd_rs              PORTB, 5
+                      00069 #define lcd_en              PORTB, 4
+                      00070 
+                      00071 ;**********************************************************************
+                      00072 RESET_VECTOR    CODE    0x0000  ; processor reset vector
+0000   2???           00073         goto    start           ; go to beginning of program
+                      00074 
+                      00075 INT_VECTOR      CODE    0x0004  ; interrupt vector location
+                      00076 
+0004                  00077 INTERRUPT
+                      00078 
+0004   00??           00079         movwf   w_temp          ; save off current W register contents
+0005   0803           00080         movf    STATUS,w        ; move status register into W register
+0006   1283           00081         bcf STATUS,RP0  ; select bank0
+0007   00??           00082         movwf   status_temp     ; save off contents of STATUS register
+                      00083 
+                      00084 ; isr code can go here or be located as a call subroutine elsewhere
+                      00085 
+                      00086 
+0008   1283           00087         bcf STATUS,RP0  ; select bank0
+0009   08??           00088         movf    status_temp,W   ; retrieve copy of STATUS register
+000A   0083           00089         movwf   STATUS          ; restore pre-isr STATUS register contents
+000B   0E??           00090         swapf   w_temp,F
+000C   0E??           00091         swapf   w_temp,W        ; restore pre-isr W register contents
+000D   0009           00092         retfie                  ; return from interrupt
+                      00093        
+                      00094 MAIN_PROG       CODE
+                      00095 
+0000                  00096 start
+0000   0185           00097                 CLRF PORTA
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0001   0186           00098                 CLRF lcd_port                           ; Setting All ports as outputs
+                      00099 
+                      00100                 ;MOVLW 0x07                             ; Turning off comparators
+                      00101                 ;MOVWF CMCON
+                      00102 
+0002   1303           00103                 BCF STATUS, RP1
+0003   1683           00104                 BSF STATUS, RP0                 ; Selecting Bank 1
+                      00105                 
+0004   0185           00106                 CLRF TRISA
+0005   0186           00107                 CLRF lcd_port_tris
+                      00108 
+0006   1283           00109                 BCF STATUS, RP0                 ; Switching back to Bank 0
+                      00110 
+0007   01??           00111                 CLRF temp
+                      00112 
+                      00113                 ;--------------------- Initializing LCD ----------------------;
+                      00114                 ;call Delay
+0008   2???           00115                 call    Delay30
+                      00116 
+                      00117         
+                      00118 
+                      00119                 ;movlw b'11'                                    
+                      00120                 ;movwf PORTA    
+                      00121                 ;call lcd_enable
+                      00122                 ;call Delay1
+                      00123 
+                      00124                 ;movlw  0x20                    ;Set 4 bit mode
+                      00125                 ;movlw  b'00100000'
+0009   3002           00126                 movlw   b'00000010'
+000A   2???           00127                 call    LCD_CMD
+                      00128 
+                      00129                 ;movlw  0x28                    ;Set display shift
+000B   3028           00130                 movlw   b'00101000'
+000C   2???           00131                 call    LCD_CMD
+                      00132 
+                      00133                 ;movlw  0x06                    ;Set display character mode
+000D   3006           00134                 movlw   b'0000110'
+000E   2???           00135                 call    LCD_CMD
+                      00136 
+                      00137                 ;movlw  0x0d                    ;Set display on/off and cursor command
+000F   300F           00138                 movlw   b'0001111'
+0010   2???           00139                 call    LCD_CMD
+                      00140 
+                      00141                 ;movlw  0x01                    ;Clear display
+0011   3001           00142                 movlw   b'000000001'    ;Clear display
+0012   2???           00143                 call    LCD_CMD
+                      00144 
+                      00145                 
+                      00146 
+                      00147                 ;-------------------------------------------------------------;
+                      00148 
+                      00149                 ;-------------------------------------------------------------;
+                      00150                 ;call   Delay255
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00151                 ;call   Delay255
+                      00152                 ;call   Delay255
+0013   2???           00153                 call    Delay255
+                      00154 
+                      00155                 ;movlw   'H'
+                      00156                 ;call   LCD_CHAR
+0014   2???           00157                 call    characters
+0015   2???           00158                 call    Delay255
+                      00159                 
+                      00160 
+0016                  00161 MAINLOOP
+                      00162 
+                      00163 
+                      00164         ;goto     $                ; loop forever
+0016   2???           00165                 goto MAINLOOP
+                      00166 
+                      00167 ;Delay
+                      00168                 ;MOVLW  0x64                                    ; 100 rounds
+                      00169                 ;MOVWF  LOC_1
+                      00170 
+                      00171 ;Loop   NOP
+                      00172                 ;NOP
+                      00173                 ;NOP
+                      00174                 ;DECF   LOC_1, F
+                      00175                 ;BNZ            Loop            ; repeat until LOC_1 becomes zero
+                      00176 
+                      00177                 ;RETURN
+                      00178 
+0017                  00179 lcd_pulse
+                      00180                 ;BSF PORTA, RA1
+0017   1606           00181                 BSF lcd_en
+0018   0000           00182                 NOP
+0019   1206           00183                 BCF lcd_en
+                      00184                 ;BCF PORTA, RA1
+                      00185                 
+001A   0008           00186                 RETURN
+001B                  00187 Delay255
+001B   30FF           00188         movlw   .255            ;delay 255ms.
+001C   2???           00189         goto    d0
+001D                  00190 Delay30
+001D   301E           00191         movlw   .30             ;delay 30mS.
+001E   2???           00192         goto    d0
+001F                  00193 Delay5
+001F   3005           00194         movlw   .5              ;delay 5ms.
+0020   2???           00195         goto    d0
+0021                  00196 Delay1
+0021   3001           00197         movlw   .1              ;delay 1mS.
+                      00198                 
+0022   00??           00199 d0      movwf   count1
+0023   30C7           00200 d1      movlw   0xC7
+0024   00??           00201         movwf   counta
+0025   3001           00202         movlw   0x01
+0026   00??           00203         movwf   countb
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0027                  00204 Delay_0
+Message[305]: Using default destination of 1 (file).
+0027   0B??           00205         decfsz  counta
+0028   2???           00206         goto    $+2
+Message[305]: Using default destination of 1 (file).
+0029   0B??           00207         decfsz  countb
+002A   2???           00208         goto    Delay_0
+Message[305]: Using default destination of 1 (file).
+002B   0B??           00209         decfsz  count1
+002C   2???           00210         goto    d1
+002D   3400           00211         retlw   .0              ;return from the delay routine.
+                      00212 
+002E                  00213 LCD_CMD
+002E   1286           00214                 bcf             lcd_rs                  ; setting RS low (RS = 0, Instruction Register)
+002F   2???           00215                 call    SEND_CMD
+0030   0008           00216                 RETURN
+                      00217 
+0031                  00218 SEND_CMD
+0031   00??           00219                 movwf   temp                    ; moving passed value in w to temp variable
+                      00220                 ;movf   temp, w
+0032   0E??           00221                 swapf   temp, w                 ; swaping high and low nibbles and storing it in w
+0033   390F           00222                 andlw   0x0f
+                      00223                 ;andlw  b'11110000'                     ; selecting only the lower nibble (Previous high
+                             nibble)
+0034   0086           00224                 movwf   lcd_port                ; writing to port
+                      00225                 ;bcf            lcd_rs
+0035   2???           00226                 call    lcd_pulse               ; pulsing the E line
+                      00227 
+0036   08??           00228                 movf    temp, w
+                      00229                 ;swapf  temp, w
+0037   390F           00230                 andlw   0x0f
+                      00231                 ;andlw  b'11110000'
+0038   0086           00232                 movwf   lcd_port
+                      00233                 ;bcf    lcd_rs
+0039   2???           00234                 call    lcd_pulse
+                      00235 
+003A   2???           00236                 call    Delay5
+                      00237 
+003B   0008           00238                 RETURN
+                      00239 
+003C                  00240 LCD_CHAR
+                      00241                 ;bsf            lcd_rs                  ; setting RS high (RS = 1, Data Register)
+                      00242                 ;call   SEND_CMD
+                      00243                 ;bcf            lcd_rs                  ; setting RS low (RS = 0, Instruction Register)
+                      00244 
+003C   00??           00245                 movwf   temp                    ; moving passed value in w to temp variable
+003D   0E??           00246                 swapf   temp, w                 ; swaping high and low nibbles and storing it in w
+003E   390F           00247                 andlw   0x0f                    ; selecting only the lower nibble (Previous high nibble)
+003F   0086           00248                 movwf   lcd_port                ; writing to port
+0040   1686           00249                 bsf             lcd_rs
+0041   2???           00250                 call    lcd_pulse               ; pulsing the E line
+                      00251 
+0042   08??           00252                 movf    temp, w
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0043   390F           00253                 andlw   0x0f
+0044   0086           00254                 movwf   lcd_port
+0045   1686           00255                 bsf     lcd_rs
+0046   2???           00256                 call    lcd_pulse
+                      00257 
+0047   2???           00258                 call    Delay5
+                      00259                 
+0048   0008           00260                 RETURN
+                      00261 
+0049                  00262 characters
+0049   3048           00263     movlw   'H'
+004A   2???           00264     call    LCD_CHAR
+004B   3065           00265     movlw   'e'
+004C   2???           00266     call    LCD_CHAR
+004D   306C           00267     movlw   'l'
+004E   2???           00268     call    LCD_CHAR
+004F   306C           00269     movlw   'l'
+0050   2???           00270     call    LCD_CHAR
+0051   306F           00271     movlw   'o'
+0052   2???           00272     call    LCD_CHAR
+0053   30C0           00273     movlw   0xc0                ;put the cursor at the start of line 2
+0054   2???           00274     call    LCD_CMD
+0055   304E           00275     movlw   'N'
+0056   2???           00276     call    LCD_CHAR
+0057   3069           00277     movlw   'i'
+0058   2???           00278     call    LCD_CHAR
+0059   3076           00279     movlw   'v'
+005A   2???           00280     call    LCD_CHAR
+005B   3061           00281     movlw   'a'
+005C   2???           00282     call    LCD_CHAR
+005D   306E           00283     movlw   'n'
+005E   2???           00284     call    LCD_CHAR
+005F   3074           00285     movlw   't'
+0060   2???           00286     call    LCD_CHAR
+0061   3068           00287     movlw   'h'
+0062   2???           00288     call    LCD_CHAR
+0063   3061           00289     movlw   'a'
+0064   2???           00290     call    LCD_CHAR
+0065   306B           00291     movlw   'k'
+0066   2???           00292     call    LCD_CHAR
+0067   3061           00293         movlw   'a'
+0068   2???           00294     call    LCD_CHAR
+0069   3020           00295     movlw   ' '
+006A   2???           00296     call    LCD_CHAR
+006B   303A           00297     movlw   ':'
+006C   2???           00298     call    LCD_CHAR
+006D   302D           00299     movlw   '-'
+006E   2???           00300     call    LCD_CHAR
+006F   3029           00301     movlw   ')'
+0070   2???           00302     call    LCD_CHAR
+0071   30FC           00303         movlw   b'11111100'
+0072   2???           00304     call    LCD_CHAR
+                      00305 
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0073   0008           00306     return
+                      00307 
+3F31                  00308         END                     ; directive 'end of program'
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRES                             0000001E
+C                                 00000000
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+DATACCP                           00000006
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+DCCP                              00000003
+DT1CK                             00000001
+Delay1                            00000021
+Delay255                          0000001B
+Delay30                           0000001D
+Delay5                            0000001F
+Delay_0                           00000027
+ECCPAS                            00000019
+ECCPAS0                           00000004
+ECCPAS1                           00000005
+ECCPAS2                           00000006
+ECCPASE                           00000007
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+GO_NOT_DONE                       00000002
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTERRUPT                         00000004
+INTF                              00000001
+IRP                               00000007
+LCD_CHAR                          0000003C
+LCD_CMD                           0000002E
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+LCD_E                             PORTB, 2
+LCD_RS                            PORTB, 0
+LCD_RW                            PORTB, 1
+MAINLOOP                          00000016
+NOT_BO                            00000000
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OPTION_REG                        00000081
+P1M0                              00000006
+P1M1                              00000007
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PDC0                              00000000
+PDC1                              00000001
+PDC2                              00000002
+PDC3                              00000003
+PDC4                              00000004
+PDC5                              00000005
+PDC6                              00000006
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PRSEN                             00000007
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSSAC0                            00000002
+PSSAC1                            00000003
+PSSBD0                            00000000
+PSSBD1                            00000001
+PWM1CON                           00000018
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RP0                               00000005
+RP1                               00000006
+SEND_CMD                          00000031
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TCCP                              00000003
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISCP                            00000086
+TT1CK                             00000001
+W                                 00000000
+Z                                 00000002
+_BODENV_25                        00003F7F
+_BODENV_40                        00003FFF
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CP_ALL                           00001FFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DEVID1                           00002006
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_RC                          00003FFF
+_FOSC_XT                          00003FFD
+_HS_OSC                           00003FFE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_LP_OSC                           00003FFC
+_MAIN_PROG_0028                   00000028
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_VBOR_25                          00003F7F
+_VBOR_40                          00003FFF
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F716                          00000001
+__DEBUG                           1
+characters                        00000049
+count1                            00000002
+counta                            00000003
+countb                            00000004
+d0                                00000022
+d1                                00000023
+lcd_en                            PORTB, 4
+lcd_port                          PORTB
+lcd_port_tris                     TRISB
+lcd_pulse                         00000017
+lcd_rs                            PORTB, 5
+start                             00000000
+MPASM  5.43                          MAIN.ASM   1-20-2014  23:04:23         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+status_temp                       00000001
+temp                              00000005
+w1_temp                           00000000
+w_temp                            00000000
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     3 reported,     2 suppressed
+
+

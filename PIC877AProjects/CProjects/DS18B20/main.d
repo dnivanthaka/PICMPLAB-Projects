@@ -1,0 +1,1 @@
+ main.d  main.p1:  C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/DS18B20/main.c C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/DS18B20/ds18b20.h C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/DS18B20/serial.h

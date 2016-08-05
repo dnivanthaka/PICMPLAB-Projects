@@ -1,0 +1,105 @@
+MPASM  5.43                        DELAYS.ASM   7-8-2014  23:34:15         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; Delay Routines for PIC877A
+                      00002 ; 20Mhz Clock = 200ns per Intruction
+                      00003 
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00004 GLOBAL uDelay
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00005 GLOBAL mDelay
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00006 GLOBAL sDelay
+                      00007 
+                      00008 
+Warning[205]: Found directive in column 1. (UDATA)
+                      00009 UDATA
+0000                  00010 ucount                  RES     1
+0001                  00011 mcount                  RES     1
+0002                  00012 scount                  RES     1
+                      00013 
+Warning[205]: Found directive in column 1. (CODE)
+                      00014 CODE
+                      00015 
+                      00016 ;-----------------------------------------
+0000                  00017 uDelay
+0000   ???? ????      00018         banksel ucount
+0002   00??           00019         movwf   ucount
+                      00020 
+0003                  00021 uloop
+0003   0000           00022         nop
+0004   0000           00023         nop
+0005   ???? ????      00024         banksel ucount
+0007   0B??           00025         decfsz  ucount, f
+0008   2???           00026         goto    uloop
+                      00027 
+0009   0008           00028         return
+                      00029 ;-----------------------------------------
+000A                  00030 mDelay
+000A   ???? ????      00031         banksel mcount
+000C   00??           00032         movwf   mcount
+                      00033 
+000D                  00034 mloop
+000D   30FF           00035         movlw   .255
+000E   ???? ????      00036         pagesel uDelay
+0010   2???           00037         call    uDelay
+0011   2???           00038         call    uDelay
+                      00039         ;call   uDelay
+                      00040 
+0012   ???? ????      00041         banksel mcount
+0014   0B??           00042         decfsz  mcount, f
+0015   2???           00043         goto    mloop
+                      00044 
+0016   0008           00045         return
+                      00046 ;-----------------------------------------
+0017                  00047 sDelay
+0017   ???? ????      00048         banksel scount
+MPASM  5.43                        DELAYS.ASM   7-8-2014  23:34:15         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0019   00??           00049         movwf   scount
+                      00050 
+001A                  00051 sloop
+001A   30FF           00052         movlw   .255
+001B   ???? ????      00053         pagesel mDelay
+001D   2???           00054         call    mDelay
+001E   2???           00055         call    mDelay
+                      00056         ;call   uDelay
+                      00057 
+001F   ???? ????      00058         banksel scount
+0021   0B??           00059         decfsz  scount, f
+0022   2???           00060         goto    sloop
+                      00061 
+0023   0008           00062         return
+                      00063 ;-----------------------------------------
+Warning[205]: Found directive in column 1. (END)
+                      00064 END
+MPASM  5.43                        DELAYS.ASM   7-8-2014  23:34:15         PAGE  3
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+__16F877A                         00000001
+__DEBUG                           1
+mDelay                            0000000A
+mcount                            00000001
+mloop                             0000000D
+sDelay                            00000017
+scount                            00000002
+sloop                             0000001A
+uDelay                            00000000
+ucount                            00000000
+uloop                             00000003
+
+Errors   :     0
+Warnings :     6 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

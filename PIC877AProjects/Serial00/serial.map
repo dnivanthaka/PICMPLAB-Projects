@@ -1,0 +1,97 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Tue Mar 25 22:02:33 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000008
+               INT_VECTOR       code   0x000004    program   0x000018
+                   .cinit    romdata   0x000010    program   0x000004
+                MAIN_PROG       code   0x000012    program   0x0000ae
+                    .code       code   0x000069    program   0x000048
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                   .udata      udata   0x000020       data   0x000004
+                   G_DATA      udata   0x000024       data   0x000002
+                 TEMP_VAR      udata   0x000026       data   0x000001
+                  INT_VAR      udata   0x000070       data   0x000003
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x00008c      
+                            0x002007    0x002007      
+            142 out of 8454 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                   RXPoll   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                   TXPoll   0x000025    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                  debRead   0x00007e    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\SWITCHES.asm
+              getmessages   0x000044    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                     init   0x00002d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                     loop   0x000080    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\SWITCHES.asm
+                       m0   0x000045    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                       m0   0x000071    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                       m1   0x000052    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                   mDelay   0x00006f    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                 mainloop   0x000017    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+               outmessage   0x000061    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+             printmessage   0x000060    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                       s0   0x000077    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                   sDelay   0x000075    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                    start   0x000012    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                       u0   0x00006a    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                   uDelay   0x000069    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                    count   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                    count   0x000023       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\SWITCHES.asm
+                     flag   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                   mcount   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                   scount   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+               temp_count   0x000026       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                   ucount   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                    start   0x000012    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                 mainloop   0x000017    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                   RXPoll   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                   TXPoll   0x000025    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                     init   0x00002d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+              getmessages   0x000044    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                       m0   0x000045    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                       m1   0x000052    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+             printmessage   0x000060    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+               outmessage   0x000061    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                   uDelay   0x000069    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                       u0   0x00006a    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                   mDelay   0x00006f    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                       m0   0x000071    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                   sDelay   0x000075    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                       s0   0x000077    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                  debRead   0x00007e    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\SWITCHES.asm
+                     loop   0x000080    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\SWITCHES.asm
+                   ucount   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                   mcount   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                   scount   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\DELAYS.ASM
+                    count   0x000023       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\SWITCHES.asm
+                    count   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                     flag   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+               temp_count   0x000026       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\Serial00\MAIN.ASM
+
+

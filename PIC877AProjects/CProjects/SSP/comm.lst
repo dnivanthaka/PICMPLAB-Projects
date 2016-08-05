@@ -1,0 +1,920 @@
+
+
+Microchip Technology PIC LITE Macro Assembler V1.30 build 55553 
+                                                                                               Mon May 12 00:21:50 2014
+
+Microchip Technology Omniscient Code Generator (Lite mode) build 55553
+     1                           	processor	16F877A
+     2                           	opt	pw 120
+     3                           	opt	lm
+     4                           	psect	text0,local,class=CODE,merge=1,delta=2
+     5                           	psect	cinit,global,class=CODE,merge=1,delta=2
+     6                           	psect	cstackCOMMON,global,class=COMMON,space=1,delta=1
+     7                           	psect	cstackBANK0,global,class=BANK0,space=1,delta=1
+     8                           	psect	maintext,global,class=CODE,split=1,delta=2
+     9                           	psect	text1,local,class=CODE,merge=1,delta=2
+    10                           	psect	text2,local,class=CODE,merge=1,delta=2
+    11                           	psect	text3,local,class=CODE,merge=1,delta=2
+    12                           	psect	text4,local,class=CODE,merge=1,delta=2
+    13                           	psect	text5,local,class=CODE,merge=1,delta=2
+    14                           	psect	intentry,global,class=CODE,delta=2
+    15                           	dabs	1,0x7E,2
+    16  0000                     	;# 
+    17  0001                     	;# 
+    18  0002                     	;# 
+    19  0003                     	;# 
+    20  0004                     	;# 
+    21  0005                     	;# 
+    22  0006                     	;# 
+    23  0007                     	;# 
+    24  0008                     	;# 
+    25  0009                     	;# 
+    26  000A                     	;# 
+    27  000B                     	;# 
+    28  000C                     	;# 
+    29  000D                     	;# 
+    30  000E                     	;# 
+    31  000E                     	;# 
+    32  000F                     	;# 
+    33  0010                     	;# 
+    34  0011                     	;# 
+    35  0012                     	;# 
+    36  0013                     	;# 
+    37  0014                     	;# 
+    38  0015                     	;# 
+    39  0015                     	;# 
+    40  0016                     	;# 
+    41  0017                     	;# 
+    42  0018                     	;# 
+    43  0019                     	;# 
+    44  001A                     	;# 
+    45  001B                     	;# 
+    46  001B                     	;# 
+    47  001C                     	;# 
+    48  001D                     	;# 
+    49  001E                     	;# 
+    50  001F                     	;# 
+    51  0081                     	;# 
+    52  0085                     	;# 
+    53  0086                     	;# 
+    54  0087                     	;# 
+    55  0088                     	;# 
+    56  0089                     	;# 
+    57  008C                     	;# 
+    58  008D                     	;# 
+    59  008E                     	;# 
+    60  0091                     	;# 
+    61  0092                     	;# 
+    62  0093                     	;# 
+    63  0094                     	;# 
+    64  0098                     	;# 
+    65  0099                     	;# 
+    66  009C                     	;# 
+    67  009D                     	;# 
+    68  009E                     	;# 
+    69  009F                     	;# 
+    70  010C                     	;# 
+    71  010D                     	;# 
+    72  010E                     	;# 
+    73  010F                     	;# 
+    74  018C                     	;# 
+    75  018D                     	;# 
+    76  0015                     _CCPR1L	set	21
+    77  000D                     _PIR2bits	set	13
+    78  0013                     _SSPBUF	set	19
+    79  0014                     _SSPCON	set	20
+    80  0001                     _TMR0	set	1
+    81  005F                     _GIE	set	95
+    82  0032                     _RB2	set	50
+    83  003E                     _RC6	set	62
+    84  005D                     _TMR0IE	set	93
+    85  005A                     _TMR0IF	set	90
+    86  009F                     _ADCON1	set	159
+    87  0094                     _SSPSTAT	set	148
+    88  0094                     _SSPSTATbits	set	148
+    89  0086                     _TRISB	set	134
+    90  0087                     _TRISCbits	set	135
+    91  010D                     _EEADR	set	269
+    92  010C                     _EEDATA	set	268
+    93  018C                     _EECON1bits	set	396
+    94  018D                     _EECON2	set	397
+    95                           
+    96                           	psect	text0
+    97  0000                     __ptext0:	
+    98                           ; #config settings
+    99                           
+   100                           
+   101                           ;psect for function _tc_int
+   102  0000                     
+   103                           	psect	cinit
+   104  0015                     start_initialization:	
+   105  0015                     __initialization:	
+   106  0015                     end_of_initialization:	
+   107                           ;End of C runtime variable initialization code
+   108                           
+   109  0015                     __end_of__initialization:	
+   110  0015  0183               	clrf	3
+   111  0016  120A  118A  2819   	ljmp	_main	;jump to C main() function
+   112                           
+   113                           	psect	cstackCOMMON
+   114  0070                     __pcstackCOMMON:	
+   115  0070                     ?_ssp_init:	
+   116  0070                     ?_init:	
+   117                           ; 0 bytes @ 0x0
+   118                           
+   119  0070                     ?_tc_int:	
+   120                           ; 0 bytes @ 0x0
+   121                           
+   122  0070                     ??_tc_int:	
+   123                           ; 0 bytes @ 0x0
+   124                           
+   125  0070                     ?_read_eeprom:	
+   126                           ; 0 bytes @ 0x0
+   127                           
+   128  0070                     ?_main:	
+   129                           ; 1 bytes @ 0x0
+   130                           
+   131                           
+   132                           ; 2 bytes @ 0x0
+   133  0070                     	ds	4
+   134  0074                     ??_ssp_init:	
+   135  0074                     ??_init:	
+   136                           ; 0 bytes @ 0x4
+   137                           
+   138  0074                     ?_write_eeprom:	
+   139                           ; 0 bytes @ 0x4
+   140                           
+   141  0074                     ??_read_eeprom:	
+   142                           ; 0 bytes @ 0x4
+   143                           
+   144  0074                     write_eeprom@dta:	
+   145                           ; 0 bytes @ 0x4
+   146                           
+   147  0074                     read_eeprom@adr:	
+   148                           ; 1 bytes @ 0x4
+   149                           
+   150                           
+   151                           ; 1 bytes @ 0x4
+   152  0074                     	ds	1
+   153  0075                     ??_write_eeprom:	
+   154  0075                     write_eeprom@adr:	
+   155                           ; 0 bytes @ 0x5
+   156                           
+   157                           
+   158                           ; 1 bytes @ 0x5
+   159  0075                     	ds	1
+   160  0076                     ??_main:	
+   161                           
+   162                           ; 0 bytes @ 0x6
+   163  0076                     	ds	3
+   164                           
+   165                           	psect	cstackBANK0
+   166  0020                     __pcstackBANK0:	
+   167  0020                     main@button_pressed:	
+   168                           
+   169                           ; 1 bytes @ 0x0
+   170  0020                     	ds	1
+   171  0021                     main@tmp:	
+   172                           
+   173                           ; 1 bytes @ 0x1
+   174  0021                     	ds	1
+   175  0022                     main@i:	
+   176                           
+   177                           ; 1 bytes @ 0x2
+   178  0022                     	ds	1
+   179  0023                     main@j:	
+   180                           
+   181                           ; 1 bytes @ 0x3
+   182  0023                     	ds	1
+   183                           
+   184                           	psect	maintext
+   185  0019                     __pmaintext:	
+   186 ;;
+   187 ;;Main: autosize = 0, tempsize = 3, incstack = 0, save=0
+   188 ;;
+   189 ;; *************** function _main *****************
+   190 ;; Defined at:
+   191 ;;		line 178 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\SSP\main.c"
+   192 ;; Parameters:    Size  Location     Type
+   193 ;;		None
+   194 ;; Auto vars:     Size  Location     Type
+   195 ;;  j               1    3[BANK0 ] unsigned char 
+   196 ;;  i               1    2[BANK0 ] unsigned char 
+   197 ;;  tmp             1    1[BANK0 ] unsigned char 
+   198 ;;  button_press    1    0[BANK0 ] unsigned char 
+   199 ;; Return value:  Size  Location     Type
+   200 ;;                  2   99[COMMON] int 
+   201 ;; Registers used:
+   202 ;;		wreg, status,2, status,0, pclath, cstack
+   203 ;; Tracked objects:
+   204 ;;		On entry : 17F/0
+   205 ;;		On exit  : 0/0
+   206 ;;		Unchanged: 0/0
+   207 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   208 ;;      Params:         0       0       0       0       0
+   209 ;;      Locals:         0       4       0       0       0
+   210 ;;      Temps:          3       0       0       0       0
+   211 ;;      Totals:         3       4       0       0       0
+   212 ;;Total ram usage:        7 bytes
+   213 ;; Hardware stack levels required when called:    2
+   214 ;; This function calls:
+   215 ;;		_init
+   216 ;;		_read_eeprom
+   217 ;;		_ssp_init
+   218 ;;		_write_eeprom
+   219 ;; This function is called by:
+   220 ;;		Startup code after reset
+   221 ;; This function uses a non-reentrant model
+   222 ;;
+   223                           
+   224                           
+   225                           ;psect for function _main
+   226  0019                     _main:	
+   227                           
+   228                           ;main.c: 181: uint8_t button_pressed = 0;
+   229                           
+   230                           ;incstack = 0
+   231                           ; Regs used in _main: [wreg+status,2+status,0+pclath+cstack]
+   232  0019  1283               	bcf	3,5	;RP0=0, select bank0
+   233  001A  1303               	bcf	3,6	;RP1=0, select bank0
+   234  001B  01A0               	clrf	main@button_pressed
+   235                           
+   236                           ;main.c: 182: uint8_t i = 0, j, tmp;
+   237  001C  01A2               	clrf	main@i
+   238                           
+   239                           ;main.c: 184: init();
+   240  001D  120A  118A  208C   	fcall	_init
+      +       120A  118A         
+   241                           
+   242                           ;main.c: 185: ssp_init();
+   243  0022  120A  118A  20AC   	fcall	_ssp_init
+      +       120A  118A         
+   244                           
+   245                           ;main.c: 186: write_eeprom( 0x00, 0x08 );
+   246  0027  3008               	movlw	8
+   247  0028  00F6               	movwf	??_main
+   248  0029  0876               	movf	??_main,w
+   249  002A  00F4               	movwf	write_eeprom@dta
+   250  002B  3000               	movlw	0
+   251  002C  120A  118A  206F   	fcall	_write_eeprom
+      +       120A  118A         
+   252                           
+   253                           ;main.c: 188: j = read_eeprom( 0x00 );
+   254  0031  3000               	movlw	0
+   255  0032  120A  118A  20B9   	fcall	_read_eeprom
+      +       120A  118A         
+   256  0037  00F6               	movwf	??_main
+   257  0038  0876               	movf	??_main,w
+   258  0039  1283               	bcf	3,5	;RP0=0, select bank0
+   259  003A  1303               	bcf	3,6	;RP1=0, select bank0
+   260  003B  00A3               	movwf	main@j
+   261  003C                     l716:	
+   262                           ;main.c: 207: while( 1 ){
+   263                           
+   264                           
+   265                           ;main.c: 208: RC6 = 0;
+   266  003C  1283               	bcf	3,5	;RP0=0, select bank0
+   267  003D  1303               	bcf	3,6	;RP1=0, select bank0
+   268  003E  1307               	bcf	7,6	;volatile
+   269                           
+   270                           ;main.c: 210: SSPBUF = j;
+   271  003F  0823               	movf	main@j,w
+   272  0040  0093               	movwf	19	;volatile
+   273  0041                     l101:	
+   274                           ;main.c: 211: while( SSPSTATbits.BF == 0 );
+   275                           
+   276  0041  1683               	bsf	3,5	;RP0=1, select bank1
+   277  0042  1303               	bcf	3,6	;RP1=0, select bank1
+   278  0043  1C14               	btfss	20,0	;volatile
+   279  0044  2841               	goto	l101
+   280                           
+   281                           ;main.c: 212: tmp = SSPBUF;
+   282  0045  1283               	bcf	3,5	;RP0=0, select bank0
+   283  0046  1303               	bcf	3,6	;RP1=0, select bank0
+   284  0047  0813               	movf	19,w	;volatile
+   285  0048  00F6               	movwf	??_main
+   286  0049  0876               	movf	??_main,w
+   287  004A  00A1               	movwf	main@tmp
+   288                           
+   289                           ;main.c: 213: RB2 = 0x01;
+   290  004B  1506               	bsf	6,2	;volatile
+   291                           
+   292                           ;main.c: 214: RC6 = 1;
+   293  004C  1707               	bsf	7,6	;volatile
+   294                           
+   295                           ;main.c: 215: i++;
+   296  004D  3001               	movlw	1
+   297  004E  00F6               	movwf	??_main
+   298  004F  0876               	movf	??_main,w
+   299  0050  07A2               	addwf	main@i,f
+   300                           
+   301                           ;main.c: 216: if( i > 3 )
+   302  0051  3004               	movlw	4
+   303  0052  0222               	subwf	main@i,w
+   304  0053  1803               	btfsc	3,0
+   305                           
+   306                           ;main.c: 217: i = 0;
+   307  0054  01A2               	clrf	main@i
+   308                           
+   309                           ;main.c: 219: j = 0x00;
+   310  0055  01A3               	clrf	main@j
+   311                           
+   312                           ;main.c: 220: j = read_eeprom( 0x00 );
+   313  0056  3000               	movlw	0
+   314  0057  120A  118A  20B9   	fcall	_read_eeprom
+      +       120A  118A         
+   315  005C  00F6               	movwf	??_main
+   316  005D  0876               	movf	??_main,w
+   317  005E  1283               	bcf	3,5	;RP0=0, select bank0
+   318  005F  1303               	bcf	3,6	;RP1=0, select bank0
+   319  0060  00A3               	movwf	main@j
+   320                           
+   321                           ;main.c: 242: _delay((unsigned long)((500)*(20000000/4000.0)));
+   322  0061  300D               	movlw	13
+   323  0062  00F8               	movwf	??_main+2
+   324  0063  30AF               	movlw	175
+   325  0064  00F7               	movwf	??_main+1
+   326  0065  30C1               	movlw	193
+   327  0066  00F6               	movwf	??_main
+   328  0067                     u197:	
+   329  0067  0BF6               	decfsz	??_main,f
+   330  0068  2867               	goto	u197
+   331  0069  0BF7               	decfsz	??_main+1,f
+   332  006A  2867               	goto	u197
+   333  006B  0BF8               	decfsz	??_main+2,f
+   334  006C  2867               	goto	u197
+   335  006D  0000               	nop
+   336  006E  283C               	goto	l716
+   337  006F                     __end_of_main:	
+   338                           ;main.c: 243: }
+   339                           ;main.c: 245: return 0;
+   340                           ;	Return value of _main is never used
+   341                           
+   342                           
+   343                           	psect	text1
+   344  006F                     __ptext1:	
+   345 ;; *************** function _write_eeprom *****************
+   346 ;; Defined at:
+   347 ;;		line 135 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\SSP\main.c"
+   348 ;; Parameters:    Size  Location     Type
+   349 ;;  adr             1    wreg     unsigned char 
+   350 ;;  dta             1    4[COMMON] unsigned char 
+   351 ;; Auto vars:     Size  Location     Type
+   352 ;;  adr             1    5[COMMON] unsigned char 
+   353 ;; Return value:  Size  Location     Type
+   354 ;;		None               void
+   355 ;; Registers used:
+   356 ;;		wreg
+   357 ;; Tracked objects:
+   358 ;;		On entry : 0/0
+   359 ;;		On exit  : 0/0
+   360 ;;		Unchanged: 0/0
+   361 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   362 ;;      Params:         1       0       0       0       0
+   363 ;;      Locals:         1       0       0       0       0
+   364 ;;      Temps:          0       0       0       0       0
+   365 ;;      Totals:         2       0       0       0       0
+   366 ;;Total ram usage:        2 bytes
+   367 ;; Hardware stack levels used:    1
+   368 ;; Hardware stack levels required when called:    1
+   369 ;; This function calls:
+   370 ;;		Nothing
+   371 ;; This function is called by:
+   372 ;;		_main
+   373 ;; This function uses a non-reentrant model
+   374 ;;
+   375                           
+   376                           
+   377                           ;psect for function _write_eeprom
+   378  006F                     _write_eeprom:	
+   379                           
+   380                           ;incstack = 0
+   381                           ; Regs used in _write_eeprom: [wreg]
+   382                           ;write_eeprom@adr stored from wreg
+   383  006F  00F5               	movwf	write_eeprom@adr
+   384  0070                     l88:	
+   385                           ;main.c: 137: while( EECON1bits.WR == 1 );
+   386                           
+   387  0070  1683               	bsf	3,5	;RP0=1, select bank3
+   388  0071  1703               	bsf	3,6	;RP1=1, select bank3
+   389  0072  188C               	btfsc	12,1	;volsfr
+   390  0073  2870               	goto	l88
+   391                           
+   392                           ;main.c: 139: EEADR = adr;
+   393  0074  0875               	movf	write_eeprom@adr,w
+   394  0075  1283               	bcf	3,5	;RP0=0, select bank2
+   395  0076  1703               	bsf	3,6	;RP1=1, select bank2
+   396  0077  008D               	movwf	13	;volatile
+   397                           
+   398                           ;main.c: 140: EEDATA = dta;
+   399  0078  0874               	movf	write_eeprom@dta,w
+   400  0079  008C               	movwf	12	;volatile
+   401                           
+   402                           ;main.c: 143: EECON1bits.EEPGD = 0;
+   403  007A  1683               	bsf	3,5	;RP0=1, select bank3
+   404  007B  1703               	bsf	3,6	;RP1=1, select bank3
+   405  007C  138C               	bcf	12,7	;volsfr
+   406                           
+   407                           ;main.c: 144: EECON1bits.WREN = 1;
+   408  007D  150C               	bsf	12,2	;volsfr
+   409                           
+   410                           ;main.c: 145: (GIE = 0);
+   411  007E  138B               	bcf	11,7	;volatile
+   412                           
+   413                           ;main.c: 150: EECON2 = 0x55;
+   414  007F  3055               	movlw	85
+   415  0080  008D               	movwf	13	;volsfr
+   416                           
+   417                           ;main.c: 151: EECON2 = 0xAA;
+   418  0081  30AA               	movlw	170
+   419  0082  008D               	movwf	13	;volsfr
+   420                           
+   421                           ;main.c: 152: EECON1bits.WR = 1;
+   422  0083  148C               	bsf	12,1	;volsfr
+   423                           
+   424                           ;main.c: 154: (GIE = 1);
+   425  0084  178B               	bsf	11,7	;volatile
+   426                           
+   427                           ;main.c: 155: EECON1bits.WREN = 0;
+   428  0085  110C               	bcf	12,2	;volsfr
+   429  0086                     l91:	
+   430                           ;main.c: 157: while( PIR2bits.EEIF == 0 );
+   431                           
+   432  0086  1283               	bcf	3,5	;RP0=0, select bank0
+   433  0087  1303               	bcf	3,6	;RP1=0, select bank0
+   434  0088  1E0D               	btfss	13,4	;volatile
+   435  0089  2886               	goto	l91
+   436                           
+   437                           ;main.c: 158: PIR2bits.EEIF = 0;
+   438  008A  120D               	bcf	13,4	;volatile
+   439  008B  0008               	return
+   440  008C                     __end_of_write_eeprom:	
+   441                           
+   442                           	psect	text2
+   443  00AC                     __ptext2:	
+   444 ;; *************** function _ssp_init *****************
+   445 ;; Defined at:
+   446 ;;		line 16 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\SSP\main.c"
+   447 ;; Parameters:    Size  Location     Type
+   448 ;;		None
+   449 ;; Auto vars:     Size  Location     Type
+   450 ;;		None
+   451 ;; Return value:  Size  Location     Type
+   452 ;;		None               void
+   453 ;; Registers used:
+   454 ;;		wreg
+   455 ;; Tracked objects:
+   456 ;;		On entry : 0/0
+   457 ;;		On exit  : 0/0
+   458 ;;		Unchanged: 0/0
+   459 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   460 ;;      Params:         0       0       0       0       0
+   461 ;;      Locals:         0       0       0       0       0
+   462 ;;      Temps:          0       0       0       0       0
+   463 ;;      Totals:         0       0       0       0       0
+   464 ;;Total ram usage:        0 bytes
+   465 ;; Hardware stack levels used:    1
+   466 ;; Hardware stack levels required when called:    1
+   467 ;; This function calls:
+   468 ;;		Nothing
+   469 ;; This function is called by:
+   470 ;;		_main
+   471 ;; This function uses a non-reentrant model
+   472 ;;
+   473                           
+   474                           
+   475                           ;psect for function _ssp_init
+   476  00AC                     _ssp_init:	
+   477                           
+   478                           ;main.c: 19: TRISCbits.TRISC3 = 0;
+   479                           
+   480                           ;incstack = 0
+   481                           ; Regs used in _ssp_init: [wreg]
+   482  00AC  1683               	bsf	3,5	;RP0=1, select bank1
+   483  00AD  1303               	bcf	3,6	;RP1=0, select bank1
+   484  00AE  1187               	bcf	7,3	;volatile
+   485                           
+   486                           ;main.c: 21: TRISCbits.TRISC4 = 1;
+   487  00AF  1607               	bsf	7,4	;volatile
+   488                           
+   489                           ;main.c: 23: TRISCbits.TRISC5 = 0;
+   490  00B0  1287               	bcf	7,5	;volatile
+   491                           
+   492                           ;main.c: 26: TRISCbits.TRISC6 = 0;
+   493  00B1  1307               	bcf	7,6	;volatile
+   494                           
+   495                           ;main.c: 28: SSPSTAT = 0x40;
+   496  00B2  3040               	movlw	64
+   497  00B3  0094               	movwf	20	;volatile
+   498                           
+   499                           ;main.c: 30: SSPCON = 0x31;
+   500  00B4  3031               	movlw	49
+   501  00B5  1283               	bcf	3,5	;RP0=0, select bank0
+   502  00B6  1303               	bcf	3,6	;RP1=0, select bank0
+   503  00B7  0094               	movwf	20	;volatile
+   504  00B8  0008               	return
+   505  00B9                     __end_of_ssp_init:	
+   506                           
+   507                           	psect	text3
+   508  00B9                     __ptext3:	
+   509 ;; *************** function _read_eeprom *****************
+   510 ;; Defined at:
+   511 ;;		line 162 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\SSP\main.c"
+   512 ;; Parameters:    Size  Location     Type
+   513 ;;  adr             1    wreg     unsigned char 
+   514 ;; Auto vars:     Size  Location     Type
+   515 ;;  adr             1    4[COMMON] unsigned char 
+   516 ;;  tmp             1    0        unsigned char 
+   517 ;; Return value:  Size  Location     Type
+   518 ;;                  1    wreg      unsigned char 
+   519 ;; Registers used:
+   520 ;;		wreg
+   521 ;; Tracked objects:
+   522 ;;		On entry : 0/0
+   523 ;;		On exit  : 0/0
+   524 ;;		Unchanged: 0/0
+   525 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   526 ;;      Params:         0       0       0       0       0
+   527 ;;      Locals:         1       0       0       0       0
+   528 ;;      Temps:          0       0       0       0       0
+   529 ;;      Totals:         1       0       0       0       0
+   530 ;;Total ram usage:        1 bytes
+   531 ;; Hardware stack levels used:    1
+   532 ;; Hardware stack levels required when called:    1
+   533 ;; This function calls:
+   534 ;;		Nothing
+   535 ;; This function is called by:
+   536 ;;		_main
+   537 ;; This function uses a non-reentrant model
+   538 ;;
+   539                           
+   540                           
+   541                           ;psect for function _read_eeprom
+   542  00B9                     _read_eeprom:	
+   543                           
+   544                           ;incstack = 0
+   545                           ; Regs used in _read_eeprom: [wreg]
+   546                           ;read_eeprom@adr stored from wreg
+   547  00B9  00F4               	movwf	read_eeprom@adr
+   548                           
+   549                           ;main.c: 164: uint8_t tmp;
+   550                           ;main.c: 166: EEADR = adr;
+   551  00BA  0874               	movf	read_eeprom@adr,w
+   552  00BB  1283               	bcf	3,5	;RP0=0, select bank2
+   553  00BC  1703               	bsf	3,6	;RP1=1, select bank2
+   554  00BD  008D               	movwf	13	;volatile
+   555                           
+   556                           ;main.c: 169: EECON1bits.EEPGD = 0;
+   557  00BE  1683               	bsf	3,5	;RP0=1, select bank3
+   558  00BF  1703               	bsf	3,6	;RP1=1, select bank3
+   559  00C0  138C               	bcf	12,7	;volsfr
+   560                           
+   561                           ;main.c: 172: EECON1bits.RD = 1;
+   562  00C1  140C               	bsf	12,0	;volsfr
+   563                           
+   564                           ;main.c: 175: return EEDATA;
+   565  00C2  1283               	bcf	3,5	;RP0=0, select bank2
+   566  00C3  1703               	bsf	3,6	;RP1=1, select bank2
+   567  00C4  080C               	movf	12,w	;volatile
+   568  00C5  0008               	return
+   569  00C6                     __end_of_read_eeprom:	
+   570                           
+   571                           	psect	text4
+   572  008C                     __ptext4:	
+   573 ;; *************** function _init *****************
+   574 ;; Defined at:
+   575 ;;		line 60 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\SSP\main.c"
+   576 ;; Parameters:    Size  Location     Type
+   577 ;;		None
+   578 ;; Auto vars:     Size  Location     Type
+   579 ;;		None
+   580 ;; Return value:  Size  Location     Type
+   581 ;;		None               void
+   582 ;; Registers used:
+   583 ;;		wreg
+   584 ;; Tracked objects:
+   585 ;;		On entry : 0/0
+   586 ;;		On exit  : 0/0
+   587 ;;		Unchanged: 0/0
+   588 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   589 ;;      Params:         0       0       0       0       0
+   590 ;;      Locals:         0       0       0       0       0
+   591 ;;      Temps:          2       0       0       0       0
+   592 ;;      Totals:         2       0       0       0       0
+   593 ;;Total ram usage:        2 bytes
+   594 ;; Hardware stack levels used:    1
+   595 ;; Hardware stack levels required when called:    1
+   596 ;; This function calls:
+   597 ;;		Nothing
+   598 ;; This function is called by:
+   599 ;;		_main
+   600 ;; This function uses a non-reentrant model
+   601 ;;
+   602                           
+   603                           
+   604                           ;psect for function _init
+   605  008C                     _init:	
+   606                           
+   607                           ;main.c: 63: TRISB = 0x81;
+   608                           
+   609                           ;incstack = 0
+   610                           ; Regs used in _init: [wreg]
+   611  008C  3081               	movlw	129
+   612  008D  1683               	bsf	3,5	;RP0=1, select bank1
+   613  008E  1303               	bcf	3,6	;RP1=0, select bank1
+   614  008F  0086               	movwf	6	;volatile
+   615                           
+   616                           ;main.c: 68: ADCON1 = 0x06;
+   617  0090  3006               	movlw	6
+   618  0091  009F               	movwf	31	;volatile
+   619                           
+   620                           ;main.c: 81: _delay((unsigned long)((10)*(20000000/4000.0)));
+   621  0092  3041               	movlw	65
+   622  0093  00F5               	movwf	??_init+1
+   623  0094  30EE               	movlw	238
+   624  0095  00F4               	movwf	??_init
+   625  0096                     u207:	
+   626  0096  0BF4               	decfsz	??_init,f
+   627  0097  2896               	goto	u207
+   628  0098  0BF5               	decfsz	??_init+1,f
+   629  0099  2896               	goto	u207
+   630  009A  0000               	nop
+   631  009B  0008               	return
+   632  009C                     __end_of_init:	
+   633                           
+   634                           	psect	text5
+   635  009C                     __ptext5:	
+   636 ;; *************** function _tc_int *****************
+   637 ;; Defined at:
+   638 ;;		line 96 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\SSP\main.c"
+   639 ;; Parameters:    Size  Location     Type
+   640 ;;		None
+   641 ;; Auto vars:     Size  Location     Type
+   642 ;;		None
+   643 ;; Return value:  Size  Location     Type
+   644 ;;		None               void
+   645 ;; Registers used:
+   646 ;;		status,2
+   647 ;; Tracked objects:
+   648 ;;		On entry : 0/0
+   649 ;;		On exit  : 0/0
+   650 ;;		Unchanged: 0/0
+   651 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   652 ;;      Params:         0       0       0       0       0
+   653 ;;      Locals:         0       0       0       0       0
+   654 ;;      Temps:          4       0       0       0       0
+   655 ;;      Totals:         4       0       0       0       0
+   656 ;;Total ram usage:        4 bytes
+   657 ;; Hardware stack levels used:    1
+   658 ;; This function calls:
+   659 ;;		Nothing
+   660 ;; This function is called by:
+   661 ;;		Interrupt level 1
+   662 ;; This function uses a non-reentrant model
+   663 ;;
+   664                           
+   665                           
+   666                           ;psect for function _tc_int
+   667  009C                     _tc_int:	
+   668                           
+   669                           ;main.c: 98: if( TMR0IE && TMR0IF ){
+   670  009C  1A8B               	btfsc	11,5	;volatile
+   671  009D  1D0B               	btfss	11,2	;volatile
+   672  009E  28A1               	goto	i1l65
+   673                           
+   674                           ;main.c: 99: TMR0IF = 0;
+   675  009F  110B               	bcf	11,2	;volatile
+   676                           
+   677                           ;main.c: 100: TMR0 = 0;
+   678  00A0  0181               	clrf	1	;volatile
+   679  00A1                     i1l65:	
+   680                           ;main.c: 103: return;
+   681                           
+   682  00A1  0873               	movf	??_tc_int+3,w
+   683  00A2  00FF               	movwf	127
+   684  00A3  0872               	movf	??_tc_int+2,w
+   685  00A4  008A               	movwf	10
+   686  00A5  0871               	movf	??_tc_int+1,w
+   687  00A6  0084               	movwf	4
+   688  00A7  0E70               	swapf	??_tc_int^(0+-128),w
+   689  00A8  0083               	movwf	3
+   690  00A9  0EFE               	swapf	126,f
+   691  00AA  0E7E               	swapf	126,w
+   692  00AB  0009               	retfie
+   693  00AC                     __end_of_tc_int:	
+   694  007E                     btemp	set	126	;btemp
+   695  007E                     wtemp	set	126
+   696  007E                     wtemp0	set	126
+   697  0080                     wtemp1	set	128
+   698  0082                     wtemp2	set	130
+   699  0084                     wtemp3	set	132
+   700  0086                     wtemp4	set	134
+   701  0088                     wtemp5	set	136
+   702  007F                     wtemp6	set	127
+   703  007E                     ttemp	set	126
+   704  007E                     ttemp0	set	126
+   705  0081                     ttemp1	set	129
+   706  0084                     ttemp2	set	132
+   707  0087                     ttemp3	set	135
+   708  007F                     ttemp4	set	127
+   709  007E                     ltemp	set	126
+   710  007E                     ltemp0	set	126
+   711  0082                     ltemp1	set	130
+   712  0086                     ltemp2	set	134
+   713  0080                     ltemp3	set	128
+   714                           
+   715                           	psect	intentry
+   716  0004                     __pintentry:	
+   717                           ;incstack = 0
+   718                           ; Regs used in _tc_int: [status,2]
+   719                           
+   720  0004                     interrupt_function:	
+   721  007E                     saved_w	set	btemp
+   722  0004  00FE               	movwf	btemp
+   723  0005  0E03               	swapf	3,w
+   724  0006  00F0               	movwf	??_tc_int
+   725  0007  0804               	movf	4,w
+   726  0008  00F1               	movwf	??_tc_int+1
+   727  0009  080A               	movf	10,w
+   728  000A  00F2               	movwf	??_tc_int+2
+   729  000B  1283               	bcf	3,5	;RP0=0, select bank0
+   730  000C  1303               	bcf	3,6	;RP1=0, select bank0
+   731  000D  087F               	movf	btemp+1,w
+   732  000E  00F3               	movwf	??_tc_int+3
+   733  000F  120A  118A  289C   	ljmp	_tc_int
+
+
+Data Sizes:
+    Strings     0
+    Constant    0
+    Data        0
+    BSS         0
+    Persistent  0
+    Stack       0
+
+Auto Spaces:
+    Space          Size  Autos    Used
+    COMMON           14      9       9
+    BANK0            80      4       4
+    BANK1            80      0       0
+    BANK3            96      0       0
+    BANK2            96      0       0
+
+Pointer List with Targets:
+
+    None.
+
+Critical Paths under _main in COMMON
+
+    _main->_init
+    _main->_write_eeprom
+
+Critical Paths under _tc_int in COMMON
+
+    None.
+
+Critical Paths under _main in BANK0
+
+    None.
+
+Critical Paths under _tc_int in BANK0
+
+    None.
+
+Critical Paths under _main in BANK1
+
+    None.
+
+Critical Paths under _tc_int in BANK1
+
+    None.
+
+Critical Paths under _main in BANK3
+
+    None.
+
+Critical Paths under _tc_int in BANK3
+
+    None.
+
+Critical Paths under _main in BANK2
+
+    None.
+
+Critical Paths under _tc_int in BANK2
+
+    None.
+
+Call Graph Tables:
+
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (0) _main                                                 7     7      0     171
+                                              6 COMMON     3     3      0
+                                              0 BANK0      4     4      0
+                               _init
+                        _read_eeprom
+                           _ssp_init
+                       _write_eeprom
+ ---------------------------------------------------------------------------------
+ (1) _write_eeprom                                         2     1      1      97
+                                              4 COMMON     2     1      1
+ ---------------------------------------------------------------------------------
+ (1) _ssp_init                                             0     0      0       0
+ ---------------------------------------------------------------------------------
+ (1) _read_eeprom                                          2     2      0      22
+                                              4 COMMON     1     1      0
+ ---------------------------------------------------------------------------------
+ (1) _init                                                 2     2      0       0
+                                              4 COMMON     2     2      0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 1
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (2) _tc_int                                               4     4      0       0
+                                              0 COMMON     4     4      0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 2
+ ---------------------------------------------------------------------------------
+
+ Call Graph Graphs:
+
+ _main (ROOT)
+   _init
+   _read_eeprom
+   _ssp_init
+   _write_eeprom
+
+ _tc_int (ROOT)
+
+ Address spaces:
+Name               Size   Autos  Total    Cost      Usage
+BITCOMMON            E      0       0       0        0.0%
+EEDATA             100      0       0       0        0.0%
+NULL                 0      0       0       0        0.0%
+CODE                 0      0       0       0        0.0%
+COMMON               E      9       9       1       64.3%
+BITSFR0              0      0       0       1        0.0%
+SFR0                 0      0       0       1        0.0%
+BITSFR1              0      0       0       2        0.0%
+SFR1                 0      0       0       2        0.0%
+STACK                0      0       0       2        0.0%
+ABS                  0      0       0       3        0.0%
+BITBANK0            50      0       0       4        0.0%
+BITSFR3              0      0       0       4        0.0%
+SFR3                 0      0       0       4        0.0%
+BANK0               50      4       4       5        5.0%
+BITSFR2              0      0       0       5        0.0%
+SFR2                 0      0       0       5        0.0%
+BITBANK1            50      0       0       6        0.0%
+BANK1               50      0       0       7        0.0%
+BITBANK3            60      0       0       8        0.0%
+BANK3               60      0       0       9        0.0%
+BITBANK2            60      0       0      10        0.0%
+BANK2               60      0       0      11        0.0%
+DATA                 0      0       0      12        0.0%
+
+
+Microchip Technology PIC Macro Assembler V1.30 build 55553 
+Symbol Table                                                                                   Mon May 12 00:21:50 2014
+
+            __CFG_CP$OFF 0000              _SSPSTATbits 0094                       l91 0086  
+                     l88 0070                      l101 0041                      l716 003C  
+                    _GIE 005F                      _RB2 0032                      _RC6 003E  
+                    u207 0096             __CFG_CPD$OFF 0000                      u197 0067  
+                    fsr0 0004             __CFG_FOSC$HS 0000             __CFG_LVP$OFF 0000  
+                   i1l65 00A1                     _TMR0 0001                     _main 0019  
+                   _init 008C                     btemp 007E            __CFG_BOREN$ON 0000  
+                   ltemp 007E                     start 0012                     ttemp 007E  
+                   wtemp 007E                    ?_main 0070                    ?_init 0070  
+                  _EEADR 010D            __CFG_WDTE$OFF 0000                    _TRISB 0086  
+          __CFG_PWRTE$ON 0000             ?_read_eeprom 0070                    main@i 0022  
+                  main@j 0023                    pclath 000A                    ltemp0 007E  
+                  ltemp1 0082                    ltemp2 0086                    ltemp3 0080  
+     main@button_pressed 0020                    ttemp0 007E                    ttemp1 0081  
+                  ttemp2 0084                    ttemp3 0087                    ttemp4 007F  
+                  status 0003                    wtemp0 007E                    wtemp1 0080  
+                  wtemp2 0082                    wtemp3 0084                    wtemp4 0086  
+                  wtemp5 0088                    wtemp6 007F          __initialization 0015  
+           __end_of_main 006F             __end_of_init 009C    __size_of_write_eeprom 001D  
+                 ??_main 0076                   ??_init 0074                   _ADCON1 009F  
+                 _EEDATA 010C                   _CCPR1L 0015                   _EECON2 018D  
+                 _TMR0IE 005D                   _TMR0IF 005A          write_eeprom@adr 0075  
+        write_eeprom@dta 0074                   _SSPCON 0014                   _SSPBUF 0013  
+           _write_eeprom 006F                   _tc_int 009C                   saved_w 007E  
+       __end_of_ssp_init 00B9  __end_of__initialization 0015           __pcstackCOMMON 0070  
+   __size_of_read_eeprom 000D               __pmaintext 0019               __pintentry 0004  
+                ?_tc_int 0070                  _SSPSTAT 0094                ?_ssp_init 0070  
+        __size_of_tc_int 0010                  __ptext0 0000                  __ptext1 006F  
+                __ptext2 00AC                  __ptext3 00B9                  __ptext4 008C  
+                __ptext5 009C                  main@tmp 0021     end_of_initialization 0015  
+             ??_ssp_init 0074                _TRISCbits 0087           __end_of_tc_int 00AC  
+    start_initialization 0015                 ??_tc_int 0070            ??_read_eeprom 0074  
+              ___latbits 0002            __pcstackBANK0 0020        __size_of_ssp_init 000D  
+    __end_of_read_eeprom 00C6        interrupt_function 0004            ?_write_eeprom 0074  
+               _PIR2bits 000D           ??_write_eeprom 0075               _EECON1bits 018C  
+            _read_eeprom 00B9            __size_of_main 0056            __size_of_init 0010  
+         read_eeprom@adr 0074                 _ssp_init 00AC                 intlevel1 0000  
+   __end_of_write_eeprom 008C  

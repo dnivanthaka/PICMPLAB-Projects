@@ -1,0 +1,81 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Sun Dec 01 12:23:44 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000010
+                MAIN_PROG       code   0x00000c    program   0x000094
+     .config_2007_INPUT.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                  INT_VAR      udata   0x000070       data   0x000002
+                   .udata      udata   0x000120       data   0x000007
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x000055      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            90 out of 2182 program addresses used, program memory utilization is 4%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                 MAINLOOP   0x000018    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    c1_hi   0x000022    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    c1_lo   0x000029    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    c2_hi   0x00002b    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    c2_lo   0x000032    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+             counter_loop   0x000022    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                   get7sc   0x00004b    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    w_tmr   0x000041    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+               wait_delay   0x00003f    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                   wait_s   0x000040    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+          counter_value_1   0x000124       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+          counter_value_2   0x000125       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+              delay_count   0x000121       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                  mpx_cnt   0x000126       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+             sample_count   0x000120       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+              scale_value   0x000123       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+              time_scaler   0x000122       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                 MAINLOOP   0x000018    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    c1_hi   0x000022    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+             counter_loop   0x000022    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    c1_lo   0x000029    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    c2_hi   0x00002b    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    c2_lo   0x000032    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+               wait_delay   0x00003f    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                   wait_s   0x000040    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                    w_tmr   0x000041    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                   get7sc   0x00004b    program     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+             sample_count   0x000120       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+              delay_count   0x000121       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+              time_scaler   0x000122       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+              scale_value   0x000123       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+          counter_value_1   0x000124       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+          counter_value_2   0x000125       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+                  mpx_cnt   0x000126       data     static C:\Users\Dinusha\Documents\PICProjects\7Segment2\INPUT.ASM
+
+

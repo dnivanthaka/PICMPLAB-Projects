@@ -1,0 +1,99 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Wed Dec 25 12:03:52 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000014
+                MAIN_PROG       code   0x00000e    program   0x00010a
+     .config_2007_START.O       code   0x002007    program   0x000002
+                  INT_VAR      udata   0x0000a0       data   0x00000c
+                 INT_VAR1      udata   0x0000ac       data   0x000001
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x000092      
+                            0x002007    0x002007      
+            147 out of 2054 program addresses used, program memory utilization is 7%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                 MAINLOOP   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c1_hi   0x000055    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c1_lo   0x00005d    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c2_hi   0x000061    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c2_lo   0x000069    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c3_hi   0x00006d    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c3_lo   0x000074    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+             counter_loop   0x000055    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                   get7sc   0x000088    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+               hundreds_c   0x00002a    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                   ones_c   0x00003e    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    start   0x00000e    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                   tens_c   0x000034    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    w_adc   0x000025    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    w_tmr   0x00007d    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+               wait_delay   0x00007b    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                   wait_s   0x00007c    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+          counter_value_1   0x0000a6       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+          counter_value_2   0x0000a7       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+              delay_count   0x0000a3       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+           hundreds_count   0x0000aa       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                  mpx_cnt   0x0000ab       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+               ones_count   0x0000a8       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+             sample_count   0x0000a2       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+              scale_value   0x0000a5       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+              status_temp   0x0000a1       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+               tens_count   0x0000a9       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+              time_scaler   0x0000a4       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                  w1_temp   0x0000ac       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                   w_temp   0x0000a0       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    start   0x00000e    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                 MAINLOOP   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    w_adc   0x000025    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+               hundreds_c   0x00002a    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                   tens_c   0x000034    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                   ones_c   0x00003e    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c1_hi   0x000055    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+             counter_loop   0x000055    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c1_lo   0x00005d    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c2_hi   0x000061    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c2_lo   0x000069    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c3_hi   0x00006d    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    c3_lo   0x000074    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+               wait_delay   0x00007b    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                   wait_s   0x00007c    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                    w_tmr   0x00007d    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                   get7sc   0x000088    program     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                   w_temp   0x0000a0       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+              status_temp   0x0000a1       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+             sample_count   0x0000a2       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+              delay_count   0x0000a3       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+              time_scaler   0x0000a4       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+              scale_value   0x0000a5       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+          counter_value_1   0x0000a6       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+          counter_value_2   0x0000a7       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+               ones_count   0x0000a8       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+               tens_count   0x0000a9       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+           hundreds_count   0x0000aa       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                  mpx_cnt   0x0000ab       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+                  w1_temp   0x0000ac       data     static C:\Users\Dinusha\Documents\PICProjects\A2DPIC16F716\START.ASM
+
+

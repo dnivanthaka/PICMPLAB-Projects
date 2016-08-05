@@ -1,0 +1,2201 @@
+
+
+Microchip Technology PIC LITE Macro Assembler V1.30 build 55553 
+                                                                                               Thu Apr 10 23:10:49 2014
+
+Microchip Technology Omniscient Code Generator (Lite mode) build 55553
+     1                           	processor	16F877A
+     2                           	opt	pw 120
+     3                           	opt	lm
+     4                           	psect	strings,global,class=STRING,delta=2
+     5                           	psect	cinit,global,class=CODE,merge=1,delta=2
+     6                           	psect	bitbssCOMMON,global,bit,class=COMMON,space=1,delta=1
+     7                           	psect	cstackCOMMON,global,class=COMMON,space=1,delta=1
+     8                           	psect	cstackBANK0,global,class=BANK0,space=1,delta=1
+     9                           	psect	maintext,global,class=CODE,split=1,delta=2
+    10                           	psect	text1,local,class=CODE,merge=1,delta=2
+    11                           	psect	text2,local,class=CODE,merge=1,delta=2
+    12                           	psect	text3,local,class=CODE,merge=1,delta=2
+    13                           	psect	text4,local,class=CODE,merge=1,delta=2
+    14                           	psect	text5,local,class=CODE,merge=1,delta=2
+    15                           	psect	text6,local,class=CODE,merge=1,delta=2
+    16                           	psect	text7,local,class=CODE,merge=1,delta=2
+    17                           	psect	text8,local,class=CODE,merge=1,delta=2
+    18                           	psect	text9,local,class=CODE,merge=1,delta=2
+    19                           	psect	text10,local,class=CODE,merge=1,delta=2
+    20                           	psect	text11,local,class=CODE,merge=1,delta=2
+    21                           	psect	text12,local,class=CODE,merge=1,delta=2
+    22                           	psect	text13,local,class=CODE,merge=1,delta=2
+    23                           	psect	intentry,global,class=CODE,delta=2
+    24                           	psect	text14,local,class=CODE,merge=1,delta=2
+    25                           	dabs	1,0x7E,2
+    26  0000                     	;# 
+    27  0001                     	;# 
+    28  0002                     	;# 
+    29  0003                     	;# 
+    30  0004                     	;# 
+    31  0005                     	;# 
+    32  0006                     	;# 
+    33  0007                     	;# 
+    34  0008                     	;# 
+    35  0009                     	;# 
+    36  000A                     	;# 
+    37  000B                     	;# 
+    38  000C                     	;# 
+    39  000D                     	;# 
+    40  000E                     	;# 
+    41  000E                     	;# 
+    42  000F                     	;# 
+    43  0010                     	;# 
+    44  0011                     	;# 
+    45  0012                     	;# 
+    46  0013                     	;# 
+    47  0014                     	;# 
+    48  0015                     	;# 
+    49  0015                     	;# 
+    50  0016                     	;# 
+    51  0017                     	;# 
+    52  0018                     	;# 
+    53  0019                     	;# 
+    54  001A                     	;# 
+    55  001B                     	;# 
+    56  001B                     	;# 
+    57  001C                     	;# 
+    58  001D                     	;# 
+    59  001E                     	;# 
+    60  001F                     	;# 
+    61  0081                     	;# 
+    62  0085                     	;# 
+    63  0086                     	;# 
+    64  0087                     	;# 
+    65  0088                     	;# 
+    66  0089                     	;# 
+    67  008C                     	;# 
+    68  008D                     	;# 
+    69  008E                     	;# 
+    70  0091                     	;# 
+    71  0092                     	;# 
+    72  0093                     	;# 
+    73  0094                     	;# 
+    74  0098                     	;# 
+    75  0099                     	;# 
+    76  009C                     	;# 
+    77  009D                     	;# 
+    78  009E                     	;# 
+    79  009F                     	;# 
+    80  010C                     	;# 
+    81  010D                     	;# 
+    82  010E                     	;# 
+    83  010F                     	;# 
+    84  018C                     	;# 
+    85  018D                     	;# 
+    86  000C                     _PIR1bits	set	12
+    87  0005                     _PORTA	set	5
+    88  001A                     _RCREG	set	26
+    89  0001                     _TMR0	set	1
+    90  0019                     _TXREG	set	25
+    91  0028                     _RA0	set	40
+    92  005D                     _TMR0IE	set	93
+    93  005A                     _TMR0IF	set	90
+    94  009F                     _ADCON1	set	159
+    95  0081                     _OPTION_REGbits	set	129
+    96  0085                     _TRISA	set	133
+    97                           
+    98                           	psect	strings
+    99  0200                     __pstrings:	
+   100  0200                     stringtab:	
+   101  0200                     __stringtab:	
+   102                           
+   103                           ;	String table - string pointers are 1 byte each
+   104  0200  1BFF               	btfsc	btemp+1,7
+   105  0201  2A0A               	ljmp	stringcode
+   106  0202  1383               	bcf	3,7
+   107  0203  187F               	btfsc	btemp+1,0
+   108  0204  1783               	bsf	3,7
+   109  0205  0800               	movf	0,w
+   110  0206  0A84               	incf	4,f
+   111  0207  1903               	skipnz
+   112  0208  0AFF               	incf	btemp+1,f
+   113  0209  0008               	return
+   114  020A                     stringcode:	
+   115  020A                     stringdir:	
+   116  020A  3002               	movlw	high stringdir
+   117  020B  008A               	movwf	10
+   118  020C  0804               	movf	4,w
+   119  020D  0A84               	incf	4,f
+   120  020E  0782               	addwf	2,f
+   121  020F                     __stringbase:	
+   122  020F  3400               	retlw	0
+   123  0210                     __end_of__stringtab:	
+   124  0210                     __stringdata:	
+   125  0210                     STR_1:	
+   126  0210  3452               	retlw	82	;'R'
+   127  0211  3465               	retlw	101	;'e'
+   128  0212  346C               	retlw	108	;'l'
+   129  0213  3461               	retlw	97	;'a'
+   130  0214  3474               	retlw	116	;'t'
+   131  0215  3469               	retlw	105	;'i'
+   132  0216  3476               	retlw	118	;'v'
+   133  0217  3465               	retlw	101	;'e'
+   134  0218  3420               	retlw	32	;' '
+   135  0219  3448               	retlw	72	;'H'
+   136  021A  3475               	retlw	117	;'u'
+   137  021B  346D               	retlw	109	;'m'
+   138  021C  3469               	retlw	105	;'i'
+   139  021D  3464               	retlw	100	;'d'
+   140  021E  3469               	retlw	105	;'i'
+   141  021F  3474               	retlw	116	;'t'
+   142  0220  3479               	retlw	121	;'y'
+   143  0221  3420               	retlw	32	;' '
+   144  0222  343A               	retlw	58	;':'
+   145  0223  3420               	retlw	32	;' '
+   146  0224  3400               	retlw	0
+   147  0225                     STR_2:	
+   148  0225  3454               	retlw	84	;'T'
+   149  0226  3465               	retlw	101	;'e'
+   150  0227  346D               	retlw	109	;'m'
+   151  0228  3470               	retlw	112	;'p'
+   152  0229  3465               	retlw	101	;'e'
+   153  022A  3472               	retlw	114	;'r'
+   154  022B  3461               	retlw	97	;'a'
+   155  022C  3474               	retlw	116	;'t'
+   156  022D  3475               	retlw	117	;'u'
+   157  022E  3472               	retlw	114	;'r'
+   158  022F  3465               	retlw	101	;'e'
+   159  0230  3420               	retlw	32	;' '
+   160  0231  343A               	retlw	58	;':'
+   161  0232  3420               	retlw	32	;' '
+   162  0233  3400               	retlw	0
+   163  0234                     __end_of__stringdata:	
+   164                           
+   165                           ; #config settings
+   166  0000                     
+   167                           	psect	cinit
+   168  0015                     start_initialization:	
+   169  0015                     __initialization:	
+   170                           
+   171                           ; Clear objects allocated to BITCOMMON
+   172  0015  01F8               	clrf	(__pbitbssCOMMON/(0+8))& (0+127)
+   173  0016                     end_of_initialization:	
+   174                           ;End of C runtime variable initialization code
+   175                           
+   176  0016                     __end_of__initialization:	
+   177  0016  0183               	clrf	3
+   178  0017  120A  118A  281A   	ljmp	_main	;jump to C main() function
+   179                           
+   180                           	psect	bitbssCOMMON
+   181  03C0                     __pbitbssCOMMON:	
+   182  03C0                     _data_read:	
+   183  03C0                     	ds	1
+   184  03C1                     _tmp:	
+   185  03C1                     	ds	1
+   186                           
+   187                           	psect	cstackCOMMON
+   188  0070                     __pcstackCOMMON:	
+   189  0070                     ?_init:	
+   190  0070                     ?_TX_poll:	
+   191                           ; 0 bytes @ 0x0
+   192                           
+   193  0070                     ?_TX_printline:	
+   194                           ; 0 bytes @ 0x0
+   195                           
+   196  0070                     ?_TX_newline:	
+   197                           ; 0 bytes @ 0x0
+   198                           
+   199  0070                     ?_tc_int:	
+   200                           ; 0 bytes @ 0x0
+   201                           
+   202  0070                     ?_dht11_start_signal:	
+   203                           ; 0 bytes @ 0x0
+   204                           
+   205  0070                     ?i1_TX_poll:	
+   206                           ; 0 bytes @ 0x0
+   207                           
+   208  0070                     ??i1_TX_poll:	
+   209                           ; 0 bytes @ 0x0
+   210                           
+   211  0070                     ?_dht11_response:	
+   212                           ; 0 bytes @ 0x0
+   213                           
+   214  0070                     ?_dht11_read_byte:	
+   215                           ; 1 bytes @ 0x0
+   216                           
+   217  0070                     ?_main:	
+   218                           ; 1 bytes @ 0x0
+   219                           
+   220  0070                     i1TX_poll@val:	
+   221                           ; 2 bytes @ 0x0
+   222                           
+   223                           
+   224                           ; 1 bytes @ 0x0
+   225  0070                     	ds	1
+   226  0071                     ??_tc_int:	
+   227                           
+   228                           ; 0 bytes @ 0x1
+   229  0071                     	ds	4
+   230  0075                     ??_init:	
+   231  0075                     ??_TX_poll:	
+   232                           ; 0 bytes @ 0x5
+   233                           
+   234  0075                     ??_dht11_start_signal:	
+   235                           ; 0 bytes @ 0x5
+   236                           
+   237  0075                     ??_dht11_response:	
+   238                           ; 0 bytes @ 0x5
+   239                           
+   240  0075                     ??_dht11_read_byte:	
+   241                           ; 0 bytes @ 0x5
+   242                           
+   243  0075                     ??___lwdiv:	
+   244                           ; 0 bytes @ 0x5
+   245                           
+   246  0075                     ??___lwmod:	
+   247                           ; 0 bytes @ 0x5
+   248                           
+   249  0075                     TX_poll@val:	
+   250                           ; 0 bytes @ 0x5
+   251                           
+   252                           
+   253                           ; 1 bytes @ 0x5
+   254  0075                     	ds	1
+   255  0076                     ?_TX_print:	
+   256  0076                     ??_TX_newline:	
+   257                           ; 0 bytes @ 0x6
+   258                           
+   259  0076                     ___lwmod@counter:	
+   260                           ; 0 bytes @ 0x6
+   261                           
+   262  0076                     TX_print@str:	
+   263                           ; 1 bytes @ 0x6
+   264                           
+   265                           
+   266                           ; 2 bytes @ 0x6
+   267  0076                     	ds	1
+   268  0077                     ??_utoa:	
+   269                           
+   270                           ; 0 bytes @ 0x7
+   271  0077                     	ds	1
+   272  0078                     ??_TX_print:	
+   273  0078                     ??_TX_printline:	
+   274                           ; 0 bytes @ 0x8
+   275                           
+   276                           
+   277                           	psect	cstackBANK0
+   278  0020                     __pcstackBANK0:	
+   279                           ; 0 bytes @ 0x8
+   280                           
+   281  0020                     ?___lwdiv:	
+   282  0020                     ?___lwmod:	
+   283                           ; 2 bytes @ 0x0
+   284                           
+   285  0020                     TX_printline@str:	
+   286                           ; 2 bytes @ 0x0
+   287                           
+   288  0020                     dht11_read_byte@data:	
+   289                           ; 1 bytes @ 0x0
+   290                           
+   291  0020                     ___lwdiv@divisor:	
+   292                           ; 1 bytes @ 0x0
+   293                           
+   294  0020                     ___lwmod@divisor:	
+   295                           ; 2 bytes @ 0x0
+   296                           
+   297                           
+   298                           ; 2 bytes @ 0x0
+   299  0020                     	ds	1
+   300  0021                     dht11_read_byte@i:	
+   301                           
+   302                           ; 2 bytes @ 0x1
+   303  0021                     	ds	1
+   304  0022                     ___lwdiv@dividend:	
+   305  0022                     ___lwmod@dividend:	
+   306                           ; 2 bytes @ 0x2
+   307                           
+   308                           
+   309                           ; 2 bytes @ 0x2
+   310  0022                     	ds	2
+   311  0024                     ___lwdiv@counter:	
+   312                           
+   313                           ; 1 bytes @ 0x4
+   314  0024                     	ds	1
+   315  0025                     ___lwdiv@quotient:	
+   316                           
+   317                           ; 2 bytes @ 0x5
+   318  0025                     	ds	2
+   319  0027                     ?_utoa:	
+   320  0027                     utoa@val:	
+   321                           ; 1 bytes @ 0x7
+   322                           
+   323                           
+   324                           ; 2 bytes @ 0x7
+   325  0027                     	ds	2
+   326  0029                     utoa@base:	
+   327                           
+   328                           ; 2 bytes @ 0x9
+   329  0029                     	ds	2
+   330  002B                     utoa@v:	
+   331                           
+   332                           ; 2 bytes @ 0xB
+   333  002B                     	ds	2
+   334  002D                     utoa@c:	
+   335                           
+   336                           ; 1 bytes @ 0xD
+   337  002D                     	ds	1
+   338  002E                     utoa@buf:	
+   339                           
+   340                           ; 1 bytes @ 0xE
+   341  002E                     	ds	1
+   342  002F                     ?_itoa:	
+   343  002F                     itoa@val:	
+   344                           ; 1 bytes @ 0xF
+   345                           
+   346                           
+   347                           ; 2 bytes @ 0xF
+   348  002F                     	ds	2
+   349  0031                     itoa@base:	
+   350                           
+   351                           ; 2 bytes @ 0x11
+   352  0031                     	ds	2
+   353  0033                     ??_itoa:	
+   354                           
+   355                           ; 0 bytes @ 0x13
+   356  0033                     	ds	1
+   357  0034                     itoa@cp:	
+   358                           
+   359                           ; 1 bytes @ 0x14
+   360  0034                     	ds	1
+   361  0035                     itoa@buf:	
+   362                           
+   363                           ; 1 bytes @ 0x15
+   364  0035                     	ds	1
+   365  0036                     ??_main:	
+   366                           
+   367                           ; 0 bytes @ 0x16
+   368  0036                     	ds	3
+   369  0039                     main@rh_d_byte:	
+   370                           
+   371                           ; 1 bytes @ 0x19
+   372  0039                     	ds	1
+   373  003A                     main@tp_d_byte:	
+   374                           
+   375                           ; 1 bytes @ 0x1A
+   376  003A                     	ds	1
+   377  003B                     main@checksum:	
+   378                           
+   379                           ; 1 bytes @ 0x1B
+   380  003B                     	ds	1
+   381  003C                     main@buff:	
+   382                           
+   383                           ; 4 bytes @ 0x1C
+   384  003C                     	ds	4
+   385  0040                     main@rh_str:	
+   386                           
+   387                           ; 1 bytes @ 0x20
+   388  0040                     	ds	1
+   389  0041                     main@tp_str:	
+   390                           
+   391                           ; 1 bytes @ 0x21
+   392  0041                     	ds	1
+   393  0042                     main@rh_i_byte:	
+   394                           
+   395                           ; 1 bytes @ 0x22
+   396  0042                     	ds	1
+   397  0043                     main@tp_i_byte:	
+   398                           
+   399                           ; 1 bytes @ 0x23
+   400  0043                     	ds	1
+   401                           
+   402                           	psect	maintext
+   403  001A                     __pmaintext:	
+   404 ;;
+   405 ;;Main: autosize = 0, tempsize = 3, incstack = 0, save=0
+   406 ;;
+   407 ;; *************** function _main *****************
+   408 ;; Defined at:
+   409 ;;		line 218 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\DHT1100\main.c"
+   410 ;; Parameters:    Size  Location     Type
+   411 ;;		None
+   412 ;; Auto vars:     Size  Location     Type
+   413 ;;  buff            4   28[BANK0 ] unsigned char [4]
+   414 ;;  tp_i_byte       1   35[BANK0 ] unsigned char 
+   415 ;;  rh_i_byte       1   34[BANK0 ] unsigned char 
+   416 ;;  tp_str          1   33[BANK0 ] PTR unsigned char 
+   417 ;;		 -> STR_2(15), 
+   418 ;;  rh_str          1   32[BANK0 ] PTR unsigned char 
+   419 ;;		 -> STR_1(21), 
+   420 ;;  checksum        1   27[BANK0 ] unsigned char 
+   421 ;;  tp_d_byte       1   26[BANK0 ] unsigned char 
+   422 ;;  rh_d_byte       1   25[BANK0 ] unsigned char 
+   423 ;;  ch              1    0        unsigned char 
+   424 ;; Return value:  Size  Location     Type
+   425 ;;                  2   94[COMMON] int 
+   426 ;; Registers used:
+   427 ;;		wreg, fsr0l, fsr0h, fsr1l, fsr1h, fsr1l, fsr1h, status,2, status,0, btemp+1, pclath, cstack
+   428 ;; Tracked objects:
+   429 ;;		On entry : 17F/0
+   430 ;;		On exit  : 0/0
+   431 ;;		Unchanged: 0/0
+   432 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   433 ;;      Params:         0       0       0       0       0
+   434 ;;      Locals:         0      11       0       0       0
+   435 ;;      Temps:          0       3       0       0       0
+   436 ;;      Totals:         0      14       0       0       0
+   437 ;;Total ram usage:       14 bytes
+   438 ;; Hardware stack levels required when called:    5
+   439 ;; This function calls:
+   440 ;;		_TX_newline
+   441 ;;		_TX_print
+   442 ;;		_TX_printline
+   443 ;;		_dht11_read_byte
+   444 ;;		_dht11_response
+   445 ;;		_dht11_start_signal
+   446 ;;		_init
+   447 ;;		_itoa
+   448 ;; This function is called by:
+   449 ;;		Startup code after reset
+   450 ;; This function uses a non-reentrant model
+   451 ;;
+   452                           
+   453                           
+   454                           ;psect for function _main
+   455  001A                     _main:	
+   456                           
+   457                           ;main.c: 220: char *rh_str = "Relative Humidity : ";
+   458                           
+   459                           ;incstack = 0
+   460                           ; Regs used in _main: [allreg]
+   461  001A  3001               	movlw	(STR_1-__stringbase)& (0+255)
+   462  001B  1283               	bcf	3,5	;RP0=0, select bank0
+   463  001C  1303               	bcf	3,6	;RP1=0, select bank0
+   464  001D  00B6               	movwf	??_main
+   465  001E  0836               	movf	??_main,w
+   466  001F  00C0               	movwf	main@rh_str
+   467                           
+   468                           ;main.c: 221: char *tp_str = "Temperature : ";
+   469  0020  3016               	movlw	(STR_2-__stringbase)& (0+255)
+   470  0021  00B6               	movwf	??_main
+   471  0022  0836               	movf	??_main,w
+   472  0023  00C1               	movwf	main@tp_str
+   473                           
+   474                           ;main.c: 223: char buff[4];
+   475                           ;main.c: 224: char ch;
+   476                           ;main.c: 225: uint8_t rh_i_byte, rh_d_byte, tp_i_byte, tp_d_byte, checksum;
+   477                           ;main.c: 227: init();
+   478  0024  120A  118A  225E   	fcall	_init
+      +       120A  118A         
+   479  0029                     l1089:	
+   480                           ;main.c: 234: while( 1 ){
+   481                           
+   482                           
+   483                           ;main.c: 247: _delay((unsigned long)((1000)*(20000000/4000.0)));
+   484  0029  301A               	movlw	26
+   485  002A  1283               	bcf	3,5	;RP0=0, select bank0
+   486  002B  1303               	bcf	3,6	;RP1=0, select bank0
+   487  002C  00B8               	movwf	??_main+2
+   488  002D  305E               	movlw	94
+   489  002E  00B7               	movwf	??_main+1
+   490  002F  3086               	movlw	134
+   491  0030  00B6               	movwf	??_main
+   492  0031                     u877:	
+   493  0031  0BB6               	decfsz	??_main,f
+   494  0032  2831               	goto	u877
+   495  0033  0BB7               	decfsz	??_main+1,f
+   496  0034  2831               	goto	u877
+   497  0035  0BB8               	decfsz	??_main+2,f
+   498  0036  2831               	goto	u877
+   499  0037  0000               	nop
+   500                           
+   501                           ;main.c: 249: dht11_start_signal();
+   502  0038  120A  118A  22A5   	fcall	_dht11_start_signal
+      +       120A  118A         
+   503                           
+   504                           ;main.c: 250: dht11_response();
+   505  003D  120A  118A  22F0   	fcall	_dht11_response
+      +       120A  118A         
+   506                           
+   507                           ;main.c: 252: rh_i_byte = dht11_read_byte();
+   508  0042  120A  118A  218F   	fcall	_dht11_read_byte
+      +       120A  118A         
+   509  0047  1283               	bcf	3,5	;RP0=0, select bank0
+   510  0048  1303               	bcf	3,6	;RP1=0, select bank0
+   511  0049  00B6               	movwf	??_main
+   512  004A  0836               	movf	??_main,w
+   513  004B  00C2               	movwf	main@rh_i_byte
+   514                           
+   515                           ;main.c: 253: rh_d_byte = dht11_read_byte();
+   516  004C  120A  118A  218F   	fcall	_dht11_read_byte
+      +       120A  118A         
+   517  0051  1283               	bcf	3,5	;RP0=0, select bank0
+   518  0052  1303               	bcf	3,6	;RP1=0, select bank0
+   519  0053  00B6               	movwf	??_main
+   520  0054  0836               	movf	??_main,w
+   521  0055  00B9               	movwf	main@rh_d_byte
+   522                           
+   523                           ;main.c: 254: tp_i_byte = dht11_read_byte();
+   524  0056  120A  118A  218F   	fcall	_dht11_read_byte
+      +       120A  118A         
+   525  005B  1283               	bcf	3,5	;RP0=0, select bank0
+   526  005C  1303               	bcf	3,6	;RP1=0, select bank0
+   527  005D  00B6               	movwf	??_main
+   528  005E  0836               	movf	??_main,w
+   529  005F  00C3               	movwf	main@tp_i_byte
+   530                           
+   531                           ;main.c: 255: tp_d_byte = dht11_read_byte();
+   532  0060  120A  118A  218F   	fcall	_dht11_read_byte
+      +       120A  118A         
+   533  0065  1283               	bcf	3,5	;RP0=0, select bank0
+   534  0066  1303               	bcf	3,6	;RP1=0, select bank0
+   535  0067  00B6               	movwf	??_main
+   536  0068  0836               	movf	??_main,w
+   537  0069  00BA               	movwf	main@tp_d_byte
+   538                           
+   539                           ;main.c: 256: checksum = dht11_read_byte();
+   540  006A  120A  118A  218F   	fcall	_dht11_read_byte
+      +       120A  118A         
+   541  006F  1283               	bcf	3,5	;RP0=0, select bank0
+   542  0070  1303               	bcf	3,6	;RP1=0, select bank0
+   543  0071  00B6               	movwf	??_main
+   544  0072  0836               	movf	??_main,w
+   545  0073  00BB               	movwf	main@checksum
+   546                           
+   547                           ;main.c: 260: TX_newline();
+   548  0074  120A  118A  22FB   	fcall	_TX_newline
+      +       120A  118A         
+   549                           
+   550                           ;main.c: 261: TX_print(rh_str);
+   551  0079  1283               	bcf	3,5	;RP0=0, select bank0
+   552  007A  1303               	bcf	3,6	;RP1=0, select bank0
+   553  007B  0840               	movf	main@rh_str,w
+   554  007C  00F6               	movwf	TX_print@str
+   555  007D  3080               	movlw	128
+   556  007E  00F7               	movwf	TX_print@str+1
+   557  007F  120A  118A  2282   	fcall	_TX_print
+      +       120A  118A         
+   558                           
+   559                           ;main.c: 262: itoa(buff, rh_i_byte, 10);
+   560  0084  1283               	bcf	3,5	;RP0=0, select bank0
+   561  0085  1303               	bcf	3,6	;RP1=0, select bank0
+   562  0086  0842               	movf	main@rh_i_byte,w
+   563  0087  00B6               	movwf	??_main
+   564  0088  01B7               	clrf	??_main+1
+   565  0089  0836               	movf	??_main,w
+   566  008A  00AF               	movwf	itoa@val
+   567  008B  0837               	movf	??_main+1,w
+   568  008C  00B0               	movwf	itoa@val+1
+   569  008D  300A               	movlw	10
+   570  008E  00B1               	movwf	itoa@base
+   571  008F  3000               	movlw	0
+   572  0090  00B2               	movwf	itoa@base+1
+   573  0091  303C               	movlw	main@buff& (0+255)
+   574  0092  120A  118A  2234   	fcall	_itoa
+      +       120A  118A         
+   575                           
+   576                           ;main.c: 263: TX_printline(&buff);
+   577  0097  303C               	movlw	main@buff& (0+255)
+   578  0098  120A  118A  22D9   	fcall	_TX_printline
+      +       120A  118A         
+   579                           
+   580                           ;main.c: 266: TX_print(tp_str);
+   581  009D  1283               	bcf	3,5	;RP0=0, select bank0
+   582  009E  1303               	bcf	3,6	;RP1=0, select bank0
+   583  009F  0841               	movf	main@tp_str,w
+   584  00A0  00F6               	movwf	TX_print@str
+   585  00A1  3080               	movlw	128
+   586  00A2  00F7               	movwf	TX_print@str+1
+   587  00A3  120A  118A  2282   	fcall	_TX_print
+      +       120A  118A         
+   588                           
+   589                           ;main.c: 267: itoa(buff, tp_i_byte, 10);
+   590  00A8  1283               	bcf	3,5	;RP0=0, select bank0
+   591  00A9  1303               	bcf	3,6	;RP1=0, select bank0
+   592  00AA  0843               	movf	main@tp_i_byte,w
+   593  00AB  00B6               	movwf	??_main
+   594  00AC  01B7               	clrf	??_main+1
+   595  00AD  0836               	movf	??_main,w
+   596  00AE  00AF               	movwf	itoa@val
+   597  00AF  0837               	movf	??_main+1,w
+   598  00B0  00B0               	movwf	itoa@val+1
+   599  00B1  300A               	movlw	10
+   600  00B2  00B1               	movwf	itoa@base
+   601  00B3  3000               	movlw	0
+   602  00B4  00B2               	movwf	itoa@base+1
+   603  00B5  303C               	movlw	main@buff& (0+255)
+   604  00B6  120A  118A  2234   	fcall	_itoa
+      +       120A  118A         
+   605                           
+   606                           ;main.c: 268: TX_printline(&buff);
+   607  00BB  303C               	movlw	main@buff& (0+255)
+   608  00BC  120A  118A  22D9   	fcall	_TX_printline
+      +       120A  118A         
+   609                           
+   610                           ;main.c: 281: _delay((unsigned long)((1000)*(20000000/4000.0)));
+   611  00C1  301A               	movlw	26
+   612  00C2  1283               	bcf	3,5	;RP0=0, select bank0
+   613  00C3  1303               	bcf	3,6	;RP1=0, select bank0
+   614  00C4  00B8               	movwf	??_main+2
+   615  00C5  305E               	movlw	94
+   616  00C6  00B7               	movwf	??_main+1
+   617  00C7  3086               	movlw	134
+   618  00C8  00B6               	movwf	??_main
+   619  00C9                     u887:	
+   620  00C9  0BB6               	decfsz	??_main,f
+   621  00CA  28C9               	goto	u887
+   622  00CB  0BB7               	decfsz	??_main+1,f
+   623  00CC  28C9               	goto	u887
+   624  00CD  0BB8               	decfsz	??_main+2,f
+   625  00CE  28C9               	goto	u887
+   626  00CF  0000               	nop
+   627  00D0  2829               	goto	l1089
+   628  00D1                     __end_of_main:	
+   629                           ;main.c: 282: }
+   630                           ;main.c: 284: return 0;
+   631                           ;	Return value of _main is never used
+   632                           
+   633                           
+   634                           	psect	text1
+   635  0234                     __ptext1:	
+   636 ;; *************** function _itoa *****************
+   637 ;; Defined at:
+   638 ;;		line 4 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\itoa.c"
+   639 ;; Parameters:    Size  Location     Type
+   640 ;;  buf             1    wreg     PTR unsigned char 
+   641 ;;		 -> main@buff(4), 
+   642 ;;  val             2   15[BANK0 ] int 
+   643 ;;  base            2   17[BANK0 ] int 
+   644 ;; Auto vars:     Size  Location     Type
+   645 ;;  buf             1   21[BANK0 ] PTR unsigned char 
+   646 ;;		 -> main@buff(4), 
+   647 ;;  cp              1   20[BANK0 ] PTR unsigned char 
+   648 ;;		 -> main@buff(4), 
+   649 ;; Return value:  Size  Location     Type
+   650 ;;                  1    wreg      PTR unsigned char 
+   651 ;; Registers used:
+   652 ;;		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
+   653 ;; Tracked objects:
+   654 ;;		On entry : 0/0
+   655 ;;		On exit  : 0/0
+   656 ;;		Unchanged: 0/0
+   657 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   658 ;;      Params:         0       4       0       0       0
+   659 ;;      Locals:         0       2       0       0       0
+   660 ;;      Temps:          0       1       0       0       0
+   661 ;;      Totals:         0       7       0       0       0
+   662 ;;Total ram usage:        7 bytes
+   663 ;; Hardware stack levels used:    1
+   664 ;; Hardware stack levels required when called:    4
+   665 ;; This function calls:
+   666 ;;		_utoa
+   667 ;; This function is called by:
+   668 ;;		_main
+   669 ;; This function uses a non-reentrant model
+   670 ;;
+   671                           
+   672                           
+   673                           ;psect for function _itoa
+   674  0234                     _itoa:	
+   675                           
+   676                           ;incstack = 0
+   677                           ; Regs used in _itoa: [wreg-fsr0h+status,2+status,0+pclath+cstack]
+   678                           ;itoa@buf stored from wreg
+   679  0234  1283               	bcf	3,5	;RP0=0, select bank0
+   680  0235  1303               	bcf	3,6	;RP1=0, select bank0
+   681  0236  00B5               	movwf	itoa@buf
+   682  0237  0835               	movf	itoa@buf,w
+   683  0238  00B3               	movwf	??_itoa
+   684  0239  0833               	movf	??_itoa,w
+   685  023A  00B4               	movwf	itoa@cp
+   686  023B  1FB0               	btfss	itoa@val+1,7
+   687  023C  2A4D               	goto	l1115
+   688  023D  302D               	movlw	45
+   689  023E  00B3               	movwf	??_itoa
+   690  023F  0835               	movf	itoa@buf,w
+   691  0240  0084               	movwf	4
+   692  0241  0833               	movf	??_itoa,w
+   693  0242  1383               	bcf	3,7	;select IRP bank0
+   694  0243  0080               	movwf	0
+   695  0244  3001               	movlw	1
+   696  0245  00B3               	movwf	??_itoa
+   697  0246  0833               	movf	??_itoa,w
+   698  0247  07B5               	addwf	itoa@buf,f
+   699  0248  09AF               	comf	itoa@val,f
+   700  0249  09B0               	comf	itoa@val+1,f
+   701  024A  0AAF               	incf	itoa@val,f
+   702  024B  1903               	skipnz
+   703  024C  0AB0               	incf	itoa@val+1,f
+   704  024D                     l1115:	
+   705  024D  0830               	movf	itoa@val+1,w
+   706  024E  01A8               	clrf	utoa@val+1
+   707  024F  07A8               	addwf	utoa@val+1,f
+   708  0250  082F               	movf	itoa@val,w
+   709  0251  01A7               	clrf	utoa@val
+   710  0252  07A7               	addwf	utoa@val,f
+   711  0253  0832               	movf	itoa@base+1,w
+   712  0254  01AA               	clrf	utoa@base+1
+   713  0255  07AA               	addwf	utoa@base+1,f
+   714  0256  0831               	movf	itoa@base,w
+   715  0257  01A9               	clrf	utoa@base
+   716  0258  07A9               	addwf	utoa@base,f
+   717  0259  0835               	movf	itoa@buf,w
+   718  025A  120A  118A  20D1   	fcall	_utoa
+   719  025D  0008               	return
+   720  025E                     __end_of_itoa:	
+   721                           ;	Return value of _itoa is never used
+   722                           
+   723                           
+   724                           	psect	text2
+   725  00D1                     __ptext2:	
+   726 ;; *************** function _utoa *****************
+   727 ;; Defined at:
+   728 ;;		line 17 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\itoa.c"
+   729 ;; Parameters:    Size  Location     Type
+   730 ;;  buf             1    wreg     PTR unsigned char 
+   731 ;;		 -> main@buff(4), 
+   732 ;;  val             2    7[BANK0 ] unsigned int 
+   733 ;;  base            2    9[BANK0 ] int 
+   734 ;; Auto vars:     Size  Location     Type
+   735 ;;  buf             1   14[BANK0 ] PTR unsigned char 
+   736 ;;		 -> main@buff(4), 
+   737 ;;  v               2   11[BANK0 ] unsigned int 
+   738 ;;  c               1   13[BANK0 ] unsigned char 
+   739 ;; Return value:  Size  Location     Type
+   740 ;;                  1    wreg      PTR unsigned char 
+   741 ;; Registers used:
+   742 ;;		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
+   743 ;; Tracked objects:
+   744 ;;		On entry : 0/0
+   745 ;;		On exit  : 0/0
+   746 ;;		Unchanged: 0/0
+   747 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   748 ;;      Params:         0       4       0       0       0
+   749 ;;      Locals:         0       4       0       0       0
+   750 ;;      Temps:          1       0       0       0       0
+   751 ;;      Totals:         1       8       0       0       0
+   752 ;;Total ram usage:        9 bytes
+   753 ;; Hardware stack levels used:    1
+   754 ;; Hardware stack levels required when called:    3
+   755 ;; This function calls:
+   756 ;;		___lwdiv
+   757 ;;		___lwmod
+   758 ;; This function is called by:
+   759 ;;		_itoa
+   760 ;; This function uses a non-reentrant model
+   761 ;;
+   762                           
+   763                           
+   764                           ;psect for function _utoa
+   765  00D1                     _utoa:	
+   766                           
+   767                           ;incstack = 0
+   768                           ; Regs used in _utoa: [wreg-fsr0h+status,2+status,0+pclath+cstack]
+   769                           ;utoa@buf stored from wreg
+   770  00D1  1283               	bcf	3,5	;RP0=0, select bank0
+   771  00D2  1303               	bcf	3,6	;RP1=0, select bank0
+   772  00D3  00AE               	movwf	utoa@buf
+   773  00D4  0828               	movf	utoa@val+1,w
+   774  00D5  01AC               	clrf	utoa@v+1
+   775  00D6  07AC               	addwf	utoa@v+1,f
+   776  00D7  0827               	movf	utoa@val,w
+   777  00D8  01AB               	clrf	utoa@v
+   778  00D9  07AB               	addwf	utoa@v,f
+   779  00DA                     l1121:	
+   780  00DA  082A               	movf	utoa@base+1,w
+   781  00DB  01A1               	clrf	___lwdiv@divisor+1
+   782  00DC  07A1               	addwf	___lwdiv@divisor+1,f
+   783  00DD  0829               	movf	utoa@base,w
+   784  00DE  01A0               	clrf	___lwdiv@divisor
+   785  00DF  07A0               	addwf	___lwdiv@divisor,f
+   786  00E0  082C               	movf	utoa@v+1,w
+   787  00E1  01A3               	clrf	___lwdiv@dividend+1
+   788  00E2  07A3               	addwf	___lwdiv@dividend+1,f
+   789  00E3  082B               	movf	utoa@v,w
+   790  00E4  01A2               	clrf	___lwdiv@dividend
+   791  00E5  07A2               	addwf	___lwdiv@dividend,f
+   792  00E6  120A  118A  214F   	fcall	___lwdiv
+      +       120A  118A         
+   793  00EB  1283               	bcf	3,5	;RP0=0, select bank0
+   794  00EC  1303               	bcf	3,6	;RP1=0, select bank0
+   795  00ED  0821               	movf	?___lwdiv+1,w
+   796  00EE  01AC               	clrf	utoa@v+1
+   797  00EF  07AC               	addwf	utoa@v+1,f
+   798  00F0  0820               	movf	?___lwdiv,w
+   799  00F1  01AB               	clrf	utoa@v
+   800  00F2  07AB               	addwf	utoa@v,f
+   801  00F3  3001               	movlw	1
+   802  00F4  00F7               	movwf	??_utoa
+   803  00F5  0877               	movf	??_utoa,w
+   804  00F6  07AE               	addwf	utoa@buf,f
+   805  00F7  082C               	movf	utoa@v+1,w
+   806  00F8  042B               	iorwf	utoa@v,w
+   807  00F9  1D03               	skipz
+   808  00FA  28DA               	goto	l1121
+   809  00FB  082E               	movf	utoa@buf,w
+   810  00FC  0084               	movwf	4
+   811  00FD  1383               	bcf	3,7	;select IRP bank0
+   812  00FE  0180               	clrf	0
+   813  00FF  3001               	movlw	1
+   814  0100  02AE               	subwf	utoa@buf,f
+   815  0101                     l1131:	
+   816  0101  082A               	movf	utoa@base+1,w
+   817  0102  01A1               	clrf	___lwmod@divisor+1
+   818  0103  07A1               	addwf	___lwmod@divisor+1,f
+   819  0104  0829               	movf	utoa@base,w
+   820  0105  01A0               	clrf	___lwmod@divisor
+   821  0106  07A0               	addwf	___lwmod@divisor,f
+   822  0107  0828               	movf	utoa@val+1,w
+   823  0108  01A3               	clrf	___lwmod@dividend+1
+   824  0109  07A3               	addwf	___lwmod@dividend+1,f
+   825  010A  0827               	movf	utoa@val,w
+   826  010B  01A2               	clrf	___lwmod@dividend
+   827  010C  07A2               	addwf	___lwmod@dividend,f
+   828  010D  120A  118A  21C6   	fcall	___lwmod
+      +       120A  118A         
+   829  0112  1283               	bcf	3,5	;RP0=0, select bank0
+   830  0113  1303               	bcf	3,6	;RP1=0, select bank0
+   831  0114  0820               	movf	?___lwmod,w
+   832  0115  00F7               	movwf	??_utoa
+   833  0116  0877               	movf	??_utoa,w
+   834  0117  00AD               	movwf	utoa@c
+   835  0118  082A               	movf	utoa@base+1,w
+   836  0119  01A1               	clrf	___lwdiv@divisor+1
+   837  011A  07A1               	addwf	___lwdiv@divisor+1,f
+   838  011B  0829               	movf	utoa@base,w
+   839  011C  01A0               	clrf	___lwdiv@divisor
+   840  011D  07A0               	addwf	___lwdiv@divisor,f
+   841  011E  0828               	movf	utoa@val+1,w
+   842  011F  01A3               	clrf	___lwdiv@dividend+1
+   843  0120  07A3               	addwf	___lwdiv@dividend+1,f
+   844  0121  0827               	movf	utoa@val,w
+   845  0122  01A2               	clrf	___lwdiv@dividend
+   846  0123  07A2               	addwf	___lwdiv@dividend,f
+   847  0124  120A  118A  214F   	fcall	___lwdiv
+      +       120A  118A         
+   848  0129  1283               	bcf	3,5	;RP0=0, select bank0
+   849  012A  1303               	bcf	3,6	;RP1=0, select bank0
+   850  012B  0821               	movf	?___lwdiv+1,w
+   851  012C  01A8               	clrf	utoa@val+1
+   852  012D  07A8               	addwf	utoa@val+1,f
+   853  012E  0820               	movf	?___lwdiv,w
+   854  012F  01A7               	clrf	utoa@val
+   855  0130  07A7               	addwf	utoa@val,f
+   856  0131  300A               	movlw	10
+   857  0132  022D               	subwf	utoa@c,w
+   858  0133  1C03               	skipc
+   859  0134  2939               	goto	l428
+   860  0135  3007               	movlw	7
+   861  0136  00F7               	movwf	??_utoa
+   862  0137  0877               	movf	??_utoa,w
+   863  0138  07AD               	addwf	utoa@c,f
+   864  0139                     l428:	
+   865  0139  3030               	movlw	48
+   866  013A  00F7               	movwf	??_utoa
+   867  013B  0877               	movf	??_utoa,w
+   868  013C  07AD               	addwf	utoa@c,f
+   869  013D  082D               	movf	utoa@c,w
+   870  013E  00F7               	movwf	??_utoa
+   871  013F  082E               	movf	utoa@buf,w
+   872  0140  0084               	movwf	4
+   873  0141  0877               	movf	??_utoa,w
+   874  0142  1383               	bcf	3,7	;select IRP bank0
+   875  0143  0080               	movwf	0
+   876  0144  3001               	movlw	1
+   877  0145  02AE               	subwf	utoa@buf,f
+   878  0146  0828               	movf	utoa@val+1,w
+   879  0147  0427               	iorwf	utoa@val,w
+   880  0148  1D03               	skipz
+   881  0149  2901               	goto	l1131
+   882                           
+   883                           ;	Return value of _utoa is never used
+   884  014A  3001               	movlw	1
+   885  014B  00F7               	movwf	??_utoa
+   886  014C  0877               	movf	??_utoa,w
+   887  014D  07AE               	addwf	utoa@buf,f
+   888  014E  0008               	return
+   889  014F                     __end_of_utoa:	
+   890                           
+   891                           	psect	text3
+   892  01C6                     __ptext3:	
+   893 ;; *************** function ___lwmod *****************
+   894 ;; Defined at:
+   895 ;;		line 6 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\lwmod.c"
+   896 ;; Parameters:    Size  Location     Type
+   897 ;;  divisor         2    0[BANK0 ] unsigned int 
+   898 ;;  dividend        2    2[BANK0 ] unsigned int 
+   899 ;; Auto vars:     Size  Location     Type
+   900 ;;  counter         1    6[COMMON] unsigned char 
+   901 ;; Return value:  Size  Location     Type
+   902 ;;                  2    0[BANK0 ] unsigned int 
+   903 ;; Registers used:
+   904 ;;		wreg, status,2, status,0
+   905 ;; Tracked objects:
+   906 ;;		On entry : 0/0
+   907 ;;		On exit  : 0/0
+   908 ;;		Unchanged: 0/0
+   909 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   910 ;;      Params:         0       4       0       0       0
+   911 ;;      Locals:         1       0       0       0       0
+   912 ;;      Temps:          1       0       0       0       0
+   913 ;;      Totals:         2       4       0       0       0
+   914 ;;Total ram usage:        6 bytes
+   915 ;; Hardware stack levels used:    1
+   916 ;; Hardware stack levels required when called:    2
+   917 ;; This function calls:
+   918 ;;		Nothing
+   919 ;; This function is called by:
+   920 ;;		_utoa
+   921 ;; This function uses a non-reentrant model
+   922 ;;
+   923                           
+   924                           
+   925                           ;psect for function ___lwmod
+   926  01C6                     ___lwmod:	
+   927                           
+   928                           ;incstack = 0
+   929                           ; Regs used in ___lwmod: [wreg+status,2+status,0]
+   930  01C6  1283               	bcf	3,5	;RP0=0, select bank0
+   931  01C7  1303               	bcf	3,6	;RP1=0, select bank0
+   932  01C8  0821               	movf	___lwmod@divisor+1,w
+   933  01C9  0420               	iorwf	___lwmod@divisor,w
+   934  01CA  1903               	skipnz
+   935  01CB  29F5               	goto	l1193
+   936  01CC  01F6               	clrf	___lwmod@counter
+   937  01CD  0AF6               	incf	___lwmod@counter,f
+   938  01CE                     l1183:	
+   939  01CE  1BA1               	btfsc	___lwmod@divisor+1,7
+   940  01CF  29DC               	goto	l1185
+   941  01D0  3001               	movlw	1
+   942  01D1                     u825:	
+   943  01D1  1003               	clrc
+   944  01D2  0DA0               	rlf	___lwmod@divisor,f
+   945  01D3  0DA1               	rlf	___lwmod@divisor+1,f
+   946  01D4  3EFF               	addlw	-1
+   947  01D5  1D03               	skipz
+   948  01D6  29D1               	goto	u825
+   949  01D7  3001               	movlw	1
+   950  01D8  00F5               	movwf	??___lwmod
+   951  01D9  0875               	movf	??___lwmod,w
+   952  01DA  07F6               	addwf	___lwmod@counter,f
+   953  01DB  29CE               	goto	l1183
+   954  01DC                     l1185:	
+   955  01DC  0821               	movf	___lwmod@divisor+1,w
+   956  01DD  0223               	subwf	___lwmod@dividend+1,w
+   957  01DE  1D03               	skipz
+   958  01DF  29E2               	goto	u845
+   959  01E0  0820               	movf	___lwmod@divisor,w
+   960  01E1  0222               	subwf	___lwmod@dividend,w
+   961  01E2                     u845:	
+   962  01E2  1C03               	skipc
+   963  01E3  29EA               	goto	l1189
+   964  01E4  0820               	movf	___lwmod@divisor,w
+   965  01E5  02A2               	subwf	___lwmod@dividend,f
+   966  01E6  0821               	movf	___lwmod@divisor+1,w
+   967  01E7  1C03               	skipc
+   968  01E8  03A3               	decf	___lwmod@dividend+1,f
+   969  01E9  02A3               	subwf	___lwmod@dividend+1,f
+   970  01EA                     l1189:	
+   971  01EA  3001               	movlw	1
+   972  01EB                     u855:	
+   973  01EB  1003               	clrc
+   974  01EC  0CA1               	rrf	___lwmod@divisor+1,f
+   975  01ED  0CA0               	rrf	___lwmod@divisor,f
+   976  01EE  3EFF               	addlw	-1
+   977  01EF  1D03               	skipz
+   978  01F0  29EB               	goto	u855
+   979  01F1  3001               	movlw	1
+   980  01F2  02F6               	subwf	___lwmod@counter,f
+   981  01F3  1D03               	btfss	3,2
+   982  01F4  29DC               	goto	l1185
+   983  01F5                     l1193:	
+   984  01F5  0823               	movf	___lwmod@dividend+1,w
+   985  01F6  01A1               	clrf	?___lwmod+1
+   986  01F7  07A1               	addwf	?___lwmod+1,f
+   987  01F8  0822               	movf	___lwmod@dividend,w
+   988  01F9  01A0               	clrf	?___lwmod
+   989  01FA  07A0               	addwf	?___lwmod,f
+   990  01FB  0008               	return
+   991  01FC                     __end_of___lwmod:	
+   992                           
+   993                           	psect	text4
+   994  014F                     __ptext4:	
+   995 ;; *************** function ___lwdiv *****************
+   996 ;; Defined at:
+   997 ;;		line 6 in file "C:\Program Files (x86)\Microchip\xc8\v1.30\sources\common\lwdiv.c"
+   998 ;; Parameters:    Size  Location     Type
+   999 ;;  divisor         2    0[BANK0 ] unsigned int 
+  1000 ;;  dividend        2    2[BANK0 ] unsigned int 
+  1001 ;; Auto vars:     Size  Location     Type
+  1002 ;;  quotient        2    5[BANK0 ] unsigned int 
+  1003 ;;  counter         1    4[BANK0 ] unsigned char 
+  1004 ;; Return value:  Size  Location     Type
+  1005 ;;                  2    0[BANK0 ] unsigned int 
+  1006 ;; Registers used:
+  1007 ;;		wreg, status,2, status,0
+  1008 ;; Tracked objects:
+  1009 ;;		On entry : 0/0
+  1010 ;;		On exit  : 0/0
+  1011 ;;		Unchanged: 0/0
+  1012 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1013 ;;      Params:         0       4       0       0       0
+  1014 ;;      Locals:         0       3       0       0       0
+  1015 ;;      Temps:          1       0       0       0       0
+  1016 ;;      Totals:         1       7       0       0       0
+  1017 ;;Total ram usage:        8 bytes
+  1018 ;; Hardware stack levels used:    1
+  1019 ;; Hardware stack levels required when called:    2
+  1020 ;; This function calls:
+  1021 ;;		Nothing
+  1022 ;; This function is called by:
+  1023 ;;		_utoa
+  1024 ;; This function uses a non-reentrant model
+  1025 ;;
+  1026                           
+  1027                           
+  1028                           ;psect for function ___lwdiv
+  1029  014F                     ___lwdiv:	
+  1030                           
+  1031                           ;incstack = 0
+  1032                           ; Regs used in ___lwdiv: [wreg+status,2+status,0]
+  1033  014F  1283               	bcf	3,5	;RP0=0, select bank0
+  1034  0150  1303               	bcf	3,6	;RP1=0, select bank0
+  1035  0151  01A5               	clrf	___lwdiv@quotient
+  1036  0152  01A6               	clrf	___lwdiv@quotient+1
+  1037  0153  0821               	movf	___lwdiv@divisor+1,w
+  1038  0154  0420               	iorwf	___lwdiv@divisor,w
+  1039  0155  1903               	skipnz
+  1040  0156  2988               	goto	l1171
+  1041  0157  01A4               	clrf	___lwdiv@counter
+  1042  0158  0AA4               	incf	___lwdiv@counter,f
+  1043  0159                     l1159:	
+  1044  0159  1BA1               	btfsc	___lwdiv@divisor+1,7
+  1045  015A  2967               	goto	l1161
+  1046  015B  3001               	movlw	1
+  1047  015C                     u755:	
+  1048  015C  1003               	clrc
+  1049  015D  0DA0               	rlf	___lwdiv@divisor,f
+  1050  015E  0DA1               	rlf	___lwdiv@divisor+1,f
+  1051  015F  3EFF               	addlw	-1
+  1052  0160  1D03               	skipz
+  1053  0161  295C               	goto	u755
+  1054  0162  3001               	movlw	1
+  1055  0163  00F5               	movwf	??___lwdiv
+  1056  0164  0875               	movf	??___lwdiv,w
+  1057  0165  07A4               	addwf	___lwdiv@counter,f
+  1058  0166  2959               	goto	l1159
+  1059  0167                     l1161:	
+  1060  0167  3001               	movlw	1
+  1061  0168                     u775:	
+  1062  0168  1003               	clrc
+  1063  0169  0DA5               	rlf	___lwdiv@quotient,f
+  1064  016A  0DA6               	rlf	___lwdiv@quotient+1,f
+  1065  016B  3EFF               	addlw	-1
+  1066  016C  1D03               	skipz
+  1067  016D  2968               	goto	u775
+  1068  016E  0821               	movf	___lwdiv@divisor+1,w
+  1069  016F  0223               	subwf	___lwdiv@dividend+1,w
+  1070  0170  1D03               	skipz
+  1071  0171  2974               	goto	u785
+  1072  0172  0820               	movf	___lwdiv@divisor,w
+  1073  0173  0222               	subwf	___lwdiv@dividend,w
+  1074  0174                     u785:	
+  1075  0174  1C03               	skipc
+  1076  0175  297D               	goto	l1167
+  1077  0176  0820               	movf	___lwdiv@divisor,w
+  1078  0177  02A2               	subwf	___lwdiv@dividend,f
+  1079  0178  0821               	movf	___lwdiv@divisor+1,w
+  1080  0179  1C03               	skipc
+  1081  017A  03A3               	decf	___lwdiv@dividend+1,f
+  1082  017B  02A3               	subwf	___lwdiv@dividend+1,f
+  1083  017C  1425               	bsf	___lwdiv@quotient,0
+  1084  017D                     l1167:	
+  1085  017D  3001               	movlw	1
+  1086  017E                     u795:	
+  1087  017E  1003               	clrc
+  1088  017F  0CA1               	rrf	___lwdiv@divisor+1,f
+  1089  0180  0CA0               	rrf	___lwdiv@divisor,f
+  1090  0181  3EFF               	addlw	-1
+  1091  0182  1D03               	skipz
+  1092  0183  297E               	goto	u795
+  1093  0184  3001               	movlw	1
+  1094  0185  02A4               	subwf	___lwdiv@counter,f
+  1095  0186  1D03               	btfss	3,2
+  1096  0187  2967               	goto	l1161
+  1097  0188                     l1171:	
+  1098  0188  0826               	movf	___lwdiv@quotient+1,w
+  1099  0189  01A1               	clrf	?___lwdiv+1
+  1100  018A  07A1               	addwf	?___lwdiv+1,f
+  1101  018B  0825               	movf	___lwdiv@quotient,w
+  1102  018C  01A0               	clrf	?___lwdiv
+  1103  018D  07A0               	addwf	?___lwdiv,f
+  1104  018E  0008               	return
+  1105  018F                     __end_of___lwdiv:	
+  1106                           
+  1107                           	psect	text5
+  1108  025E                     __ptext5:	
+  1109 ;; *************** function _init *****************
+  1110 ;; Defined at:
+  1111 ;;		line 14 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\DHT1100\main.c"
+  1112 ;; Parameters:    Size  Location     Type
+  1113 ;;		None
+  1114 ;; Auto vars:     Size  Location     Type
+  1115 ;;		None
+  1116 ;; Return value:  Size  Location     Type
+  1117 ;;		None               void
+  1118 ;; Registers used:
+  1119 ;;		wreg, status,2
+  1120 ;; Tracked objects:
+  1121 ;;		On entry : 0/0
+  1122 ;;		On exit  : 0/0
+  1123 ;;		Unchanged: 0/0
+  1124 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1125 ;;      Params:         0       0       0       0       0
+  1126 ;;      Locals:         0       0       0       0       0
+  1127 ;;      Temps:          0       0       0       0       0
+  1128 ;;      Totals:         0       0       0       0       0
+  1129 ;;Total ram usage:        0 bytes
+  1130 ;; Hardware stack levels used:    1
+  1131 ;; Hardware stack levels required when called:    2
+  1132 ;; This function calls:
+  1133 ;;		Nothing
+  1134 ;; This function is called by:
+  1135 ;;		_main
+  1136 ;; This function uses a non-reentrant model
+  1137 ;;
+  1138                           
+  1139                           
+  1140                           ;psect for function _init
+  1141  025E                     _init:	
+  1142                           
+  1143                           ;main.c: 20: TRISA = 0x01;
+  1144                           
+  1145                           ;incstack = 0
+  1146                           ; Regs used in _init: [wreg+status,2]
+  1147  025E  3001               	movlw	1
+  1148  025F  1683               	bsf	3,5	;RP0=1, select bank1
+  1149  0260  1303               	bcf	3,6	;RP1=0, select bank1
+  1150  0261  0085               	movwf	5	;volatile
+  1151                           
+  1152                           ;main.c: 22: ADCON1 = 0x06;
+  1153  0262  3006               	movlw	6
+  1154  0263  009F               	movwf	31	;volatile
+  1155                           
+  1156                           ;main.c: 23: PORTA = 0x00;
+  1157  0264  1283               	bcf	3,5	;RP0=0, select bank0
+  1158  0265  1303               	bcf	3,6	;RP1=0, select bank0
+  1159  0266  0185               	clrf	5	;volatile
+  1160                           
+  1161                           ;main.c: 26: OPTION_REGbits.T0CS = 0;
+  1162  0267  1683               	bsf	3,5	;RP0=1, select bank1
+  1163  0268  1303               	bcf	3,6	;RP1=0, select bank1
+  1164  0269  1281               	bcf	1,5	;volatile
+  1165                           
+  1166                           ;main.c: 27: OPTION_REGbits.T0SE = 0;
+  1167  026A  1201               	bcf	1,4	;volatile
+  1168                           
+  1169                           ;main.c: 28: OPTION_REGbits.PSA = 0;
+  1170  026B  1181               	bcf	1,3	;volatile
+  1171                           
+  1172                           ;main.c: 31: OPTION_REGbits.PS0 = 0;
+  1173  026C  1001               	bcf	1,0	;volatile
+  1174                           
+  1175                           ;main.c: 32: OPTION_REGbits.PS1 = 0;
+  1176  026D  1081               	bcf	1,1	;volatile
+  1177                           
+  1178                           ;main.c: 33: OPTION_REGbits.PS2 = 1;
+  1179  026E  1501               	bsf	1,2	;volatile
+  1180  026F  1303 1283          	banksel	25	;# 
+  1181  0271  0199               	clrf	25	;# 
+  1182  0272  1303 1283          	banksel	26	;# 
+  1183  0274  019A               	clrf	26	;# 
+  1184  0275  1303 1683          	banksel	153	;# 
+  1185  0277  3040               	movlw	64	;# 
+  1186  0278  0099               	movwf	153	;# 
+  1187  0279  1303 1683          	banksel	152	;# 
+  1188  027B  3024               	movlw	36	;# 
+  1189  027C  0098               	movwf	152	;# 
+  1190  027D  1303 1283          	banksel	24	;# 
+  1191  027F  3090               	movlw	144	;# 
+  1192  0280  0098               	movwf	24	;# 
+  1193  0281  0008               	return
+  1194  0282                     __end_of_init:	
+  1195                           
+  1196                           	psect	text6
+  1197  02A5                     __ptext6:	
+  1198 ;; *************** function _dht11_start_signal *****************
+  1199 ;; Defined at:
+  1200 ;;		line 130 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\DHT1100\main.c"
+  1201 ;; Parameters:    Size  Location     Type
+  1202 ;;		None
+  1203 ;; Auto vars:     Size  Location     Type
+  1204 ;;		None
+  1205 ;; Return value:  Size  Location     Type
+  1206 ;;		None               void
+  1207 ;; Registers used:
+  1208 ;;		wreg, status,2
+  1209 ;; Tracked objects:
+  1210 ;;		On entry : 0/0
+  1211 ;;		On exit  : 0/0
+  1212 ;;		Unchanged: 0/0
+  1213 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1214 ;;      Params:         0       0       0       0       0
+  1215 ;;      Locals:         0       0       0       0       0
+  1216 ;;      Temps:          2       0       0       0       0
+  1217 ;;      Totals:         2       0       0       0       0
+  1218 ;;Total ram usage:        2 bytes
+  1219 ;; Hardware stack levels used:    1
+  1220 ;; Hardware stack levels required when called:    2
+  1221 ;; This function calls:
+  1222 ;;		Nothing
+  1223 ;; This function is called by:
+  1224 ;;		_main
+  1225 ;; This function uses a non-reentrant model
+  1226 ;;
+  1227                           
+  1228                           
+  1229                           ;psect for function _dht11_start_signal
+  1230  02A5                     _dht11_start_signal:	
+  1231                           
+  1232                           ;main.c: 132: TRISA = 0x00;
+  1233                           
+  1234                           ;incstack = 0
+  1235                           ; Regs used in _dht11_start_signal: [wreg+status,2]
+  1236  02A5  1683               	bsf	3,5	;RP0=1, select bank1
+  1237  02A6  1303               	bcf	3,6	;RP1=0, select bank1
+  1238  02A7  0185               	clrf	5	;volatile
+  1239                           
+  1240                           ;main.c: 133: PORTA = 0x00;
+  1241  02A8  1283               	bcf	3,5	;RP0=0, select bank0
+  1242  02A9  1303               	bcf	3,6	;RP1=0, select bank0
+  1243  02AA  0185               	clrf	5	;volatile
+  1244                           
+  1245                           ;main.c: 135: _delay((unsigned long)((25)*(20000000/4000.0)));
+  1246  02AB  30A3               	movlw	163
+  1247  02AC  00F6               	movwf	??_dht11_start_signal+1
+  1248  02AD  3055               	movlw	85
+  1249  02AE  00F5               	movwf	??_dht11_start_signal
+  1250  02AF                     u897:	
+  1251  02AF  0BF5               	decfsz	??_dht11_start_signal,f
+  1252  02B0  2AAF               	goto	u897
+  1253  02B1  0BF6               	decfsz	??_dht11_start_signal+1,f
+  1254  02B2  2AAF               	goto	u897
+  1255                           
+  1256                           ;main.c: 137: PORTA = 0x01;
+  1257  02B3  3001               	movlw	1
+  1258  02B4  1283               	bcf	3,5	;RP0=0, select bank0
+  1259  02B5  1303               	bcf	3,6	;RP1=0, select bank0
+  1260  02B6  0085               	movwf	5	;volatile
+  1261                           
+  1262                           ;main.c: 139: _delay((unsigned long)((30)*(20000000/4000000.0)));
+  1263  02B7  3031               	movlw	49
+  1264  02B8  00F5               	movwf	??_dht11_start_signal
+  1265  02B9                     u907:	
+  1266  02B9  0BF5               	decfsz	??_dht11_start_signal,f
+  1267  02BA  2AB9               	goto	u907
+  1268  02BB  2ABC               	nop2	;nop
+  1269                           
+  1270                           ;main.c: 141: TRISA = 0x01;
+  1271  02BC  3001               	movlw	1
+  1272  02BD  1683               	bsf	3,5	;RP0=1, select bank1
+  1273  02BE  1303               	bcf	3,6	;RP1=0, select bank1
+  1274  02BF  0085               	movwf	5	;volatile
+  1275  02C0  0008               	return
+  1276  02C1                     __end_of_dht11_start_signal:	
+  1277                           
+  1278                           	psect	text7
+  1279  02F0                     __ptext7:	
+  1280 ;; *************** function _dht11_response *****************
+  1281 ;; Defined at:
+  1282 ;;		line 145 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\DHT1100\main.c"
+  1283 ;; Parameters:    Size  Location     Type
+  1284 ;;		None
+  1285 ;; Auto vars:     Size  Location     Type
+  1286 ;;		None
+  1287 ;; Return value:  Size  Location     Type
+  1288 ;;                  1    wreg      unsigned char 
+  1289 ;; Registers used:
+  1290 ;;		wreg
+  1291 ;; Tracked objects:
+  1292 ;;		On entry : 0/0
+  1293 ;;		On exit  : 0/0
+  1294 ;;		Unchanged: 0/0
+  1295 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1296 ;;      Params:         0       0       0       0       0
+  1297 ;;      Locals:         0       0       0       0       0
+  1298 ;;      Temps:          1       0       0       0       0
+  1299 ;;      Totals:         1       0       0       0       0
+  1300 ;;Total ram usage:        1 bytes
+  1301 ;; Hardware stack levels used:    1
+  1302 ;; Hardware stack levels required when called:    2
+  1303 ;; This function calls:
+  1304 ;;		Nothing
+  1305 ;; This function is called by:
+  1306 ;;		_main
+  1307 ;; This function uses a non-reentrant model
+  1308 ;;
+  1309                           
+  1310                           
+  1311                           ;psect for function _dht11_response
+  1312  02F0                     _dht11_response:	
+  1313  02F0                     l73:	
+  1314                           ;main.c: 156: while( RA0 );
+  1315                           
+  1316                           ;incstack = 0
+  1317                           ; Regs used in _dht11_response: [wreg]
+  1318                           
+  1319  02F0  1283               	bcf	3,5	;RP0=0, select bank0
+  1320  02F1  1303               	bcf	3,6	;RP1=0, select bank0
+  1321  02F2  1805               	btfsc	5,0	;volatile
+  1322  02F3  2AF0               	goto	l73
+  1323  02F4                     l76:	
+  1324                           ;main.c: 157: while( !RA0 );
+  1325                           
+  1326  02F4  1C05               	btfss	5,0	;volatile
+  1327  02F5  2AF4               	goto	l76
+  1328                           
+  1329                           ;main.c: 159: _delay((unsigned long)((80)*(20000000/4000000.0)));
+  1330  02F6  3085               	movlw	133
+  1331  02F7  00F5               	movwf	??_dht11_response
+  1332  02F8                     u917:	
+  1333  02F8  0BF5               	decfsz	??_dht11_response,f
+  1334  02F9  2AF8               	goto	u917
+  1335  02FA  0008               	return
+  1336  02FB                     __end_of_dht11_response:	
+  1337                           ;main.c: 161: return 1;
+  1338                           ;	Return value of _dht11_response is never used
+  1339                           
+  1340                           
+  1341                           	psect	text8
+  1342  018F                     __ptext8:	
+  1343 ;; *************** function _dht11_read_byte *****************
+  1344 ;; Defined at:
+  1345 ;;		line 200 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\DHT1100\main.c"
+  1346 ;; Parameters:    Size  Location     Type
+  1347 ;;		None
+  1348 ;; Auto vars:     Size  Location     Type
+  1349 ;;  i               2    1[BANK0 ] int 
+  1350 ;;  data            1    0[BANK0 ] unsigned char 
+  1351 ;; Return value:  Size  Location     Type
+  1352 ;;                  1    wreg      unsigned char 
+  1353 ;; Registers used:
+  1354 ;;		wreg, status,2, status,0
+  1355 ;; Tracked objects:
+  1356 ;;		On entry : 0/0
+  1357 ;;		On exit  : 0/0
+  1358 ;;		Unchanged: 0/0
+  1359 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1360 ;;      Params:         0       0       0       0       0
+  1361 ;;      Locals:         0       3       0       0       0
+  1362 ;;      Temps:          2       0       0       0       0
+  1363 ;;      Totals:         2       3       0       0       0
+  1364 ;;Total ram usage:        5 bytes
+  1365 ;; Hardware stack levels used:    1
+  1366 ;; Hardware stack levels required when called:    2
+  1367 ;; This function calls:
+  1368 ;;		Nothing
+  1369 ;; This function is called by:
+  1370 ;;		_main
+  1371 ;; This function uses a non-reentrant model
+  1372 ;;
+  1373                           
+  1374                           
+  1375                           ;psect for function _dht11_read_byte
+  1376  018F                     _dht11_read_byte:	
+  1377                           
+  1378                           ;main.c: 202: uint8_t data = 0;
+  1379                           
+  1380                           ;incstack = 0
+  1381                           ; Regs used in _dht11_read_byte: [wreg+status,2+status,0]
+  1382  018F  1283               	bcf	3,5	;RP0=0, select bank0
+  1383  0190  1303               	bcf	3,6	;RP1=0, select bank0
+  1384  0191  01A0               	clrf	dht11_read_byte@data
+  1385                           
+  1386                           ;main.c: 204: for(int i=7;i>=0;i--){
+  1387  0192  3007               	movlw	7
+  1388  0193  00A1               	movwf	dht11_read_byte@i
+  1389  0194  3000               	movlw	0
+  1390  0195  00A2               	movwf	dht11_read_byte@i+1
+  1391  0196  1BA2               	btfsc	dht11_read_byte@i+1,7
+  1392  0197  29C4               	goto	l921
+  1393  0198                     l84:	
+  1394                           ;main.c: 205: while( RA0 );
+  1395                           
+  1396  0198  1805               	btfsc	5,0	;volatile
+  1397  0199  2998               	goto	l84
+  1398  019A                     l87:	
+  1399                           ;main.c: 206: while( !RA0 );
+  1400                           
+  1401  019A  1C05               	btfss	5,0	;volatile
+  1402  019B  299A               	goto	l87
+  1403                           
+  1404                           ;main.c: 207: _delay((unsigned long)((30)*(20000000/4000000.0)));
+  1405  019C  3031               	movlw	49
+  1406  019D  00F5               	movwf	??_dht11_read_byte
+  1407  019E                     u927:	
+  1408  019E  0BF5               	decfsz	??_dht11_read_byte,f
+  1409  019F  299E               	goto	u927
+  1410  01A0  29A1               	nop2	;nop
+  1411                           
+  1412                           ;main.c: 208: if( RA0 ){
+  1413  01A1  1283               	bcf	3,5	;RP0=0, select bank0
+  1414  01A2  1303               	bcf	3,6	;RP1=0, select bank0
+  1415  01A3  1C05               	btfss	5,0	;volatile
+  1416  01A4  29AF               	goto	l915
+  1417                           
+  1418                           ;main.c: 209: data |= 1 << i;
+  1419  01A5  3001               	movlw	1
+  1420  01A6  00F5               	movwf	??_dht11_read_byte
+  1421  01A7  0A21               	incf	dht11_read_byte@i,w
+  1422  01A8  29AB               	goto	u444
+  1423  01A9                     u445:	
+  1424  01A9  1003               	clrc
+  1425  01AA  0DF5               	rlf	??_dht11_read_byte,f
+  1426  01AB                     u444:	
+  1427  01AB  3EFF               	addlw	-1
+  1428  01AC  1D03               	skipz
+  1429  01AD  29A9               	goto	u445
+  1430  01AE  29B8               	goto	L1
+  1431  01AF                     l915:	
+  1432                           ;main.c: 210: }else{
+  1433                           
+  1434                           
+  1435                           ;main.c: 211: data |= 0 << i;
+  1436  01AF  3000               	movlw	0
+  1437  01B0  00F5               	movwf	??_dht11_read_byte
+  1438  01B1  0A21               	incf	dht11_read_byte@i,w
+  1439  01B2  29B5               	goto	u454
+  1440  01B3                     u455:	
+  1441  01B3  1003               	clrc
+  1442  01B4  0DF5               	rlf	??_dht11_read_byte,f
+  1443  01B5                     u454:	
+  1444  01B5  3EFF               	addlw	-1
+  1445  01B6  1D03               	skipz
+  1446  01B7  29B3               	goto	u455
+  1447  01B8                     L1:	
+  1448  01B8  0875               	movf	??_dht11_read_byte,w
+  1449  01B9  00F6               	movwf	??_dht11_read_byte+1
+  1450  01BA  0876               	movf	??_dht11_read_byte+1,w
+  1451  01BB  04A0               	iorwf	dht11_read_byte@data,f
+  1452  01BC  30FF               	movlw	255
+  1453  01BD  07A1               	addwf	dht11_read_byte@i,f
+  1454  01BE  1803               	skipnc
+  1455  01BF  0AA2               	incf	dht11_read_byte@i+1,f
+  1456  01C0  30FF               	movlw	255
+  1457  01C1  07A2               	addwf	dht11_read_byte@i+1,f
+  1458  01C2  1FA2               	btfss	dht11_read_byte@i+1,7
+  1459  01C3  2998               	goto	l84
+  1460  01C4                     l921:	
+  1461                           
+  1462                           ;main.c: 212: }
+  1463                           ;main.c: 213: }
+  1464                           ;main.c: 214: return data;
+  1465  01C4  0820               	movf	dht11_read_byte@data,w
+  1466  01C5  0008               	return
+  1467  01C6                     __end_of_dht11_read_byte:	
+  1468                           
+  1469                           	psect	text9
+  1470  02D9                     __ptext9:	
+  1471 ;; *************** function _TX_printline *****************
+  1472 ;; Defined at:
+  1473 ;;		line 86 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\DHT1100\main.c"
+  1474 ;; Parameters:    Size  Location     Type
+  1475 ;;  str             1    wreg     PTR unsigned char 
+  1476 ;;		 -> main@buff(4), 
+  1477 ;; Auto vars:     Size  Location     Type
+  1478 ;;  str             1    0[BANK0 ] PTR unsigned char 
+  1479 ;;		 -> main@buff(4), 
+  1480 ;; Return value:  Size  Location     Type
+  1481 ;;		None               void
+  1482 ;; Registers used:
+  1483 ;;		wreg, fsr0l, fsr0h, status,2, status,0, btemp+1, pclath, cstack
+  1484 ;; Tracked objects:
+  1485 ;;		On entry : 0/0
+  1486 ;;		On exit  : 0/0
+  1487 ;;		Unchanged: 0/0
+  1488 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1489 ;;      Params:         0       0       0       0       0
+  1490 ;;      Locals:         0       1       0       0       0
+  1491 ;;      Temps:          0       0       0       0       0
+  1492 ;;      Totals:         0       1       0       0       0
+  1493 ;;Total ram usage:        1 bytes
+  1494 ;; Hardware stack levels used:    1
+  1495 ;; Hardware stack levels required when called:    4
+  1496 ;; This function calls:
+  1497 ;;		_TX_poll
+  1498 ;;		_TX_print
+  1499 ;; This function is called by:
+  1500 ;;		_main
+  1501 ;; This function uses a non-reentrant model
+  1502 ;;
+  1503                           
+  1504                           
+  1505                           ;psect for function _TX_printline
+  1506  02D9                     _TX_printline:	
+  1507                           
+  1508                           ;incstack = 0
+  1509                           ; Regs used in _TX_printline: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
+  1510                           ;TX_printline@str stored from wreg
+  1511  02D9  1283               	bcf	3,5	;RP0=0, select bank0
+  1512  02DA  1303               	bcf	3,6	;RP1=0, select bank0
+  1513  02DB  00A0               	movwf	TX_printline@str
+  1514                           
+  1515                           ;main.c: 88: TX_print( str );
+  1516  02DC  0820               	movf	TX_printline@str,w
+  1517  02DD  00F6               	movwf	TX_print@str
+  1518  02DE  3000               	movlw	0
+  1519  02DF  00F7               	movwf	TX_print@str+1
+  1520  02E0  120A  118A  2282   	fcall	_TX_print
+      +       120A  118A         
+  1521                           
+  1522                           ;main.c: 91: TX_poll( 0x0D );
+  1523  02E5  300D               	movlw	13
+  1524  02E6  120A  118A  2306   	fcall	_TX_poll
+      +       120A  118A         
+  1525                           
+  1526                           ;main.c: 93: TX_poll( 0x0A );
+  1527  02EB  300A               	movlw	10
+  1528  02EC  120A  118A  2306   	fcall	_TX_poll
+  1529  02EF  0008               	return
+  1530  02F0                     __end_of_TX_printline:	
+  1531                           
+  1532                           	psect	text10
+  1533  0282                     __ptext10:	
+  1534 ;; *************** function _TX_print *****************
+  1535 ;; Defined at:
+  1536 ;;		line 78 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\DHT1100\main.c"
+  1537 ;; Parameters:    Size  Location     Type
+  1538 ;;  str             2    6[COMMON] PTR unsigned char 
+  1539 ;;		 -> main@buff(4), STR_2(15), STR_1(21), 
+  1540 ;; Auto vars:     Size  Location     Type
+  1541 ;;		None
+  1542 ;; Return value:  Size  Location     Type
+  1543 ;;		None               void
+  1544 ;; Registers used:
+  1545 ;;		wreg, fsr0l, fsr0h, status,2, status,0, btemp+1, pclath, cstack
+  1546 ;; Tracked objects:
+  1547 ;;		On entry : 0/0
+  1548 ;;		On exit  : 0/0
+  1549 ;;		Unchanged: 0/0
+  1550 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1551 ;;      Params:         2       0       0       0       0
+  1552 ;;      Locals:         0       0       0       0       0
+  1553 ;;      Temps:          0       0       0       0       0
+  1554 ;;      Totals:         2       0       0       0       0
+  1555 ;;Total ram usage:        2 bytes
+  1556 ;; Hardware stack levels used:    1
+  1557 ;; Hardware stack levels required when called:    3
+  1558 ;; This function calls:
+  1559 ;;		_TX_poll
+  1560 ;; This function is called by:
+  1561 ;;		_TX_printline
+  1562 ;;		_main
+  1563 ;; This function uses a non-reentrant model
+  1564 ;;
+  1565                           
+  1566                           
+  1567                           ;psect for function _TX_print
+  1568  0282                     _TX_print:	
+  1569  0282                     l1069:	
+  1570                           ;main.c: 80: while( *(str) != '\0' ){
+  1571                           
+  1572                           ;incstack = 0
+  1573                           ; Regs used in _TX_print: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
+  1574                           
+  1575  0282  0877               	movf	TX_print@str+1,w
+  1576  0283  1283               	bcf	3,5	;RP0=0, select bank0
+  1577  0284  1303               	bcf	3,6	;RP1=0, select bank0
+  1578  0285  00FF               	movwf	127
+  1579  0286  0876               	movf	TX_print@str,w
+  1580  0287  0084               	movwf	4
+  1581  0288  120A  118A  2200   	fcall	stringtab
+      +       120A  118A         
+  1582  028D  3800               	iorlw	0
+  1583  028E  1903               	btfsc	3,2
+  1584  028F  0008               	return
+  1585                           
+  1586                           ;main.c: 82: str = str++;
+  1587  0290  0877               	movf	TX_print@str+1,w
+  1588  0291  1283               	bcf	3,5	;RP0=0, select bank0
+  1589  0292  1303               	bcf	3,6	;RP1=0, select bank0
+  1590  0293  00FF               	movwf	127
+  1591  0294  0876               	movf	TX_print@str,w
+  1592  0295  0084               	movwf	4
+  1593  0296  120A  118A  2200   	fcall	stringtab
+      +       120A  118A         
+  1594  029B  120A  118A  2306   	fcall	_TX_poll
+      +       120A  118A         
+  1595  02A0  3001               	movlw	1
+  1596  02A1  07F6               	addwf	TX_print@str,f
+  1597  02A2  1803               	skipnc
+  1598  02A3  0AF7               	incf	TX_print@str+1,f
+  1599  02A4  2A82               	goto	l1069
+  1600  02A5                     __end_of_TX_print:	
+  1601                           
+  1602                           	psect	text11
+  1603  02FB                     __ptext11:	
+  1604 ;; *************** function _TX_newline *****************
+  1605 ;; Defined at:
+  1606 ;;		line 96 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\DHT1100\main.c"
+  1607 ;; Parameters:    Size  Location     Type
+  1608 ;;		None
+  1609 ;; Auto vars:     Size  Location     Type
+  1610 ;;		None
+  1611 ;; Return value:  Size  Location     Type
+  1612 ;;		None               void
+  1613 ;; Registers used:
+  1614 ;;		wreg, status,2, status,0, pclath, cstack
+  1615 ;; Tracked objects:
+  1616 ;;		On entry : 0/0
+  1617 ;;		On exit  : 0/0
+  1618 ;;		Unchanged: 0/0
+  1619 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1620 ;;      Params:         0       0       0       0       0
+  1621 ;;      Locals:         0       0       0       0       0
+  1622 ;;      Temps:          0       0       0       0       0
+  1623 ;;      Totals:         0       0       0       0       0
+  1624 ;;Total ram usage:        0 bytes
+  1625 ;; Hardware stack levels used:    1
+  1626 ;; Hardware stack levels required when called:    3
+  1627 ;; This function calls:
+  1628 ;;		_TX_poll
+  1629 ;; This function is called by:
+  1630 ;;		_main
+  1631 ;; This function uses a non-reentrant model
+  1632 ;;
+  1633                           
+  1634                           
+  1635                           ;psect for function _TX_newline
+  1636  02FB                     _TX_newline:	
+  1637                           
+  1638                           ;main.c: 99: TX_poll( 0x0D );
+  1639                           
+  1640                           ;incstack = 0
+  1641                           ; Regs used in _TX_newline: [wreg+status,2+status,0+pclath+cstack]
+  1642  02FB  300D               	movlw	13
+  1643  02FC  120A  118A  2306   	fcall	_TX_poll
+      +       120A  118A         
+  1644                           
+  1645                           ;main.c: 101: TX_poll( 0x0A );
+  1646  0301  300A               	movlw	10
+  1647  0302  120A  118A  2306   	fcall	_TX_poll
+  1648  0305  0008               	return
+  1649  0306                     __end_of_TX_newline:	
+  1650                           
+  1651                           	psect	text12
+  1652  0306                     __ptext12:	
+  1653 ;; *************** function _TX_poll *****************
+  1654 ;; Defined at:
+  1655 ;;		line 60 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\DHT1100\main.c"
+  1656 ;; Parameters:    Size  Location     Type
+  1657 ;;  val             1    wreg     unsigned char 
+  1658 ;; Auto vars:     Size  Location     Type
+  1659 ;;  val             1    5[COMMON] unsigned char 
+  1660 ;; Return value:  Size  Location     Type
+  1661 ;;		None               void
+  1662 ;; Registers used:
+  1663 ;;		wreg
+  1664 ;; Tracked objects:
+  1665 ;;		On entry : 0/0
+  1666 ;;		On exit  : 0/0
+  1667 ;;		Unchanged: 0/0
+  1668 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1669 ;;      Params:         0       0       0       0       0
+  1670 ;;      Locals:         1       0       0       0       0
+  1671 ;;      Temps:          0       0       0       0       0
+  1672 ;;      Totals:         1       0       0       0       0
+  1673 ;;Total ram usage:        1 bytes
+  1674 ;; Hardware stack levels used:    1
+  1675 ;; Hardware stack levels required when called:    2
+  1676 ;; This function calls:
+  1677 ;;		Nothing
+  1678 ;; This function is called by:
+  1679 ;;		_TX_print
+  1680 ;;		_TX_printline
+  1681 ;;		_TX_newline
+  1682 ;;		_RX_readline
+  1683 ;; This function uses a non-reentrant model
+  1684 ;;
+  1685                           
+  1686                           
+  1687                           ;psect for function _TX_poll
+  1688  0306                     _TX_poll:	
+  1689                           
+  1690                           ;incstack = 0
+  1691                           ; Regs used in _TX_poll: [wreg]
+  1692                           ;TX_poll@val stored from wreg
+  1693  0306  00F5               	movwf	TX_poll@val
+  1694  0307                     l36:	
+  1695                           ;main.c: 62: while( PIR1bits.TXIF == 0 );
+  1696                           
+  1697  0307  1283               	bcf	3,5	;RP0=0, select bank0
+  1698  0308  1303               	bcf	3,6	;RP1=0, select bank0
+  1699  0309  1E0C               	btfss	12,4	;volatile
+  1700  030A  2B07               	goto	l36
+  1701                           
+  1702                           ;main.c: 64: TXREG = val;
+  1703  030B  0875               	movf	TX_poll@val,w
+  1704  030C  0099               	movwf	25	;volatile
+  1705  030D  0008               	return
+  1706  030E                     __end_of_TX_poll:	
+  1707                           
+  1708                           	psect	text13
+  1709  02C1                     __ptext13:	
+  1710 ;; *************** function _tc_int *****************
+  1711 ;; Defined at:
+  1712 ;;		line 119 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\DHT1100\main.c"
+  1713 ;; Parameters:    Size  Location     Type
+  1714 ;;		None
+  1715 ;; Auto vars:     Size  Location     Type
+  1716 ;;		None
+  1717 ;; Return value:  Size  Location     Type
+  1718 ;;		None               void
+  1719 ;; Registers used:
+  1720 ;;		wreg, status,2, status,0, pclath, cstack
+  1721 ;; Tracked objects:
+  1722 ;;		On entry : 0/0
+  1723 ;;		On exit  : 0/0
+  1724 ;;		Unchanged: 0/0
+  1725 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1726 ;;      Params:         0       0       0       0       0
+  1727 ;;      Locals:         0       0       0       0       0
+  1728 ;;      Temps:          4       0       0       0       0
+  1729 ;;      Totals:         4       0       0       0       0
+  1730 ;;Total ram usage:        4 bytes
+  1731 ;; Hardware stack levels used:    1
+  1732 ;; Hardware stack levels required when called:    1
+  1733 ;; This function calls:
+  1734 ;;		i1_TX_poll
+  1735 ;; This function is called by:
+  1736 ;;		Interrupt level 1
+  1737 ;; This function uses a non-reentrant model
+  1738 ;;
+  1739                           
+  1740                           
+  1741                           ;psect for function _tc_int
+  1742  02C1                     _tc_int:	
+  1743                           
+  1744                           ;main.c: 121: if( TMR0IE && TMR0IF ){
+  1745  02C1  1A8B               	btfsc	11,5	;volatile
+  1746  02C2  1D0B               	btfss	11,2	;volatile
+  1747  02C3  2ACC               	goto	i1l67
+  1748                           
+  1749                           ;main.c: 122: TMR0IF = 0;
+  1750  02C4  110B               	bcf	11,2	;volatile
+  1751                           
+  1752                           ;main.c: 123: TMR0 = 0;
+  1753  02C5  0181               	clrf	1	;volatile
+  1754                           
+  1755                           ;main.c: 125: TX_poll('Y');
+  1756  02C6  3059               	movlw	89
+  1757  02C7  120A  118A  230E   	fcall	i1_TX_poll
+      +       120A  118A         
+  1758  02CC                     i1l67:	
+  1759                           ;main.c: 126: return;
+  1760                           
+  1761  02CC  0874               	movf	??_tc_int+3,w
+  1762  02CD  1283               	bcf	3,5	;RP0=0, select bank0
+  1763  02CE  1303               	bcf	3,6	;RP1=0, select bank0
+  1764  02CF  00FF               	movwf	127
+  1765  02D0  0873               	movf	??_tc_int+2,w
+  1766  02D1  008A               	movwf	10
+  1767  02D2  0872               	movf	??_tc_int+1,w
+  1768  02D3  0084               	movwf	4
+  1769  02D4  0E71               	swapf	??_tc_int^(0+-128),w
+  1770  02D5  0083               	movwf	3
+  1771  02D6  0EFE               	swapf	126,f
+  1772  02D7  0E7E               	swapf	126,w
+  1773  02D8  0009               	retfie
+  1774  02D9                     __end_of_tc_int:	
+  1775                           
+  1776                           	psect	intentry
+  1777  0004                     __pintentry:	
+  1778                           ;incstack = 0
+  1779                           ; Regs used in _tc_int: [wreg+status,2+status,0+pclath+cstack]
+  1780                           
+  1781  0004                     interrupt_function:	
+  1782  007E                     saved_w	set	btemp
+  1783  0004  00FE               	movwf	btemp
+  1784  0005  0E03               	swapf	3,w
+  1785  0006  00F1               	movwf	??_tc_int
+  1786  0007  0804               	movf	4,w
+  1787  0008  00F2               	movwf	??_tc_int+1
+  1788  0009  080A               	movf	10,w
+  1789  000A  00F3               	movwf	??_tc_int+2
+  1790  000B  1283               	bcf	3,5	;RP0=0, select bank0
+  1791  000C  1303               	bcf	3,6	;RP1=0, select bank0
+  1792  000D  087F               	movf	btemp+1,w
+  1793  000E  00F4               	movwf	??_tc_int+3
+  1794  000F  120A  118A  2AC1   	ljmp	_tc_int
+  1795                           
+  1796                           	psect	text14
+  1797  030E                     __ptext14:	
+  1798 ;; *************** function i1_TX_poll *****************
+  1799 ;; Defined at:
+  1800 ;;		line 60 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\DHT1100\main.c"
+  1801 ;; Parameters:    Size  Location     Type
+  1802 ;;  val             1    wreg     unsigned char 
+  1803 ;; Auto vars:     Size  Location     Type
+  1804 ;;  val             1    0[COMMON] unsigned char 
+  1805 ;; Return value:  Size  Location     Type
+  1806 ;;		None               void
+  1807 ;; Registers used:
+  1808 ;;		wreg
+  1809 ;; Tracked objects:
+  1810 ;;		On entry : 0/0
+  1811 ;;		On exit  : 0/0
+  1812 ;;		Unchanged: 0/0
+  1813 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1814 ;;      Params:         0       0       0       0       0
+  1815 ;;      Locals:         1       0       0       0       0
+  1816 ;;      Temps:          0       0       0       0       0
+  1817 ;;      Totals:         1       0       0       0       0
+  1818 ;;Total ram usage:        1 bytes
+  1819 ;; Hardware stack levels used:    1
+  1820 ;; This function calls:
+  1821 ;;		Nothing
+  1822 ;; This function is called by:
+  1823 ;;		_tc_int
+  1824 ;; This function uses a non-reentrant model
+  1825 ;;
+  1826                           
+  1827                           
+  1828                           ;psect for function i1_TX_poll
+  1829  030E                     i1_TX_poll:	
+  1830                           
+  1831                           ;incstack = 0
+  1832                           ; Regs used in i1_TX_poll: [wreg]
+  1833                           ;i1TX_poll@val stored from wreg
+  1834  030E  00F0               	movwf	i1TX_poll@val
+  1835  030F                     i1l36:	
+  1836                           ;main.c: 62: while( PIR1bits.TXIF == 0 );
+  1837                           
+  1838  030F  1283               	bcf	3,5	;RP0=0, select bank0
+  1839  0310  1303               	bcf	3,6	;RP1=0, select bank0
+  1840  0311  1E0C               	btfss	12,4	;volatile
+  1841  0312  2B0F               	goto	i1l36
+  1842                           
+  1843                           ;main.c: 64: TXREG = val;
+  1844  0313  0870               	movf	i1TX_poll@val,w
+  1845  0314  0099               	movwf	25	;volatile
+  1846  0315  0008               	return
+  1847  0316                     __end_ofi1_TX_poll:	
+  1848  007E                     btemp	set	126	;btemp
+  1849  007E                     wtemp	set	126
+  1850  007E                     wtemp0	set	126
+  1851  0080                     wtemp1	set	128
+  1852  0082                     wtemp2	set	130
+  1853  0084                     wtemp3	set	132
+  1854  0086                     wtemp4	set	134
+  1855  0088                     wtemp5	set	136
+  1856  007F                     wtemp6	set	127
+  1857  007E                     ttemp	set	126
+  1858  007E                     ttemp0	set	126
+  1859  0081                     ttemp1	set	129
+  1860  0084                     ttemp2	set	132
+  1861  0087                     ttemp3	set	135
+  1862  007F                     ttemp4	set	127
+  1863  007E                     ltemp	set	126
+  1864  007E                     ltemp0	set	126
+  1865  0082                     ltemp1	set	130
+  1866  0086                     ltemp2	set	134
+  1867  0080                     ltemp3	set	128
+
+
+Data Sizes:
+    Strings     36
+    Constant    0
+    Data        0
+    BSS         0
+    Persistent  0
+    Stack       0
+
+Auto Spaces:
+    Space          Size  Autos    Used
+    COMMON           14      8       9
+    BANK0            80     36      36
+    BANK1            80      0       0
+    BANK3            96      0       0
+    BANK2            96      0       0
+
+Pointer List with Targets:
+
+    utoa@buf	PTR unsigned char  size(1) Largest target is 4
+		 -> main@buff(BANK0[4]), 
+
+    sp__utoa	PTR unsigned char  size(1) Largest target is 4
+		 -> main@buff(BANK0[4]), 
+
+    itoa@buf	PTR unsigned char  size(1) Largest target is 4
+		 -> main@buff(BANK0[4]), 
+
+    itoa@cp	PTR unsigned char  size(1) Largest target is 4
+		 -> main@buff(BANK0[4]), 
+
+    sp__itoa	PTR unsigned char  size(1) Largest target is 4
+		 -> main@buff(BANK0[4]), 
+
+    main@tp_str	PTR unsigned char  size(1) Largest target is 15
+		 -> STR_2(CODE[15]), 
+
+    main@rh_str	PTR unsigned char  size(1) Largest target is 21
+		 -> STR_1(CODE[21]), 
+
+    TX_printline@str	PTR unsigned char  size(1) Largest target is 4
+		 -> main@buff(BANK0[4]), 
+
+    TX_print@str	PTR unsigned char  size(2) Largest target is 21
+		 -> main@buff(BANK0[4]), STR_2(CODE[15]), STR_1(CODE[21]), 
+
+
+Critical Paths under _main in COMMON
+
+    _main->_TX_print
+    _itoa->_utoa
+    _utoa->___lwmod
+    _TX_printline->_TX_print
+    _TX_print->_TX_poll
+    _TX_newline->_TX_poll
+
+Critical Paths under _tc_int in COMMON
+
+    _tc_int->i1_TX_poll
+
+Critical Paths under _main in BANK0
+
+    _main->_itoa
+    _itoa->_utoa
+    _utoa->___lwdiv
+
+Critical Paths under _tc_int in BANK0
+
+    None.
+
+Critical Paths under _main in BANK1
+
+    None.
+
+Critical Paths under _tc_int in BANK1
+
+    None.
+
+Critical Paths under _main in BANK3
+
+    None.
+
+Critical Paths under _tc_int in BANK3
+
+    None.
+
+Critical Paths under _main in BANK2
+
+    None.
+
+Critical Paths under _tc_int in BANK2
+
+    None.
+
+Call Graph Tables:
+
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (0) _main                                                15    15      0    3159
+                                             22 BANK0     14    14      0
+                         _TX_newline
+                           _TX_print
+                       _TX_printline
+                    _dht11_read_byte
+                     _dht11_response
+                 _dht11_start_signal
+                               _init
+                               _itoa
+ ---------------------------------------------------------------------------------
+ (1) _itoa                                                 7     3      4    2016
+                                             15 BANK0      7     3      4
+                               _utoa
+ ---------------------------------------------------------------------------------
+ (2) _utoa                                                 9     5      4    1463
+                                              7 COMMON     1     1      0
+                                              7 BANK0      8     4      4
+                            ___lwdiv
+                            ___lwmod
+ ---------------------------------------------------------------------------------
+ (3) ___lwmod                                              6     2      4     362
+                                              5 COMMON     2     2      0
+                                              0 BANK0      4     0      4
+ ---------------------------------------------------------------------------------
+ (3) ___lwdiv                                              8     4      4     501
+                                              5 COMMON     1     1      0
+                                              0 BANK0      7     3      4
+ ---------------------------------------------------------------------------------
+ (1) _init                                                 0     0      0       0
+ ---------------------------------------------------------------------------------
+ (1) _dht11_start_signal                                   2     2      0       0
+                                              5 COMMON     2     2      0
+ ---------------------------------------------------------------------------------
+ (1) _dht11_response                                       1     1      0       0
+                                              5 COMMON     1     1      0
+ ---------------------------------------------------------------------------------
+ (1) _dht11_read_byte                                      5     5      0     115
+                                              5 COMMON     2     2      0
+                                              0 BANK0      3     3      0
+ ---------------------------------------------------------------------------------
+ (1) _TX_printline                                         1     1      0     413
+                                              0 BANK0      1     1      0
+                            _TX_poll
+                           _TX_print
+ ---------------------------------------------------------------------------------
+ (2) _TX_print                                             2     0      2     291
+                                              6 COMMON     2     0      2
+                            _TX_poll
+ ---------------------------------------------------------------------------------
+ (1) _TX_newline                                           0     0      0      31
+                            _TX_poll
+ ---------------------------------------------------------------------------------
+ (3) _TX_poll                                              1     1      0      31
+                                              5 COMMON     1     1      0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 3
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (4) _tc_int                                               4     4      0      73
+                                              1 COMMON     4     4      0
+                          i1_TX_poll
+ ---------------------------------------------------------------------------------
+ (5) i1_TX_poll                                            1     1      0      73
+                                              0 COMMON     1     1      0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 5
+ ---------------------------------------------------------------------------------
+
+ Call Graph Graphs:
+
+ _main (ROOT)
+   _TX_newline
+     _TX_poll
+   _TX_print
+     _TX_poll
+   _TX_printline
+     _TX_poll
+     _TX_print
+       _TX_poll
+   _dht11_read_byte
+   _dht11_response
+   _dht11_start_signal
+   _init
+   _itoa
+     _utoa
+       ___lwdiv
+       ___lwmod
+
+ _tc_int (ROOT)
+   i1_TX_poll
+
+ Address spaces:
+Name               Size   Autos  Total    Cost      Usage
+BITCOMMON            E      0       1       0        7.1%
+EEDATA             100      0       0       0        0.0%
+NULL                 0      0       0       0        0.0%
+CODE                 0      0       0       0        0.0%
+COMMON               E      8       9       1       64.3%
+BITSFR0              0      0       0       1        0.0%
+SFR0                 0      0       0       1        0.0%
+BITSFR1              0      0       0       2        0.0%
+SFR1                 0      0       0       2        0.0%
+STACK                0      0       0       2        0.0%
+ABS                  0      0      2D       3        0.0%
+BITBANK0            50      0       0       4        0.0%
+BITSFR3              0      0       0       4        0.0%
+SFR3                 0      0       0       4        0.0%
+BANK0               50     24      24       5       45.0%
+BITSFR2              0      0       0       5        0.0%
+SFR2                 0      0       0       5        0.0%
+BITBANK1            50      0       0       6        0.0%
+BANK1               50      0       0       7        0.0%
+BITBANK3            60      0       0       8        0.0%
+BANK3               60      0       0       9        0.0%
+BITBANK2            60      0       0      10        0.0%
+BANK2               60      0       0      11        0.0%
+DATA                 0      0      2D      12        0.0%
+
+
+Microchip Technology PIC Macro Assembler V1.30 build 55553 
+Symbol Table                                                                                   Thu Apr 10 23:10:49 2014
+
+                          pc 0002                  __CFG_CP$OFF 0000                           l36 0307  
+                         l73 02F0                           l84 0198                           l76 02F4  
+                         l87 019A                           fsr 0004          dht11_read_byte@data 0020  
+                        l428 0139                          l921 01C4                          l915 01AF  
+                        _RA0 0028                 __CFG_CPD$OFF 0000                          u444 01AB  
+                        u445 01A9                          u454 01B5                          u455 01B3  
+                        u825 01D1                          u907 02B9                          u755 015C  
+                        u917 02F8                          u845 01E2                          u927 019E  
+                        u775 0168                          u855 01EB                          u785 0174  
+                        u795 017E                          u877 0031                          u887 00C9  
+                        u897 02AF                          fsr0 0004                          _tmp 03C1  
+                        indf 0000                 __CFG_FOSC$HS 0000                   TX_poll@val 0075  
+               __CFG_LVP$OFF 0000                         RCREG 001A                         RCSTA 0018  
+                       l1121 00DA                         l1131 0101                         l1115 024D  
+                       SPBRG 0099                         l1161 0167                         l1171 0188  
+                       l1069 0282                         l1167 017D                         l1159 0159  
+                       l1183 01CE                         l1185 01DC                         l1193 01F5  
+                       l1089 0029                         l1189 01EA                         STR_1 0210  
+                       STR_2 0225                         TXREG 0019                ?_TX_printline 0070  
+                       TXSTA 0098                         i1l36 030F                         i1l67 02CC  
+                       _TMR0 0001                         _main 001A                         _init 025E  
+                       _itoa 0234                         btemp 007E                         _utoa 00D1  
+              __CFG_BOREN$ON 0000                         ltemp 007E                         start 0012  
+                       ttemp 007E                         wtemp 007E              __end_of_TX_poll 030E  
+               main@checksum 003B                  TX_print@str 0076                        ?_main 0070  
+                      ?_init 0070                        ?_itoa 002F                __CFG_WDTE$OFF 0000  
+                      ?_utoa 0027              __end_of___lwdiv 018F              __end_of___lwmod 01FC  
+                      _RCREG 001A                        _PORTA 0005                        _TRISA 0085  
+                      _TXREG 0019                __CFG_PWRTE$ON 0000           __size_ofi1_TX_poll 0008  
+             ??_TX_printline 0078               __pbitbssCOMMON 03C0                        pclath 000A  
+                      ltemp0 007E                        ltemp1 0082                        ltemp2 0086  
+                      ltemp3 0080                        ttemp0 007E                        ttemp1 0081  
+                      ttemp2 0084                        ttemp3 0087                        ttemp4 007F  
+                      utoa@c 002D                        utoa@v 002B                        status 0003  
+                      wtemp0 007E                        wtemp1 0080                        wtemp2 0082  
+                      wtemp3 0084                        wtemp4 0086                        wtemp5 0088  
+                      wtemp6 007F                   _TX_newline 02FB              __initialization 0015  
+               __end_of_main 00D1                 __end_of_init 0282                 __end_of_itoa 025E  
+               __end_of_utoa 014F             __end_of_TX_print 02A5                       ??_main 0036  
+                     ??_init 0075                       ??_itoa 0033                       ??_utoa 0077  
+    __size_of_dht11_response 000B                       _ADCON1 009F                       _TMR0IE 005D  
+                     _TMR0IF 005A                    ??_TX_poll 0075                main@rh_d_byte 0039  
+              main@rh_i_byte 0042  __size_of_dht11_start_signal 001C            __end_ofi1_TX_poll 0316  
+                  ??___lwdiv 0075                    ??___lwmod 0075                       _tc_int 02C1  
+              main@tp_d_byte 003A                main@tp_i_byte 0043                       itoa@cp 0034  
+                     saved_w 007E      __end_of__initialization 0016                  ?_TX_newline 0070  
+             __pcstackCOMMON 0070         __end_of_TX_printline 02F0     __size_of_dht11_read_byte 0037  
+            TX_printline@str 0020               _OPTION_REGbits 0081                    ?_TX_print 0076  
+                 __pmaintext 001A                   __pintentry 0004                      ?_tc_int 0070  
+             _dht11_response 02F0          __size_of_TX_newline 000B                   __stringtab 0200  
+                 ??_TX_print 0078                      _TX_poll 0306                      ___lwdiv 014F  
+                    ___lwmod 01C6       __end_of_dht11_response 02FB              __size_of_tc_int 0018  
+                    __ptext1 0234                      __ptext2 00D1                      __ptext3 01C6  
+                    __ptext4 014F                      __ptext5 025E                      __ptext6 02A5  
+                    __ptext7 02F0                      __ptext8 018F                      __ptext9 02D9  
+          ??_dht11_read_byte 0075         end_of_initialization 0016                      itoa@buf 0035  
+                    itoa@val 002F        __size_of_TX_printline 0017                      utoa@buf 002E  
+                    utoa@val 0027              ?_dht11_response 0070                    i1_TX_poll 030E  
+               _TX_printline 02D9                 ??_TX_newline 0076   __end_of_dht11_start_signal 02C1  
+                 main@rh_str 0040                   main@tp_str 0041                   ?i1_TX_poll 0070  
+             __end_of_tc_int 02D9          start_initialization 0015           __end_of_TX_newline 0306  
+          __size_of_TX_print 0023                     ??_tc_int 0071                    ___latbits 0002  
+              __pcstackBANK0 0020          __end_of__stringdata 0234                     ?_TX_poll 0070  
+                  _data_read 03C0             ___lwdiv@dividend 0022                     ?___lwdiv 0020  
+                   ?___lwmod 0020              _dht11_read_byte 018F                    __pstrings 0200  
+                ??i1_TX_poll 0070             ___lwdiv@quotient 0025            interrupt_function 0004  
+                   _PIR1bits 000C             ??_dht11_response 0075                  __stringbase 020F  
+                __stringdata 0210                     _TX_print 0282             __size_of_TX_poll 0008  
+    __end_of_dht11_read_byte 01C6                 i1TX_poll@val 0070             __size_of___lwdiv 0040  
+           __size_of___lwmod 0036           __end_of__stringtab 0210           _dht11_start_signal 02A5  
+            ___lwdiv@divisor 0020          ?_dht11_start_signal 0070              ___lwdiv@counter 0024  
+                   __ptext10 0282                     __ptext11 02FB                     __ptext12 0306  
+                   __ptext13 02C1                     __ptext14 030E                __size_of_main 00B7  
+              __size_of_init 0024                __size_of_itoa 002A                __size_of_utoa 007E  
+       ??_dht11_start_signal 0075             dht11_read_byte@i 0021                     main@buff 003C  
+                   itoa@base 0031                     intlevel1 0000             ___lwmod@dividend 0022  
+                  stringcode 020A             ?_dht11_read_byte 0070                     utoa@base 0029  
+            ___lwmod@divisor 0020              ___lwmod@counter 0076                     stringdir 020A  
+                   stringtab 0200  

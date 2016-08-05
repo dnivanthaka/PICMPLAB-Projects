@@ -1,0 +1,8 @@
+_playtune: CODE, 59 0 139
+_init: CODE, 363 0 17
+_beep: CODE, 343 0 20
+_main: CODE, 289 0 54
+_tc_int: CODE, 380 0 16
+__initialization: CODE, 21 0 34
+_getready: CODE, 198 0 91
+Total: 371

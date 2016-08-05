@@ -1,0 +1,114 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Thu Feb 27 21:59:32 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000010
+                    .code       code   0x00000c    program   0x00010c
+                MAIN_PROG       code   0x000092    program   0x000036
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                  INT_VAR      udata   0x000070       data   0x000002
+                   .udata      udata   0x000120       data   0x000008
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x0000ac      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            177 out of 2182 program addresses used, program memory utilization is 8%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   Delay1   0x00007f    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay15   0x000079    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                 Delay255   0x000075    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   Delay3   0x00007d    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay30   0x000077    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   Delay5   0x00007b    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay_0   0x000085    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+                    START   0x000092    program     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+              _.code_0011   0x000086    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+              _.code_0045   0x000051    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+             _counterloop   0x000098    program     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+                 _decimal   0x0000a2    program     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+                 _decimal   0x00006a    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                       d0   0x000080    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                       d1   0x000081    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                 lcd_busy   0x00004a    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_char   0x000039    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                lcd_clear   0x000067    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                  lcd_cmd   0x00002a    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_home   0x000063    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_init   0x00000c    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              lcd_newline   0x000036    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                lcd_pulse   0x000046    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+               lcd_put_at   0x000058    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                       u0   0x00008d    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   uDelay   0x00008c    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   count1   0x000124       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   counta   0x000125       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   countb   0x000126       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   l_char   0x000122       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                    l_loc   0x000123       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 pcounter   0x000120       data     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+                     temp   0x000121       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                   ucount   0x000127       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+                 lcd_init   0x00000c    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                  lcd_cmd   0x00002a    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              lcd_newline   0x000036    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_char   0x000039    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                lcd_pulse   0x000046    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_busy   0x00004a    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              _.code_0045   0x000051    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+               lcd_put_at   0x000058    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_home   0x000063    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                lcd_clear   0x000067    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 _decimal   0x00006a    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 Delay255   0x000075    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay30   0x000077    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay15   0x000079    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   Delay5   0x00007b    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   Delay3   0x00007d    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   Delay1   0x00007f    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                       d0   0x000080    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                       d1   0x000081    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay_0   0x000085    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+              _.code_0011   0x000086    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   uDelay   0x00008c    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                       u0   0x00008d    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                    START   0x000092    program     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+             _counterloop   0x000098    program     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+                 _decimal   0x0000a2    program     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+                 pcounter   0x000120       data     static C:\Users\Dinusha\Documents\PICProjects\HD44780\MAIN.ASM
+                     temp   0x000121       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                   l_char   0x000122       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                    l_loc   0x000123       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                   count1   0x000124       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   counta   0x000125       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   countb   0x000126       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   ucount   0x000127       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+
+

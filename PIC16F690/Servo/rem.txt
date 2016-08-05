@@ -1,0 +1,39 @@
+movlw	.0
+		banksel	periodCount
+		xorwf	periodCount, w
+		btfss	STATUS, Z
+		goto	$+2
+		goto	duty_start
+
+		banksel	periodCount
+		decf	periodCount, f
+		goto	int_enable
+
+duty_start
+		movlw	0x0F
+		banksel	PORTC
+		movwf	PORTC
+
+		movlw	.0
+		banksel	dutyCount
+		xorwf	dutyCount, w
+		btfss	STATUS, Z
+		goto	$+2
+		goto	counter_reset
+
+		banksel	dutyCount
+		decf	dutyCount, f
+		goto	int_enable
+
+counter_reset
+		movlw	0x00
+		banksel	PORTC
+		movwf	PORTC
+
+		movlw	.0
+		banksel	dutyCount
+		movwf	dutyCount
+
+		movlw	.20
+		banksel	periodCount
+		movwf	periodCount

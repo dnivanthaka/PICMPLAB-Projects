@@ -1,0 +1,67 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Sun Nov 24 13:38:55 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000010
+                MAIN_PROG       code   0x00000c    program   0x00004a
+     .config_2007_INPUT.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                  INT_VAR      udata   0x000070       data   0x000002
+                   .udata      udata   0x000120       data   0x000004
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x000030      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            53 out of 2182 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                 MAINLOOP   0x000018    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+          _MAIN_PROG_0014   0x000020    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                        f   0x000031    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                    w_tmr   0x000025    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+               wait_delay   0x000022    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                   wait_s   0x000024    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+              delay_count   0x000121       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+             sample_count   0x000120       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+              scale_value   0x000123       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+              time_scaler   0x000122       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                 MAINLOOP   0x000018    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+          _MAIN_PROG_0014   0x000020    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+               wait_delay   0x000022    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                   wait_s   0x000024    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                    w_tmr   0x000025    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                        f   0x000031    program     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+             sample_count   0x000120       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+              delay_count   0x000121       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+              time_scaler   0x000122       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+              scale_value   0x000123       data     static C:\Users\Dinusha\Documents\PICProjects\InputGame3\INPUT.ASM
+
+

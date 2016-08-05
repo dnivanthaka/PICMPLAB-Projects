@@ -1,0 +1,714 @@
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;**********************************************************************
+                      00002 ;   This file is a basic code template for object module code         *
+                      00003 ;   generation on the PIC16F716. This file contains the               *
+                      00004 ;   basic code building blocks to build upon.                         *
+                      00005 ;                                                                     *
+                      00006 ;   Refer to the MPASM User's Guide for additional information on     *
+                      00007 ;   features of the assembler and linker (Document DS33014).          *
+                      00008 ;                                                                     *
+                      00009 ;   Refer to the respective PIC data sheet for additional             *
+                      00010 ;   information on the instruction set.                               *
+                      00011 ;                                                                     *
+                      00012 ;**********************************************************************
+                      00013 ;                                                                     *
+                      00014 ;    Filename:      xxx.asm                                           *
+                      00015 ;    Date:                                                            *
+                      00016 ;    File Version:                                                    *
+                      00017 ;                                                                     *
+                      00018 ;    Author:                                                          *
+                      00019 ;    Company:                                                         *
+                      00020 ;                                                                     *
+                      00021 ;                                                                     *
+                      00022 ;**********************************************************************
+                      00023 ;                                                                     *
+                      00024 ;    Files required: P16F716.INC                                      *
+                      00025 ;                                                                     *
+                      00026 ;                                                                     *
+                      00027 ;                                                                     *
+                      00028 ;**********************************************************************
+                      00029 ;                                                                     *
+                      00030 ;    Notes:                                                           *
+                      00031 ;                                                                     *
+                      00032 ;                                                                     *
+                      00033 ;                                                                     *
+                      00034 ;                                                                     *
+                      00035 ;**********************************************************************
+                      00036 
+                      00037     list      p=16F716              ; list directive to define processor
+                      00038     #include <p16F716.inc>          ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F716 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2011 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00370         LIST
+                      00039 
+                      00040     errorlevel  -302                ; suppress message 302 from list file
+                      00041 
+                      00042 ; '__CONFIG' directive is used to embed configuration word within .asm file.
+                      00043 ; The lables following the directive are located in the respective .inc file.
+                      00044 ; See data sheet for additional information on configuration word settings.
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00045 
+                      00046     ;__CONFIG    _CP_OFF & _VBOR_25 & _BOREN_OFF & _PWRTE_ON & _WDT_OFF & _HS_OSC
+2007   3F76           00047         __CONFIG    _CP_OFF & _VBOR_25 & _BOREN_ON & _PWRTE_ON & _WDT_ON & _HS_OSC
+                      00048 
+                      00049 ; External Functions ***************************************************
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00050 EXTERN uDelay
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00051 EXTERN mDelay
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00052 EXTERN sDelay
+                      00053 
+                      00054 ;***********************************************************************
+                      00055 
+                      00056 ;***** VARIABLE DEFINITIONS (examples)
+                      00057 #define PWM1            PORTB, RB0
+                      00058 #define PWM1_TRIS       TRISB, RB0
+                      00059 
+                      00060 #define PWM2            PORTB, RB1
+                      00061 #define PWM2_TRIS       TRISB, RB1
+                      00062 
+                      00063 ; example of using Shared Uninitialized Data Section
+                      00064 INT_VAR     UDATA    
+0000                  00065 w_temp      RES     1       ; variable used for context saving 
+0001                  00066 status_temp RES     1       ; variable used for context saving
+0002                  00067 sPORTB          RES             1               ; Shadow PORTB
+0003                  00068 periodc         RES             1               ; Period Counter
+0004                  00069 PWM1_duty       RES             1               ; PWM1 duty counter
+0005                  00070 PWM2_duty       RES             1               ; PWM2 duty counter
+0006                  00071 temp            RES             1
+0007                  00072 temp2           RES             1
+                      00073 
+0008                  00074 PWM1_value      RES             1
+0009                  00075 PWM2_value      RES             1
+                      00076 
+                      00077 INT_VAR1    UDATA   
+0000                  00078 w1_temp     RES 1           ; bank 1 w_temp register
+                      00079 
+                      00080 ;**********************************************************************
+                      00081 RESET_VECTOR    CODE    0x0000  ; processor reset vector
+0000   2???           00082         goto    start           ; go to beginning of program
+                      00083 
+                      00084 INT_VECTOR      CODE    0x0004  ; interrupt vector location
+                      00085 
+0004                  00086 INTERRUPT
+                      00087                 
+0004   00??           00088         movwf   w_temp          ; save off current W register contents
+0005   0803           00089         movf    STATUS,w        ; move status register into W register
+0006   1283           00090         bcf STATUS,RP0  ; select bank0
+0007   00??           00091         movwf   status_temp     ; save off contents of STATUS register
+                      00092 
+0008   0064           00093                 clrwdt
+                      00094 
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0009   ????           00095                 banksel periodc
+000A   0B??           00096                 decfsz  periodc, f
+000B   2???           00097                 goto    channel_0
+                      00098         
+000C   307F           00099                 movlw   .127
+000D   00??           00100                 movwf   periodc
+                      00101         
+000E   ????           00102                 banksel PWM1_value
+000F   08??           00103                 movf    PWM1_value, w
+                      00104                 ;movlw  .10
+0010   ????           00105                 banksel PWM1_duty
+0011   00??           00106                 movwf   PWM1_duty
+                      00107         
+                      00108                 ;banksel        PORTB
+                      00109                 ;bsf            PWM1
+                      00110                 ;bsf            PWM2
+                      00111                 ;movlw  b'00000101'
+0012   300F           00112                 movlw   b'00001111'
+                      00113                 ;movlw  b'00000110'
+0013   ????           00114                 banksel sPORTB
+0014   00??           00115                 movwf   sPORTB
+                      00116         
+0015   ????           00117                 banksel PWM2_value
+0016   08??           00118                 movf    PWM2_value, w
+                      00119                 ;movlw  .100
+0017   ????           00120                 banksel PWM2_duty
+0018   00??           00121                 movwf   PWM2_duty
+                      00122 
+                      00123         
+0019                  00124 channel_0
+0019   ????           00125                 banksel periodc
+001A   08??           00126                 movf    periodc, w
+001B   ????           00127                 banksel PWM1_duty
+001C   02??           00128                 subwf   PWM1_duty, w
+001D   ????           00129                 banksel sPORTB
+001E   1903           00130                 btfsc   STATUS, Z
+001F   1000           00131                 bcf             sPORTB, RB0
+                      00132 
+0020                  00133 channel_1
+0020   ????           00134                 banksel periodc
+0021   08??           00135                 movf    periodc, w
+0022   ????           00136                 banksel PWM2_duty
+0023   02??           00137                 subwf   PWM2_duty, w
+0024   ????           00138                 banksel sPORTB
+0025   1903           00139                 btfsc   STATUS, Z
+0026   1080           00140                 bcf             sPORTB, RB1
+                      00141         
+0027                  00142 _duty_done
+                      00143                 ;Updating PORTB
+0027   ????           00144                 banksel sPORTB
+0028   08??           00145                 movf    sPORTB, w
+                      00146                 
+0029   1283           00147                 banksel PORTB
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+002A   0086           00148                 movwf   PORTB
+                      00149         
+                      00150                 ; Enabling Interrupts Again
+002B   30E4           00151                 movlw   .228
+002C   1283           00152                 banksel TMR0    
+                      00153                 ;clrf   TMR0
+002D   0081           00154                 movwf   TMR0
+                      00155         
+002E   1283           00156                 banksel INTCON
+002F   110B           00157                 bcf             INTCON, TMR0IF
+                      00158 
+                      00159 
+0030   1283           00160         bcf     STATUS,RP0      ; select bank0
+0031   08??           00161         movf    status_temp,W   ; retrieve copy of STATUS register
+0032   0083           00162         movwf   STATUS          ; restore pre-isr STATUS register contents
+0033   0E??           00163         swapf   w_temp,F
+0034   0E??           00164         swapf   w_temp,W        ; restore pre-isr W register contents
+0035   0009           00165         retfie                  ; return from interrupt
+                      00166        
+                      00167 MAIN_PROG       CODE
+                      00168 
+0000                  00169 start
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00170         pagesel init
+0000   2???           00171         call    init
+                      00172 
+                      00173         ;movlw  b'00000101'
+                      00174         ;movlw  b'00001111'
+                      00175         ;banksel        PORTB
+                      00176         ;movwf  PORTB
+                      00177 
+                      00178         ;goto $
+                      00179 
+0001                  00180 loop
+0001   0064           00181         clrwdt
+                      00182 ; A/D Conversion Channel 0 ---------------------------
+                      00183 
+0002   3081           00184         movlw   b'10000001'
+0003   1283           00185         banksel ADCON0
+0004   009F           00186         movwf   ADCON0
+                      00187 
+                      00188         ;clrwdt
+                      00189 
+                      00190         ; Waiting for the aquisition time
+0005   3014           00191         movlw   .20
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00192         pagesel uDelay
+0006   2???           00193         call    uDelay
+                      00194 
+                      00195         ;clrwdt
+                      00196 
+0007   1283           00197         banksel ADCON0
+0008   151F           00198         bsf             ADCON0, GO_DONE
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00199 
+0009   191F           00200         btfsc   ADCON0, GO_DONE
+000A   2???           00201         goto    $-1
+                      00202 
+000B   0064           00203         clrwdt
+                      00204 
+000C   1283           00205         banksel ADRES
+000D   081E           00206         movf    ADRES, w
+                      00207 
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00208         pagesel scale
+000E   2???           00209         call    scale
+                      00210 
+                      00211         ;Turning off A/D
+000F   1283           00212         banksel ADCON0
+0010   101F           00213         bcf             ADCON0, ADON
+                      00214 
+                      00215         ;movlw  .100            
+                      00216 
+0011   ????           00217         banksel PWM1_value
+0012   00??           00218         movwf   PWM1_value
+                      00219 
+                      00220 ;-----------------------------------------------------
+                      00221         ;clrwdt
+                      00222 
+0013   3014           00223         movlw   .20
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00224         pagesel uDelay
+0014   2???           00225         call    uDelay
+                      00226 
+                      00227         ;clrwdt
+                      00228 
+                      00229 ; A/D Conversion Channel 1 ---------------------------
+                      00230 
+0015   3089           00231         movlw   b'10001001'
+0016   1283           00232         banksel ADCON0
+0017   009F           00233         movwf   ADCON0
+                      00234 
+                      00235         ;clrwdt
+                      00236 
+                      00237         ; Waiting for the aquisition time
+0018   3014           00238         movlw   .20
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00239         pagesel uDelay
+0019   2???           00240         call    uDelay
+                      00241 
+                      00242         ;clrwdt
+                      00243 
+001A   1283           00244         banksel ADCON0
+001B   151F           00245         bsf             ADCON0, GO_DONE
+                      00246 
+001C   191F           00247         btfsc   ADCON0, GO_DONE
+001D   2???           00248         goto    $-1
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00249 
+001E   0064           00250         clrwdt
+                      00251 
+001F   1283           00252         banksel ADRES
+0020   081E           00253         movf    ADRES, w
+                      00254 
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00255         pagesel scale
+0021   2???           00256         call    scale
+                      00257 
+                      00258         ;Turning off A/D
+0022   1283           00259         banksel ADCON0
+0023   101F           00260         bcf             ADCON0, ADON
+                      00261 
+                      00262         ;movf   temp, w
+                      00263 
+                      00264         ;movlw  .255
+                      00265         ;movlw  .127
+                      00266         ;movlw  .0
+0024   ????           00267         banksel PWM2_value
+0025   00??           00268         movwf   PWM2_value
+                      00269 
+                      00270 ;----------------------------------------------------
+                      00271         ;clrwdt
+                      00272 
+0026   3014           00273         movlw   .20
+Message[312]: Page or Bank selection not needed for this device.  No code generated.
+                      00274         pagesel uDelay
+0027   2???           00275         call    uDelay
+                      00276 
+                      00277         ;clrwdt
+                      00278 
+0028   2???           00279     goto loop
+                      00280 
+                      00281 
+                      00282 ;----------------------------------------------------
+                      00283 ; Scaling the readings
+                      00284 ;----------------------------------------------------
+                      00285 
+0029                  00286 scale
+0029   ????           00287         banksel temp
+002A   00??           00288         movwf   temp
+                      00289         
+002B   1003           00290         bcf             STATUS, C
+002C   0C??           00291         rrf             temp, w
+                      00292         ;movlw  .100
+                      00293 
+002D   0008           00294         return
+                      00295 
+                      00296 ;----------------------------------------------------
+                      00297 ;----------------------------------------------------
+                      00298 ; Initialization of the device
+                      00299 ;----------------------------------------------------
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+002E                  00300 init
+                      00301 
+002E   ????           00302         banksel sPORTB
+002F   01??           00303         clrf    sPORTB
+                      00304 
+                      00305         ; Switching to bank 0
+0030   1283           00306         bcf     STATUS, RP0
+0031   1303           00307         bcf     STATUS, RP1
+                      00308 
+0032   0186           00309         clrf    PORTB
+0033   0185           00310         clrf    PORTA
+                      00311         ;movlw  0
+                      00312         ;movwf  PWM1
+                      00313 
+0034   0064           00314         clrwdt
+                      00315 
+                      00316         ; Switching to bank 1
+0035   1683           00317         bsf     STATUS, RP0
+                      00318         ;bcf    STATUS, RP1
+                      00319 
+                      00320         ;movlw  b'11111001'
+                      00321         ;movwf  TRISB
+0036   1683           00322         banksel TRISB
+0037   0186           00323         clrf    TRISB
+                      00324         ;bcf    PWM1_TRIS
+                      00325         ;bcf    PWM2_TRIS
+                      00326 
+0038   1683           00327         banksel TRISA
+0039   1405           00328         bsf             TRISA, RA0
+003A   1485           00329         bsf             TRISA, RA1
+                      00330 
+                      00331         ; Switching to bank 0
+003B   1283           00332         bcf     STATUS, RP0
+                      00333 
+                      00334 ;----------------------------------------------------
+                      00335 
+                      00336         ; Setting up A/D
+                      00337         ;movlw  b'00000101'
+                      00338         ;movlw  b'00001110'
+003C   3004           00339         movlw   b'00000100'
+003D   1683           00340         banksel ADCON1
+003E   009F           00341         movwf   ADCON1
+                      00342 
+                      00343         ;movlw  b'10000001'
+003F   3080           00344         movlw   b'10000000'
+                      00345         ;movlw  b'01000000'
+0040   1283           00346         banksel ADCON0
+0041   009F           00347         movwf   ADCON0
+                      00348 
+0042   0064           00349         clrwdt
+                      00350         
+                      00351         ;nop
+                      00352         ;nop
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00353         ;nop
+                      00354         ;nop
+                      00355         ;nop
+                      00356         ; Waiting for the aquisition time
+                      00357         ;movlw  .20
+                      00358         ;pagesel        uDelay
+                      00359         ;call   uDelay
+                      00360 
+                      00361 ;----------------------------------------------------
+                      00362 
+                      00363         ; Setting TMR0 Interrupt
+                      00364         ; 1:2 Prescalar -> 0.2us * 2 * 256 = 100us
+0043   3000           00365         movlw   b'00000000'
+0044   1683           00366         banksel OPTION_REG
+0045   0081           00367         movwf   OPTION_REG
+                      00368 
+                      00369         ; Enabling GIE & TMR0IE
+0046   30A0           00370         movlw   b'10100000'
+0047   1283           00371         banksel INTCON
+0048   008B           00372         movwf   INTCON
+                      00373         
+0049   0064           00374         clrwdt
+                      00375 
+                      00376         ; Initializing variables
+004A   ????           00377         banksel periodc
+004B   01??           00378         clrf    periodc
+                      00379 
+004C   ????           00380         banksel PWM1_value
+004D   01??           00381         clrf    PWM1_value
+                      00382 
+004E   ????           00383         banksel PWM2_value
+004F   01??           00384         clrf    PWM2_value
+                      00385 
+                      00386         ; 256 - 228 = 28
+0050   30E4           00387         movlw   .228    
+0051   1283           00388         banksel TMR0
+                      00389         ;clrf   TMR0
+0052   0081           00390         movwf   TMR0
+                      00391 
+0053   0064           00392         clrwdt
+                      00393 
+0054   0008           00394         return
+                      00395 
+                      00396 ;----------------------------------------------------
+3F76                  00397         END                     ; directive 'end of program'
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRES                             0000001E
+C                                 00000000
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+DATACCP                           00000006
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+DCCP                              00000003
+DT1CK                             00000001
+ECCPAS                            00000019
+ECCPAS0                           00000004
+ECCPAS1                           00000005
+ECCPAS2                           00000006
+ECCPASE                           00000007
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+GO_NOT_DONE                       00000002
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTERRUPT                         00000004
+INTF                              00000001
+IRP                               00000007
+NOT_BO                            00000000
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OPTION_REG                        00000081
+P1M0                              00000006
+P1M1                              00000007
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PDC0                              00000000
+PDC1                              00000001
+PDC2                              00000002
+PDC3                              00000003
+PDC4                              00000004
+PDC5                              00000005
+PDC6                              00000006
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PRSEN                             00000007
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSSAC0                            00000002
+PSSAC1                            00000003
+PSSBD0                            00000000
+PSSBD1                            00000001
+PWM1                              PORTB, RB0
+PWM1CON                           00000018
+PWM1_TRIS                         TRISB, RB0
+PWM1_duty                         00000004
+PWM1_value                        00000008
+PWM2                              PORTB, RB1
+PWM2_TRIS                         TRISB, RB1
+PWM2_duty                         00000005
+PWM2_value                        00000009
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RP0                               00000005
+RP1                               00000006
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TCCP                              00000003
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISCP                            00000086
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TT1CK                             00000001
+W                                 00000000
+Z                                 00000002
+_BODENV_25                        00003F7F
+_BODENV_40                        00003FFF
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CP_ALL                           00001FFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DEVID1                           00002006
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_RC                          00003FFF
+_FOSC_XT                          00003FFD
+_HS_OSC                           00003FFE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_LP_OSC                           00003FFC
+_MAIN_PROG_000A                   0000000A
+_MAIN_PROG_001D                   0000001D
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_VBOR_25                          00003F7F
+_VBOR_40                          00003FFF
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F716                          00000001
+__DEBUG                           1
+_duty_done                        00000027
+channel_0                         00000019
+channel_1                         00000020
+init                              0000002E
+loop                              00000001
+mDelay                            00000000
+periodc                           00000003
+sDelay                            00000000
+sPORTB                            00000002
+scale                             00000029
+start                             00000000
+status_temp                       00000001
+temp                              00000006
+temp2                             00000007
+uDelay                            00000000
+MPASM  5.43                          MAIN.ASM   8-17-2014  19:53:14         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+w1_temp                           00000000
+w_temp                            00000000
+
+Errors   :     0
+Warnings :     3 reported,     0 suppressed
+Messages :     7 reported,     5 suppressed
+
+

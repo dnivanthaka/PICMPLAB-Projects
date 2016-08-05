@@ -1,0 +1,580 @@
+MPASM  5.43                         INPUT.ASM   12-8-2013  22:14:29         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;**********************************************************************
+                      00002 ;   This file is a basic code template for object module code         *
+                      00003 ;   generation on the PIC16F628A. This file contains the              *
+                      00004 ;   basic code building blocks to build upon.                         *
+                      00005 ;                                                                     *
+                      00006 ;   Refer to the MPASM User's Guide for additional information on     *
+                      00007 ;   features of the assembler and linker (Document DS33014).          *
+                      00008 ;                                                                     *
+                      00009 ;   Refer to the respective PIC data sheet for additional             *
+                      00010 ;   information on the instruction set.                               *
+                      00011 ;                                                                     *
+                      00012 ;**********************************************************************
+                      00013 ;                                                                     *
+                      00014 ;    Filename:        xxx.asm                                         *
+                      00015 ;    Date:                                                            *
+                      00016 ;    File Version:                                                    *
+                      00017 ;                                                                     *
+                      00018 ;    Author:                                                          *
+                      00019 ;    Company:                                                         *
+                      00020 ;                                                                     *
+                      00021 ;                                                                     *
+                      00022 ;**********************************************************************
+                      00023 ;                                                                     *
+                      00024 ;    Files required: P16F628A.INC                                     *
+                      00025 ;                                                                     *
+                      00026 ;**********************************************************************
+                      00027 ;                                                                     *
+                      00028 ;    Notes:                                                           *
+                      00029 ;                                                                     *
+                      00030 ;**********************************************************************
+                      00031 
+                      00032     list      p=16F628A           ; list directive to define processor
+                      00033     #include <p16F628A.inc>       ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F628A processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2011 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00383         LIST
+                      00034 
+                      00035     errorlevel  -302              ; suppress message 302 from list file
+                      00036 
+                      00037     ;__CONFIG   _CP_OFF & _DATA_CP_OFF & _LVP_OFF & _BOREN_OFF & _MCLRE_ON & _WDT_OFF & _PWRTE_ON & _INT
+                            OSC_OSC_NOCLKOUT
+2007   3F61           00038         __CONFIG   _XT_OSC & _LVP_OFF & _WDT_OFF & _PWRTE_ON & _BODEN_ON 
+                      00039 
+                      00040 ; '__CONFIG' directive is used to embed configuration word within .asm file.
+                      00041 ; The lables following the directive are located in the respective .inc file.
+                      00042 ; See data sheet for additional information on configuration word settings.
+                      00043 
+MPASM  5.43                         INPUT.ASM   12-8-2013  22:14:29         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Warning[205]: Found directive in column 1. (radix)
+                      00044 radix dec
+                      00045 
+                      00046 ;***** VARIABLE DEFINITIONS (examples)
+                      00047 
+                      00048 ; example of using Shared Uninitialized Data Section
+                      00049 INT_VAR        UDATA_SHR     
+0000                  00050 w_temp         RES     1        ; variable used for context saving 
+0001                  00051 status_temp    RES     1        ; variable used for context saving
+                      00052 ;sGPIO             RES     1        ; Shadow GPIO
+                      00053 ;constant MAXRT=.200
+                      00054 ;#define LED1 PORTB, RB0
+                      00055 ;#define LED2 PORTB, RB2
+                      00056 
+                      00057                            UDATA 
+0000                  00058 sample_count   RES     1        ; variable used for sampling
+0001                  00059 delay_count    RES     1        ; variable used for sampling
+0002                  00060 time_scaler    RES     1
+                      00061 ;flash_counter    RES     1
+                      00062 ;flash_counter_2  RES     1
+0003                  00063 scale_value      RES     1
+0004                  00064 counter_value_1  RES     1
+0005                  00065 counter_value_2  RES     1
+0006                  00066 mpx_cnt                  RES     1
+                      00067 
+                      00068 ;DelayMS MACRO ms
+                      00069 ;               movlw ms/.10
+                      00070 ;               pagesel delay10
+                      00071 ;               call delay10
+                      00072 ;               pagesel $
+                      00073 ;               ENDM
+                      00074 
+                      00075 
+                      00076 ;**********************************************************************
+                      00077 RESET_VECTOR    CODE   0x0000     ; processor reset vector
+0000   2???           00078         goto    START             ; go to beginning of program
+                      00079     
+                      00080 INT_VECTOR    CODE    0x0004      ; interrupt vector location
+                      00081 
+0004                  00082 INTERRUPT
+                      00083 
+0004   00??           00084         movwf   w_temp            ; save off current W register contents
+0005   0803           00085         movf    STATUS,w          ; move status register into W register
+0006   00??           00086         movwf   status_temp       ; save off contents of STATUS register
+                      00087 
+                      00088 
+                      00089 ; isr code can go here or be located as a call subroutine elsewhere
+                      00090 
+                      00091 
+0007   08??           00092         movf    status_temp,w     ; retrieve copy of STATUS register
+0008   0083           00093         movwf   STATUS            ; restore pre-isr STATUS register contents
+0009   0E??           00094         swapf   w_temp,f
+000A   0E??           00095         swapf   w_temp,w          ; restore pre-isr W register contents
+MPASM  5.43                         INPUT.ASM   12-8-2013  22:14:29         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000B   0009           00096         retfie                    ; return from interrupt
+                      00097 
+                      00098 MAIN_PROG     CODE
+                      00099 
+0000                  00100 START
+                      00101 ; remaining code goes here
+                      00102         
+0000   0186           00103           clrf PORTB
+0001   0185           00104           clrf PORTA
+0002   1786           00105           bsf PORTB, RB7                ; setting RB7 as input
+0003   1405           00106           bsf PORTA, RA0
+0004   1585           00107           bsf PORTA, RA3
+0005   1683           00108           bsf  STATUS, RP0            ; Switching to bank 1
+                      00109           ;clrf TRISA
+                      00110           ; Enabling weak pull-ups
+                      00111 
+0006   3057           00112           movlw b'01010111'
+                      00113                           ;0-------                             ; Weak pull up enable
+                      00114                           ;--0-----                             ;Timer mode (T0CS = 0)
+                      00115                           ;----0---                             ;Prescaler assigned to Timer0 (PSA = 0)
+                      00116                           ;-----111                             ;Prescale = 256 (PS = 111)
+Warning[224]: Use of this instruction is not recommended.
+0007   0062           00117           option
+0008   0186           00118           clrf TRISB
+0009   0185           00119           clrf TRISA
+000A   1786           00120           bsf TRISB, TRISB7     
+000B   1405           00121           bsf TRISA, TRISA0
+000C   1485           00122           bsf TRISA, TRISA1
+000D   1505           00123           bsf TRISA, TRISA2     
+000E   1585           00124           bsf TRISA, TRISA3
+000F   1283           00125           bcf  STATUS, RP0            ; Switching back to bank 0
+                      00126 
+                      00127           ;bcf PORTB, RB0
+                      00128           ;bcf PORTB, RB1
+                      00129 
+                      00130           ;bcf PORTA, RA0
+                      00131           ;bsf PORTA, RA1
+                      00132           ;bcf PORTA, RA1
+                      00133           ;bsf PORTA, RA1
+                      00134           ;bsf PORTA, RA2
+0010   307F           00135           movlw b'1111111'
+0011   0086           00136           movwf PORTB
+                      00137 
+                      00138 ; 
+                      00139 ; ------------------------ 
+                      00140 ; FUNCTION OF PORT A PINS 
+                      00141 ; ------------------------ 
+                      00142 ; 
+                      00143       ;MOVLW    7 
+                      00144       ;MOVWF    CMCON ; Comparators off, all pins digital I/O
+                      00145                 ;movlw 1<<C1OUT|1<<CIS|1<<CM2|0<<CM1|0<<CM0 
+0012   304A           00146                 movlw 1<<C1OUT|1<<CIS|0<<CM2|1<<CM1|0<<CM0
+                      00147                 ;movlw 1<<C1OUT|1<<CIS
+MPASM  5.43                         INPUT.ASM   12-8-2013  22:14:29         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0013   009F           00148                 movwf CMCON
+                      00149 
+0014   30AC           00150                 movlw 1<<VREN|0<<VROE|1<<VRR|1<<VR3|1<<VR2|0<<VR1|0<<VR0
+0015   009F           00151                 movwf VRCON
+                      00152                 ;movlw 4
+                      00153                 ;MOVWF    CMCON
+                      00154 
+0016   307F           00155                 movlw b'1111111'
+0017   0086           00156                 movwf PORTB
+                      00157 
+0018                  00158 MAINLOOP
+                      00159                 ;clrf TMR0
+                      00160                 ;clrf counter_value_1
+                      00161                 ;movlw 0x09
+                      00162                 ;movwf counter_value_1
+                      00163                 ;movwf counter_value_2
+                      00164                 ;bcf PORTA, RA1
+                      00165             ;bcf PORTA, RA2
+                      00166                 ;bsf PORTB, RB7
+                      00167                 ;movlw 1000000/2048/2
+                      00168                 ;movwf mpx_cnt
+                      00169 
+                      00170 
+0018   1B1F           00171                 btfsc CMCON, C1OUT
+0019   3001           00172                 movlw .1
+001A   1F1F           00173                 btfss CMCON, C1OUT
+001B   3000           00174                 movlw .0
+                      00175                 
+                      00176 
+                      00177                 ;clrf flash_counter
+                      00178                 ;clrf flash_counter_2
+                      00179 
+                      00180                 ;clrf time_scaler
+                      00181                 
+                      00182                 ;movlw .1
+001C   2???           00183                 call get7sc
+001D   0086           00184                 movwf PORTB
+                      00185                 ;call wait_delay
+                      00186                 ;movlw .1
+                      00187                 ;call get7sc
+                      00188                 ;movwf PORTB
+                      00189                 ;call wait_delay
+                      00190 
+001E   2???           00191                 goto MAINLOOP
+                      00192 ;               clrf time_scaler
+                      00193 
+                      00194                 
+001F                  00195 wait_delay
+                      00196                 ;movwf scale_value
+001F   01??           00197                 clrf time_scaler
+0020                  00198 wait_s
+0020   0181           00199                 clrf TMR0
+0021                  00200 w_tmr
+MPASM  5.43                         INPUT.ASM   12-8-2013  22:14:29         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0021   0801           00201                 movf TMR0, w    
+0022   3AFA           00202                 xorlw .250
+0023   1D03           00203                 btfss STATUS, Z
+0024   2???           00204                 goto w_tmr                      ;(250 * 32 = 8ms)
+                      00205                 ;movwf sample_count
+0025   0A??           00206                 incf time_scaler, f
+                      00207                 ;movfw scale_value
+0026   307D           00208                 movlw .125
+0027   06??           00209                 xorwf time_scaler, w
+0028   1D03           00210                 btfss STATUS, Z
+0029   2???           00211                 goto wait_s
+002A   0008           00212                 return
+                      00213                 ;retlw 0
+                      00214                 
+                      00215 
+002B                  00216 get7sc
+002B   0782           00217                 addwf PCL, f
+                      00218                 ;retlw b'1011111'               ;0
+002C   3410           00219                 retlw b'0010000'                ;0
+                      00220                 ;retlw b'0000110'               ;1
+                      00221                 ;retlw b'1111001'               ;1
+002D   347C           00222                 retlw b'1111100'                ;1
+002E   3422           00223                 retlw b'0100010'                ;2
+002F   3428           00224                 retlw b'0101000'                ;3
+0030   344C           00225                 retlw b'1001100'                ;4
+0031   3409           00226                 retlw b'0001001'                ;5
+0032   3401           00227                 retlw b'0000001'                ;6
+0033   341C           00228                 retlw b'0011100'                ;7
+0034   3400           00229                 retlw b'0000000'                ;8
+0035   340C           00230                 retlw b'0001100'                ;9
+                      00231 
+                      00232 ;flash_led
+                      00233 ;               bcf PORTB, RB1
+                      00234 ;               call delay_timer
+                      00235 ;               bsf PORTB, RB1
+                      00236 ;               call delay_timer
+                      00237 ;               bcf PORTB, RB1
+                      00238 ;               call delay_timer
+                      00239                 ;incfsz flash_counter, f
+                      00240                 ;goto flash_led
+                      00241                 ;movlw .75
+                      00242                 ;incf flash_counter_2, f
+                      00243                 ;xorwf flash_counter_2, w
+                      00244                 ;btfss STATUS, Z
+                      00245                 ;goto flash_led
+                      00246                 ;bsf PORTB, RB1
+                      00247 ;               return
+                      00248 ;delay_timer
+                      00249 ;               incfsz flash_counter, f
+                      00250 ;               goto delay_timer
+                      00251 ;               movlw .75
+                      00252 ;               incf flash_counter_2, f
+                      00253 ;               xorwf flash_counter_2, w
+MPASM  5.43                         INPUT.ASM   12-8-2013  22:14:29         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00254 ;               btfss STATUS, Z
+                      00255 ;               goto delay_timer
+                      00256 ;               return
+                      00257 ; initialize eeprom locations
+                      00258 
+                      00259 EE        CODE    0x2100
+2100   0000 0001 0002 00260         DE    0x00, 0x01, 0x02, 0x03
+       0003 
+                      00261 
+3F61                  00262         END                       ; directive 'end of program'
+MPASM  5.43                         INPUT.ASM   12-8-2013  22:14:29         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADDEN                             00000003
+ADEN                              00000003
+BRGH                              00000002
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000001F
+CMIE                              00000006
+CMIF                              00000006
+CREN                              00000004
+CSRC                              00000007
+DATA_CP_OFF                       00003FFF
+DATA_CP_ON                        00003EFF
+DC                                00000001
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTERRUPT                         00000004
+INTF                              00000001
+IRP                               00000007
+MAINLOOP                          00000018
+NOT_BO                            00000000
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+MPASM  5.43                         INPUT.ASM   12-8-2013  22:14:29         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OERR                              00000001
+OPTION_REG                        00000081
+OSCF                              00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RA7                               00000007
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+RX9                               00000006
+RX9D                              00000000
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+START                             00000000
+STATUS                            00000003
+MPASM  5.43                         INPUT.ASM   12-8-2013  22:14:29         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISA6                            00000006
+TRISA7                            00000007
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRMT                              00000001
+TX9                               00000006
+TX9D                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+MPASM  5.43                         INPUT.ASM   12-8-2013  22:14:29         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TXREG                             00000019
+TXSTA                             00000098
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             0000009F
+VREN                              00000007
+VROE                              00000006
+VRR                               00000005
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DEVID1                           00002006
+_ER_OSC_CLKOUT                    00003FFF
+_ER_OSC_NOCLKOUT                  00003FFE
+_EXTCLK_OSC                       00003FEF
+_FOSC_ECIO                        00003FEF
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FEE
+_FOSC_INTOSCCLK                   00003FFD
+_FOSC_INTOSCIO                    00003FFC
+_FOSC_LP                          00003FEC
+_FOSC_XT                          00003FED
+_HS_OSC                           00003FEE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INTOSC_OSC_CLKOUT                00003FFD
+_INTOSC_OSC_NOCLKOUT              00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FEC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC_CLKOUT                    00003FFF
+MPASM  5.43                         INPUT.ASM   12-8-2013  22:14:29         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_RC_OSC_NOCLKOUT                  00003FFE
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FED
+__16F628A                         00000001
+__DEBUG                           1
+counter_value_1                   00000004
+counter_value_2                   00000005
+delay_count                       00000001
+get7sc                            0000002B
+mpx_cnt                           00000006
+sample_count                      00000000
+scale_value                       00000003
+status_temp                       00000001
+time_scaler                       00000002
+w_temp                            00000000
+w_tmr                             00000021
+wait_delay                        0000001F
+wait_s                            00000020
+
+Errors   :     0
+Warnings :     2 reported,     0 suppressed
+Messages :     0 reported,     8 suppressed
+
+

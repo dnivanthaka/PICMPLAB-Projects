@@ -1,0 +1,81 @@
+MPASM  5.43                        DELAYS.ASM   7-8-2014  22:08:35         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; Delay Routines for PIC877A with a 20Mhz clock
+                      00002 
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00003 GLOBAL uDelay
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00004 GLOBAL mDelay
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00005 GLOBAL sDelay
+                      00006 
+                      00007 
+Warning[205]: Found directive in column 1. (UDATA)
+                      00008 UDATA
+0000                  00009 ucount                  RES     1
+0001                  00010 mcount                  RES     1
+0002                  00011 scount                  RES     1
+                      00012 
+                      00013 ;******************** Subroutines **********************
+Warning[205]: Found directive in column 1. (CODE)
+                      00014 CODE
+                      00015 
+0000                  00016 uDelay
+0000   00??           00017                 movwf   ucount
+0001                  00018 u0
+0001   0000           00019                 nop
+0002   0000           00020                 nop
+0003   0B??           00021                 decfsz  ucount, f
+0004   2???           00022                 goto    u0
+0005   0008           00023                 return
+                      00024 
+0006                  00025 mDelay
+0006   00??           00026                 movwf   mcount
+0007   30FF           00027                 movlw   0xFF
+0008                  00028 m0
+0008   2???           00029                 call    uDelay
+0009   0B??           00030                 decfsz  mcount, f
+000A   2???           00031                 goto    m0      
+000B   0008           00032                 return
+000C                  00033 sDelay
+                      00034                 ;movlw  0x01
+000C   00??           00035                 movwf   scount
+000D   30FF           00036                 movlw   0xFF
+000E                  00037 s0
+000E   2???           00038                 call    mDelay
+000F   2???           00039                 call    mDelay
+0010   2???           00040                 call    mDelay
+0011   2???           00041                 call    mDelay
+0012   0B??           00042                 decfsz  scount, f
+0013   2???           00043                 goto    s0      
+0014   0008           00044                 return
+                      00045 
+Warning[205]: Found directive in column 1. (END)
+                      00046 END
+MPASM  5.43                        DELAYS.ASM   7-8-2014  22:08:35         PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+__16F877A                         00000001
+__DEBUG                           1
+m0                                00000008
+mDelay                            00000006
+mcount                            00000001
+s0                                0000000E
+sDelay                            0000000C
+scount                            00000002
+u0                                00000001
+uDelay                            00000000
+ucount                            00000000
+
+Errors   :     0
+Warnings :     6 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

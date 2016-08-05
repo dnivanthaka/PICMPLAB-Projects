@@ -1,0 +1,117 @@
+MPASM  5.43                        DELAYS.ASM   3-2-2014  21:08:03         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00001 GLOBAL Delay255
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00002 GLOBAL Delay30
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00003 GLOBAL Delay15
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00004 GLOBAL Delay5
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00005 GLOBAL Delay3
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00006 GLOBAL Delay1
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00007 GLOBAL uDelay
+                      00008 
+Warning[205]: Found directive in column 1. (UDATA)
+                      00009 UDATA
+0000                  00010 count1         RES 1       ;variable used in delay routines.
+0001                  00011 counta         RES 1       ;variable used in delay routines.
+0002                  00012 countb         RES 1       ;variable used in delay routines.
+0003                  00013 ucount                  RES     1
+                      00014 
+                      00015 ;******************** Subroutines **********************
+Warning[205]: Found directive in column 1. (CODE)
+                      00016 CODE
+                      00017 ;______________________________________________________________________________________________
+                      00018 ;Delays originated here: http://www.winpicprog.co.uk/pic_tutorial3.htm
+                      00019 ;All delays here assume a 4Mhz clock.
+0000                  00020 Delay255
+0000   30FF           00021         movlw   .255            ;delay 255ms.
+0001   2???           00022         goto    d0
+0002                  00023 Delay30
+0002   301E           00024         movlw   .30             ;delay 30mS.
+0003   2???           00025         goto    d0
+0004                  00026 Delay15 
+0004   300F           00027                 movlw   .15
+0005   2???           00028                 goto    d0
+0006                  00029 Delay5
+0006   3005           00030         movlw   .5              ;delay 5ms.
+0007   2???           00031         goto    d0
+0008                  00032 Delay3
+0008   3003           00033         movlw   .3              ;delay 3ms.
+0009   2???           00034         goto    d0
+000A                  00035 Delay1
+000A   3001           00036         movlw   .1              ;delay 1mS.
+                      00037                 
+000B   00??           00038 d0      movwf   count1
+000C   30C7           00039 d1      movlw   0xC7
+000D   00??           00040         movwf   counta
+000E   3001           00041         movlw   0x01
+000F   00??           00042         movwf   countb
+0010                  00043 Delay_0
+Message[305]: Using default destination of 1 (file).
+MPASM  5.43                        DELAYS.ASM   3-2-2014  21:08:03         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0010   0B??           00044         decfsz  counta
+0011   2???           00045         goto    $+2
+Message[305]: Using default destination of 1 (file).
+0012   0B??           00046         decfsz  countb
+0013   2???           00047         goto    Delay_0
+Message[305]: Using default destination of 1 (file).
+0014   0B??           00048         decfsz  count1
+0015   2???           00049         goto    d1
+0016   3400           00050         retlw   .0              ;return from the delay routine.
+                      00051 ;--------------------------------------------------------------
+                      00052 
+0017                  00053 uDelay
+0017   00??           00054                 movwf   ucount
+0018                  00055 u0
+0018   0000           00056                 nop
+0019   0000           00057                 nop
+001A   0B??           00058                 decfsz  ucount, f
+001B   2???           00059                 goto    u0
+001C   0008           00060                 return
+                      00061 
+Warning[205]: Found directive in column 1. (END)
+                      00062 END
+MPASM  5.43                        DELAYS.ASM   3-2-2014  21:08:03         PAGE  3
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+Delay1                            0000000A
+Delay15                           00000004
+Delay255                          00000000
+Delay3                            00000008
+Delay30                           00000002
+Delay5                            00000006
+Delay_0                           00000010
+_.code_0011                       00000011
+__16F628A                         00000001
+__DEBUG                           1
+count1                            00000000
+counta                            00000001
+countb                            00000002
+d0                                0000000B
+d1                                0000000C
+u0                                00000018
+uDelay                            00000017
+ucount                            00000003
+
+Errors   :     0
+Warnings :    10 reported,     0 suppressed
+Messages :     3 reported,     0 suppressed
+
+

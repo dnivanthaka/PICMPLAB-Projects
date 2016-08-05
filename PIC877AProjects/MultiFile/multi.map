@@ -1,0 +1,79 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Mon Jun 30 21:50:32 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000008
+               INT_VECTOR       code   0x000004    program   0x000018
+                   .cinit    romdata   0x000010    program   0x000004
+                MAIN_PROG       code   0x000012    program   0x000050
+                    .code       code   0x00003a    program   0x000048
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                   .udata      udata   0x000020       data   0x000003
+                 TEMP_VAR      udata   0x000023       data   0x000002
+                   G_DATA      udata   0x000025       data   0x000002
+                  INT_VAR      udata   0x000070       data   0x000003
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x00005d      
+                            0x002007    0x002007      
+            95 out of 8454 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                     init   0x00002f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                     loop   0x00001e    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                   mDelay   0x000044    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                    mloop   0x000047    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                   sDelay   0x000051    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                    sloop   0x000054    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                    start   0x000012    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                   uDelay   0x00003a    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                    uloop   0x00003d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                    count   0x000025       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                     flag   0x000025       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                   mcount   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                   sPORTB   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                   scount   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+               temp_count   0x000023       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                   ucount   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                    start   0x000012    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                     loop   0x00001e    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                     init   0x00002f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                   uDelay   0x00003a    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                    uloop   0x00003d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                   mDelay   0x000044    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                    mloop   0x000047    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                   sDelay   0x000051    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                    sloop   0x000054    program     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                   ucount   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                   mcount   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+                   scount   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\DELAYS.ASM
+               temp_count   0x000023       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                   sPORTB   0x000024       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                    count   0x000025       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                     flag   0x000025       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\MultiFile\MAIN.ASM
+
+

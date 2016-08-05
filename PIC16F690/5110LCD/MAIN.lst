@@ -1,0 +1,1467 @@
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;**********************************************************************
+                      00002 ;   This file is a basic code template for object module code         *
+                      00003 ;   generation on the PIC16F690. This file contains the               *
+                      00004 ;   basic code building blocks to build upon.                         *
+                      00005 ;                                                                     *
+                      00006 ;   Refer to the MPASM User's Guide for additional information on     *
+                      00007 ;   features of the assembler and linker (Document DS33014).          *
+                      00008 ;                                                                     *
+                      00009 ;   Refer to the respective PIC data sheet for additional             *
+                      00010 ;   information on the instruction set.                               *
+                      00011 ;                                                                     *
+                      00012 ;**********************************************************************
+                      00013 ;                                                                     *
+                      00014 ;    Filename:      xxx.asm                                           *
+                      00015 ;    Date:                                                            *
+                      00016 ;    File Version:                                                    *
+                      00017 ;                                                                     *
+                      00018 ;    Author:                                                          *
+                      00019 ;    Company:                                                         *
+                      00020 ;                                                                     *
+                      00021 ;                                                                     *
+                      00022 ;**********************************************************************
+                      00023 ;                                                                     *
+                      00024 ;    Files required: P16F690.INC                                      *
+                      00025 ;                                                                     *
+                      00026 ;                                                                     *
+                      00027 ;                                                                     *
+                      00028 ;**********************************************************************
+                      00029 ;                                                                     *
+                      00030 ;    Notes:                                                           *
+                      00031 ;                                                                     *
+                      00032 ;                                                                     *
+                      00033 ;                                                                     *
+                      00034 ;                                                                     *
+                      00035 ;**********************************************************************
+                      00036 
+                      00037     list      p=16F690           ; list directive to define processor
+                      00038     #include <p16F690.inc>        ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F690 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2011 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00753         LIST
+                      00039 
+                      00040     errorlevel  -302              ; suppress message 302 from list file
+                      00041 
+2007   30E4           00042     __CONFIG   _CP_OFF & _CPD_OFF & _BOR_OFF & _MCLRE_ON & _WDT_OFF & _PWRTE_ON & _INTRC_OSC_NOCLKOUT & 
+                            _FCMEN_OFF & _IESO_OFF 
+                      00043 
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00044 ; '__CONFIG' directive is used to embed configuration word within .asm file.
+                      00045 ; The lables following the directive are located in the respective .inc file.
+                      00046 ; See data sheet for additional information on configuration word settings.
+                      00047 
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00048 EXTERN uDelay
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00049 EXTERN mDelay
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00050 EXTERN sDelay
+                      00051 
+                      00052 ;***** VARIABLE DEFINITIONS (examples)
+                      00053 
+                      00054 ;----------- Pin Numberings ------------------------
+                      00055 ;SCK -> RB6
+                      00056 ;SDI -> RB4
+                      00057 ;SDO -> RC7
+                      00058 ;D/C -> RC3
+                      00059 ;CE  -> RB7
+                      00060 ;RST -> RB5
+                      00061 ;---------------------------------------------------
+                      00062 ; example of using Shared Uninitialized Data Section
+                      00063 INT_VAR     UDATA_SHR     
+0000                  00064 w_temp      RES     1       ; variable used for context saving 
+0001                  00065 status_temp RES     1       ; variable used for context saving
+0002                  00066 pclath_temp RES     1       ; variable used for context saving
+                      00067 
+                      00068 
+Warning[205]: Found directive in column 1. (UDATA)
+                      00069 UDATA
+0000                  00070 temp            RES             1
+0001                  00071 temp_flash      RES             1
+0002                  00072 lcounter        RES             1
+0003                  00073 clsch           RES             1
+0004                  00074 chcount         RES             1
+0005                  00075 fb_temp         RES             1
+                      00076 
+                      00077 ARR1 UDATA
+0000                  00078 framebuffer     RES             32              ; Frame Buffer 1
+                      00079 
+                      00080 ;ARR2 UDATA
+                      00081 ;framebuffer2   RES             50      ; Frame Buffer
+                      00082 
+                      00083 
+                      00084 ;**********************************************************************
+                      00085 
+                      00086 ;**********************************************************************
+                      00087 ; Macro Definitions
+                      00088 ;**********************************************************************
+                      00089 PCD8544_COMMAND_MODE    MACRO
+                      00090         banksel PORTC
+                      00091         bcf             PORTC, RC3
+                      00092         ENDM
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00093 
+                      00094 PCD8544_DATA_MODE               MACRO
+                      00095         banksel PORTC
+                      00096         bsf             PORTC, RC3
+                      00097         ENDM
+                      00098 ;**********************************************************************
+                      00099 RESET_VECTOR    CODE    0x0000       ; processor reset vector
+0000   2???           00100         goto    start                ; go to beginning of program
+                      00101 
+                      00102 INT_VECTOR      CODE    0x0004       ; interrupt vector location
+                      00103 
+0004                  00104 INTERRUPT
+                      00105 
+0004   00??           00106         movwf   w_temp            ; save off current W register contents
+0005   0803           00107         movf    STATUS,w          ; move status register into W register
+0006   00??           00108         movwf   status_temp       ; save off contents of STATUS register
+0007   080A           00109         movf    PCLATH,w          ; move pclath register into W register
+0008   00??           00110         movwf   pclath_temp       ; save off contents of PCLATH register
+                      00111 
+                      00112 
+                      00113 
+                      00114 ; isr code can go here or be located as a call subroutine elsewhere
+                      00115 
+                      00116 
+0009   08??           00117         movf    pclath_temp,w     ; retrieve copy of PCLATH register
+000A   008A           00118         movwf   PCLATH            ; restore pre-isr PCLATH register contents
+000B   08??           00119         movf    status_temp,w     ; retrieve copy of STATUS register
+000C   0083           00120         movwf   STATUS            ; restore pre-isr STATUS register contents
+000D   0E??           00121         swapf   w_temp,f
+000E   0E??           00122         swapf   w_temp,w          ; restore pre-isr W register contents
+000F   0009           00123         retfie                    ; return from interrupt
+                      00124 
+                      00125 MAIN_PROG       CODE
+                      00126 
+0000                  00127 start
+                      00128         
+0000   ????           00129         pagesel device_init
+0001   2???           00130         call    device_init
+                      00131 
+0002   ????           00132         pagesel pcd8544_init
+0003   2???           00133         call    pcd8544_init
+                      00134 
+                      00135         ;movlw  0xFF
+                      00136         ;pagesel        pcd8544_clear
+                      00137         ;call   pcd8544_clear
+                      00138 
+0004   3000           00139         movlw   0x00
+0005   ????           00140         pagesel pcd8544_clear
+0006   2???           00141         call    pcd8544_clear
+                      00142 
+                      00143         ;pagesel        pcd8544_flash
+                      00144         ;call   pcd8544_flash
+                      00145 
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00146         ;movlw b'01111111'
+                      00147         ;pagesel        pcd8544_senddata
+                      00148         ;call   pcd8544_senddata
+                      00149 
+                      00150         ;movlw 0x7f
+                      00151         ;pagesel        pcd8544_senddata
+                      00152         ;call   pcd8544_senddata
+                      00153         ;movlw 0x41
+                      00154         ;pagesel        pcd8544_senddata
+                      00155         ;call   pcd8544_senddata
+                      00156         ;movlw 0x41
+                      00157         ;pagesel        pcd8544_senddata
+                      00158         ;call   pcd8544_senddata
+                      00159         ;movlw 0x22
+                      00160         ;pagesel        pcd8544_senddata
+                      00161         ;call   pcd8544_senddata
+                      00162         ;movlw 0x1c
+                      00163         ;pagesel        pcd8544_senddata
+                      00164         ;call   pcd8544_senddata
+                      00165         ;banksel        rom_font
+                      00166         ;movf   rom_font+2, w
+                      00167         ;movlw 0x7f
+                      00168         ;pagesel        pcd8544_senddata
+                      00169         ;call   pcd8544_senddata
+                      00170         ;movlw  .5
+                      00171         ;banksel        chcount
+                      00172         ;movwf  chcount
+                      00173 
+                      00174         ;movlw  0x09
+                      00175         ;banksel        FSR
+                      00176         ;movwf  FSR
+                      00177 
+                      00178 ;_charloop_
+                      00179 
+                      00180         ;banksel        INDF
+                      00181         ;movf   INDF, w
+                      00182         ;banksel        EEADR
+                      00183         ;movlw  0x04
+                      00184         ;movwf  EEADR
+                      00185 
+                      00186         ;banksel        EECON1
+                      00187         ;bcf            EECON1, EEPGD
+                      00188         ;bsf            EECON1, RD
+                      00189         ;banksel        EEDAT
+                      00190         ;movf   EEDAT, w
+                      00191         ;BCF STATUS, RP1 ;Bank 0
+                      00192         
+                      00193         ;pagesel        pcd8544_senddata
+                      00194         ;call   pcd8544_senddata
+                      00195 
+                      00196         ;banksel        FSR
+                      00197         ;incf   FSR, f
+                      00198 
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00199         ;banksel        chcount
+                      00200         ;decfsz chcount, f
+                      00201         ;goto   _charloop_
+                      00202 
+                      00203         ;movlw  0xFF
+                      00204         ;pagesel        pcd8544_senddata
+                      00205         ;call   pcd8544_senddata
+                      00206         ;pagesel        pcd8544_putpixel
+                      00207         ;call   pcd8544_putpixel
+                      00208 
+                      00209         ;pagesel        fb_init
+                      00210         ;call   fb_init
+                      00211 
+                      00212         ;banksel        framebuffer
+                      00213         ;bcf            framebuffer, 1
+                      00214 
+                      00215         ;pagesel        fb_display
+                      00216         ;call   fb_display
+                      00217 
+0007   ????           00218         pagesel pcd8544_putchar
+0008   2???           00219         call    pcd8544_putchar
+                      00220 
+0009   1283 1303      00221         banksel         PORTC
+000B   1607           00222         bsf                     PORTC, RC4
+                      00223 
+000C                  00224 loop
+                      00225 
+000C   2???           00226         goto    loop             ; loop forever
+                      00227 ;------------------------------------------------------
+000D                  00228 device_init
+                      00229         ; Setting Oscillator
+000D   3070           00230         movlw b'01110000'
+                      00231                   ;--111----    ; 8Mhz Crystal
+                      00232                   ;-----0---    ; OSTS - Intrnal Oscillator
+                      00233                   ;------0--    ; HFINTOSC - High Frequency Oscillator
+                      00234                   ;-------0-    ; LFINTOSC - Low Freq. Oscillator
+                      00235                   ;---------1   ; Internal Oscillator is used for Clock
+000E   1683 1303      00236         banksel OSCCON
+0010   008F           00237         movwf   OSCCON
+                      00238 
+                      00239         ; Setting Ports
+0011   1283           00240         bcf     STATUS, RP0     ; Bank 0
+0012   1303           00241         bcf     STATUS, RP1
+                      00242 
+0013   0186           00243         clrf    PORTB
+0014   0187           00244         clrf    PORTC
+                      00245 
+0015   1703           00246         bsf     STATUS, RP1     ; Bank 2
+                      00247 
+0016   019E           00248         clrf    ANSEL
+0017   019F           00249         clrf    ANSELH
+                      00250 
+0018   1683           00251         bsf     STATUS, RP0     ; Bank 1
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0019   1303           00252         bcf     STATUS, RP1
+                      00253 
+                      00254         ;movlw  b'01010000'
+                      00255         ;movwf  TRISB
+001A   3010           00256         movlw   b'00010000'
+                      00257         ;movlw  b'00000000'
+001B   0086           00258         movwf   TRISB
+                      00259 
+001C   3040           00260         movlw   b'01000000'
+001D   0087           00261         movwf   TRISC
+                      00262 
+001E   1283           00263         bcf     STATUS, RP0     ; Bank 0
+                      00264 
+                      00265         ; Setting up SSP peripheral
+001F   1283 1303      00266         banksel SSPBUF
+0021   0193           00267         clrf    SSPBUF
+                      00268 
+                      00269         ; Setting baud rate
+                      00270         ;movlw  BAUDRATE
+                      00271         ;banksel        SSPADD
+                      00272         ;movwf  SSPADD
+                      00273 
+0022   1683 1303      00274         banksel SSPSTAT
+0024   1314           00275         bcf             SSPSTAT, 6
+0025   1794           00276         bsf             SSPSTAT, 7
+                      00277 
+                      00278         ; Mastermode, SSP Enable
+                      00279         ;movlw  b'00110010'
+                      00280         ;movlw  b'00110001'
+0026   3032           00281         movlw   b'00110010'
+0027   1283 1303      00282         banksel SSPCON
+0029   0094           00283         movwf   SSPCON
+                      00284 
+                      00285         ; Enabling the SSPIF Flag
+                      00286         ;banksel        PIR1
+                      00287         ;bcf            PIR1, SSPIF
+                      00288         ;banksel        PIE1
+                      00289         ;bsf            PIE1, SSPIE
+                      00290 
+                      00291         ;Resetting LCD
+                      00292         ;banksel                PORTB
+                      00293         ;bsf                    PORTB, RB7 
+                      00294         ;bcf                    PORTB, RB5
+                      00295 
+                      00296         ;pagesel                delay_5_cycles
+                      00297         ;call           delay_5_cycles
+                      00298         ;movlw  .100
+                      00299         ;pagesel        mDelay
+                      00300         ;call   mDelay
+                      00301 
+                      00302         ;banksel                PORTB
+                      00303         ;bsf                    PORTB, RB5
+                      00304 
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+002A   0008           00305         return
+                      00306 
+                      00307 ;------------------------------------------------------
+002B                  00308 delay_5_cycles  ; call takes 2 cycles
+002B   0000           00309         nop
+002C   0000           00310         nop
+002D   0008           00311         return
+                      00312 ;------------------------------------------------------
+                      00313 ;
+                      00314 ;
+                      00315 ;------------------------------------------------------
+002E                  00316 fb_init
+002E   ???? ????      00317         banksel framebuffer
+0030   30??           00318         movlw   framebuffer
+0031   1283 1303      00319         banksel FSR
+0033   0084           00320         movwf   FSR
+                      00321 
+0034   3020           00322         movlw   .32
+0035   ???? ????      00323         banksel temp
+0037   00??           00324         movwf   temp
+                      00325 
+0038                  00326 _fbinit_
+0038   30FF           00327         movlw   0xFF
+0039   1283 1303      00328         banksel INDF
+                      00329         ;clrf   INDF
+003B   0080           00330         movwf   INDF
+                      00331 
+003C   0A84           00332         incf    FSR, f
+                      00333 
+003D   ???? ????      00334         banksel temp
+003F   0B??           00335         decfsz  temp, f
+0040   2???           00336         goto    _fbinit_        
+                      00337 
+0041   0008           00338         return
+                      00339 ;------------------------------------------------------
+                      00340 ;
+                      00341 ;
+                      00342 ;------------------------------------------------------
+0042                  00343 fb_display
+                      00344 
+0042   ???? ????      00345         banksel framebuffer
+0044   30??           00346         movlw   framebuffer
+0045   1283 1303      00347         banksel FSR
+0047   0084           00348         movwf   FSR
+                      00349 
+0048   3080           00350         movlw 0x80
+0049   ????           00351         pagesel pcd8544_sendcmd
+004A   2???           00352         call    pcd8544_sendcmd
+                      00353 
+004B   3040           00354         movlw 0x40
+004C   ????           00355         pagesel pcd8544_sendcmd
+004D   2???           00356         call    pcd8544_sendcmd
+                      00357 
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+004E   3010           00358         movlw   .16
+004F   ???? ????      00359         banksel fb_temp
+0051   00??           00360         movwf   fb_temp
+                      00361 
+                      00362         ;Sending data
+0052   1283 1303      00363         banksel PORTC
+0054   1587           00364         bsf             PORTC, RC3
+                      00365 
+                      00366         ;Enabling chip select
+0055   1283 1303      00367         banksel PORTB
+0057   1386           00368         bcf             PORTB, RB7
+                      00369 
+0058                  00370 _fbdisp_
+0058   1283 1303      00371         banksel INDF
+                      00372         ;clrf   INDF
+005A   0800           00373         movf    INDF, w
+                      00374         ;movlw  0xFF
+                      00375         ;pagesel        pcd8544_senddata
+                      00376         ;call   pcd8544_senddata
+                      00377 
+                      00378         ;Setting data to send
+005B   1283 1303      00379         banksel SSPBUF
+005D   0093           00380         movwf   SSPBUF
+                      00381 
+                      00382         ;Sending data
+005E   1683 1303      00383         banksel SSPSTAT
+0060   1C14           00384         btfss   SSPSTAT, BF
+0061   2???           00385         goto    $-1
+                      00386 
+                      00387         ;Reading data
+0062   1283 1303      00388         banksel SSPBUF
+0064   0813           00389         movf    SSPBUF, w
+                      00390 
+0065   0A84           00391         incf    FSR, f
+                      00392 
+0066   ???? ????      00393         banksel fb_temp
+0068   0B??           00394         decfsz  fb_temp, f
+0069   2???           00395         goto    _fbdisp_
+                      00396 
+                      00397         ;Setting back to Command mode
+006A   1283 1303      00398         banksel PORTC
+006C   1187           00399         bcf             PORTC, RC3
+                      00400 
+                      00401         ;Disabling chip select
+006D   1283 1303      00402         banksel PORTB
+006F   1786           00403         bsf             PORTB, RB7
+                      00404 
+0070   0008           00405         return
+                      00406 ;------------------------------------------------------
+                      00407 ;
+                      00408 ;
+                      00409 ;------------------------------------------------------
+0071                  00410 pcd8544_putchar
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00411 ;0x7E, 0x09, 0x09, 0x09, 0x7E
+0071   ????           00412         pagesel pcd8544_resetxy
+0072   2???           00413         call    pcd8544_resetxy
+                      00414 
+                      00415         ;movlw  0x7E
+                      00416         ;pagesel        pcd8544_senddata
+                      00417         ;call   pcd8544_senddata
+                      00418 
+                      00419         ;movlw  0x09
+                      00420         ;pagesel        pcd8544_senddata
+                      00421         ;call   pcd8544_senddata
+                      00422 
+                      00423         ;movlw  0x09
+                      00424         ;pagesel        pcd8544_senddata
+                      00425         ;call   pcd8544_senddata
+                      00426 
+                      00427         ;movlw  0x09
+                      00428         ;pagesel        pcd8544_senddata
+                      00429         ;call   pcd8544_senddata
+                      00430 
+                      00431         ;movlw  0x7E
+                      00432         ;pagesel        pcd8544_senddata
+                      00433         ;call   pcd8544_senddata
+0073   3005           00434         movlw   .5
+0074   ???? ????      00435         banksel chcount
+0076   00??           00436         movwf   chcount
+                      00437 
+0077   300A           00438         movlw   0x0A
+0078   1283 1703      00439         banksel EEADR
+007A   008D           00440         movwf   EEADR
+                      00441 
+007B                  00442 _charloop_
+                      00443 
+                      00444         ;banksel        EEADR
+                      00445         ;movlw  0x04
+                      00446         ;movwf  EEADR
+                      00447 
+007B   1683 1703      00448         banksel EECON1
+007D   138C           00449         bcf             EECON1, EEPGD
+007E   140C           00450         bsf             EECON1, RD
+007F   1283 1703      00451         banksel EEDAT
+0081   080C           00452         movf    EEDAT, w
+0082   1303           00453         BCF STATUS, RP1 ;Bank 0
+                      00454         
+0083   ????           00455         pagesel pcd8544_senddata
+0084   2???           00456         call    pcd8544_senddata
+                      00457 
+0085   1283 1703      00458         banksel EEADR
+0087   0A8D           00459         incf    EEADR, f
+                      00460 
+0088   ???? ????      00461         banksel chcount
+008A   0B??           00462         decfsz  chcount, f
+008B   2???           00463         goto    _charloop_
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00464 
+008C   0008           00465         return
+                      00466 ;------------------------------------------------------
+                      00467 ;
+                      00468 ;
+                      00469 ;------------------------------------------------------
+008D                  00470 pcd8544_reset
+                      00471         ;Resetting LCD
+008D   1283 1303      00472         banksel         PORTB
+008F   1386           00473         bcf                     PORTB, RB7 
+0090   1286           00474         bcf                     PORTB, RB5
+                      00475 
+0091   3064           00476         movlw   .100
+0092   ????           00477         pagesel mDelay
+0093   2???           00478         call    mDelay
+                      00479 
+0094   1283 1303      00480         banksel         PORTB
+0096   1686           00481         bsf                     PORTB, RB5
+                      00482 
+0097   3014           00483         movlw   .20
+0098   ????           00484         pagesel mDelay
+0099   2???           00485         call    mDelay
+                      00486 
+009A   0008           00487         return
+                      00488 ;------------------------------------------------------
+                      00489 ;
+                      00490 ;
+                      00491 ;------------------------------------------------------
+009B                  00492 pcd8544_init
+009B   3064           00493         movlw   .100
+009C   ????           00494         pagesel mDelay
+009D   2???           00495         call    mDelay
+                      00496 
+009E   ????           00497         pagesel pcd8544_reset
+009F   2???           00498         call    pcd8544_reset
+                      00499 
+00A0   3021           00500         movlw   0x21                            ;Extended instructions enabled
+00A1   ????           00501         pagesel pcd8544_sendcmd
+00A2   2???           00502         call    pcd8544_sendcmd
+                      00503 
+                      00504         ;movlw  0xB9
+00A3   30BF           00505         movlw   0xBF                            ;Set contrast 0 - 127
+00A4   ????           00506         pagesel pcd8544_sendcmd
+00A5   2???           00507         call    pcd8544_sendcmd
+                      00508 
+00A6   3006           00509         movlw   0x04 + 0x02                     ;Temperature control
+00A7   ????           00510         pagesel pcd8544_sendcmd
+00A8   2???           00511         call    pcd8544_sendcmd
+                      00512 
+00A9   3013           00513         movlw   0x10 + 0x03                     ;Set bias system
+00AA   ????           00514         pagesel pcd8544_sendcmd
+00AB   2???           00515         call    pcd8544_sendcmd
+                      00516 
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00517 
+00AC   3020           00518         movlw   0x20                            ;Return to basic instruction set, power on, set horizont
+                            al addressing
+00AD   ????           00519         pagesel pcd8544_sendcmd
+00AE   2???           00520         call    pcd8544_sendcmd
+                      00521 
+00AF   300C           00522         movlw   0x08 + 0x04                     ;Display control set to normal mode
+00B0   ????           00523         pagesel pcd8544_sendcmd
+00B1   2???           00524         call    pcd8544_sendcmd
+                      00525         
+                      00526 
+00B2   0008           00527         return
+                      00528 ;------------------------------------------------------
+                      00529 ;
+                      00530 ;
+                      00531 ;------------------------------------------------------
+00B3                  00532 pcd8544_sendcmd
+00B3   ???? ????      00533         banksel temp
+00B5   00??           00534         movwf   temp
+                      00535 
+                      00536         ;Sending command
+00B6   1283 1303      00537         banksel PORTC
+00B8   1187           00538         bcf             PORTC, RC3
+                      00539 
+00B9   ???? ????      00540         banksel temp
+00BB   08??           00541         movf    temp, w
+00BC   ????           00542         pagesel pcd8544_sendbyte
+00BD   2???           00543         call    pcd8544_sendbyte
+                      00544 
+                      00545 
+                      00546 
+00BE   0008           00547         return
+                      00548 ;------------------------------------------------------
+                      00549 ;
+                      00550 ;
+                      00551 ;------------------------------------------------------
+00BF                  00552 pcd8544_senddata
+00BF   ???? ????      00553         banksel temp
+00C1   00??           00554         movwf   temp
+                      00555 
+                      00556         ;Sending data
+00C2   1283 1303      00557         banksel PORTC
+00C4   1587           00558         bsf             PORTC, RC3
+                      00559 
+00C5   ???? ????      00560         banksel temp
+00C7   08??           00561         movf    temp, w
+00C8   ????           00562         pagesel pcd8544_sendbyte
+00C9   2???           00563         call    pcd8544_sendbyte
+                      00564 
+                      00565         ;Setting back to Command mode
+00CA   1283 1303      00566         banksel PORTC
+00CC   1187           00567         bcf             PORTC, RC3
+                      00568 
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00CD   0008           00569         return
+                      00570 ;------------------------------------------------------
+                      00571 ;
+                      00572 ;
+                      00573 ;------------------------------------------------------
+00CE                  00574 pcd8544_sendbyte
+00CE   ???? ????      00575         banksel temp
+00D0   00??           00576         movwf   temp
+                      00577 
+                      00578         ;Enabling chip select
+00D1   1283 1303      00579         banksel PORTB
+00D3   1386           00580         bcf             PORTB, RB7
+                      00581 
+                      00582         ;Setting data to send
+                      00583         ;movlw  0x21
+00D4   ???? ????      00584         banksel temp
+00D6   08??           00585         movf    temp, w
+00D7   1283 1303      00586         banksel SSPBUF
+00D9   0093           00587         movwf   SSPBUF
+                      00588 
+                      00589         ;Sending data
+00DA   1683 1303      00590         banksel SSPSTAT
+00DC   1C14           00591         btfss   SSPSTAT, BF
+00DD   2???           00592         goto    $-1
+                      00593 
+                      00594         ;Reading data
+00DE   1283 1303      00595         banksel SSPBUF
+00E0   0813           00596         movf    SSPBUF, w
+                      00597 
+                      00598         ;Disabling chip select
+00E1   1283 1303      00599         banksel PORTB
+00E3   1786           00600         bsf             PORTB, RB7
+                      00601 
+00E4   0008           00602         return
+                      00603 ;------------------------------------------------------
+                      00604 ;
+                      00605 ;
+                      00606 ;------------------------------------------------------
+00E5                  00607 pcd8544_clear
+00E5   ???? ????      00608         banksel clsch
+00E7   00??           00609         movwf   clsch
+                      00610 
+00E8   3054           00611         movlw   .14 * .6
+00E9   ???? ????      00612         banksel lcounter
+00EB   00??           00613         movwf   lcounter
+                      00614 
+00EC   3080           00615         movlw 0x80
+00ED   ????           00616         pagesel pcd8544_sendcmd
+00EE   2???           00617         call    pcd8544_sendcmd
+                      00618 
+00EF   3040           00619         movlw 0x40
+00F0   ????           00620         pagesel pcd8544_sendcmd
+00F1   2???           00621         call    pcd8544_sendcmd
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00622 
+                      00623         ;movlw  0xFF
+                      00624         ;pagesel        pcd8544_senddata
+                      00625         ;call   pcd8544_senddata
+                      00626 
+                      00627 
+00F2                  00628 _clearloop_
+00F2   08??           00629         movf    clsch, w
+                      00630         ;movlw  0x00
+00F3   ????           00631         pagesel pcd8544_senddata
+00F4   2???           00632         call    pcd8544_senddata
+                      00633 
+00F5   08??           00634         movf    clsch, w
+00F6   ????           00635         pagesel pcd8544_senddata
+00F7   2???           00636         call    pcd8544_senddata
+                      00637 
+00F8   08??           00638         movf    clsch, w
+00F9   ????           00639         pagesel pcd8544_senddata
+00FA   2???           00640         call    pcd8544_senddata
+                      00641 
+00FB   08??           00642         movf    clsch, w
+00FC   ????           00643         pagesel pcd8544_senddata
+00FD   2???           00644         call    pcd8544_senddata
+                      00645 
+00FE   08??           00646         movf    clsch, w
+00FF   ????           00647         pagesel pcd8544_senddata
+0100   2???           00648         call    pcd8544_senddata
+                      00649 
+0101   08??           00650         movf    clsch, w
+0102   ????           00651         pagesel pcd8544_senddata
+0103   2???           00652         call    pcd8544_senddata
+                      00653 
+0104   ???? ????      00654         banksel lcounter
+0106   0B??           00655         decfsz  lcounter, f
+0107   2???           00656         goto    _clearloop_     
+                      00657 
+0108   0008           00658         return
+                      00659 
+                      00660 ;------------------------------------------------------
+                      00661 ;
+                      00662 ;
+                      00663 ;------------------------------------------------------
+0109                  00664 pcd8544_modeblank
+0109   3008           00665         movlw   b'00001000'
+010A   ????           00666         pagesel pcd8544_sendcmd
+010B   2???           00667         call    pcd8544_sendcmd 
+                      00668 
+010C   0008           00669         return
+                      00670 ;------------------------------------------------------
+                      00671 ;
+                      00672 ;
+                      00673 ;------------------------------------------------------
+010D                  00674 pcd8544_flash
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+010D   3005           00675         movlw   .5
+010E   ???? ????      00676         banksel temp_flash
+0110   00??           00677         movwf   temp_flash
+                      00678 
+0111                  00679 _flashloop_
+                      00680 
+                      00681         ;movlw  b'00001000'
+0111   3008           00682         movlw   0x08
+0112   ????           00683         pagesel pcd8544_sendcmd
+0113   2???           00684         call    pcd8544_sendcmd 
+                      00685 
+0114   3032           00686         movlw   .50
+0115   ????           00687         pagesel mDelay
+0116   2???           00688         call    mDelay
+                      00689 
+                      00690         ;movlw  b'00001001'
+0117   3009           00691         movlw   0x09
+0118   ????           00692         pagesel pcd8544_sendcmd
+0119   2???           00693         call    pcd8544_sendcmd 
+                      00694 
+011A   3064           00695         movlw   .100
+011B   ????           00696         pagesel mDelay
+011C   2???           00697         call    mDelay
+                      00698 
+011D   ???? ????      00699         banksel temp_flash
+011F   0B??           00700         decfsz  temp_flash, f
+0120   2???           00701         goto    _flashloop_
+                      00702 
+                      00703         ;movlw  b'00001100'
+0121   300C           00704         movlw   0x0C
+0122   ????           00705         pagesel pcd8544_sendcmd
+0123   2???           00706         call    pcd8544_sendcmd 
+                      00707 
+0124   0008           00708         return
+                      00709 ;------------------------------------------------------
+                      00710 ;
+                      00711 ;
+                      00712 ;------------------------------------------------------
+0125                  00713 pcd8544_putpixel
+                      00714 
+0125   3090           00715         movlw 0x80 + 10                         ;X-Coordinate
+0126   ????           00716         pagesel pcd8544_sendcmd
+0127   2???           00717         call    pcd8544_sendcmd
+                      00718 
+0128   3042           00719         movlw 0x40 + 2                          ;Y-Coordinate
+0129   ????           00720         pagesel pcd8544_sendcmd
+012A   2???           00721         call    pcd8544_sendcmd
+                      00722 
+012B   3001           00723         movlw   0x01
+012C   ????           00724         pagesel pcd8544_senddata
+012D   2???           00725         call    pcd8544_senddata        
+                      00726 
+012E   0008           00727         return
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00728 ;------------------------------------------------------
+                      00729 ;
+                      00730 ;
+                      00731 ;------------------------------------------------------
+012F                  00732 pcd8544_resetxy
+                      00733 
+012F   3080           00734         movlw 0x80                              ;X-Coordinate
+0130   ????           00735         pagesel pcd8544_sendcmd
+0131   2???           00736         call    pcd8544_sendcmd
+                      00737 
+0132   3040           00738         movlw 0x40                              ;Y-Coordinate
+0133   ????           00739         pagesel pcd8544_sendcmd
+0134   2???           00740         call    pcd8544_sendcmd 
+                      00741 
+0135   0008           00742         return
+                      00743 ;------------------------------------------------------
+Warning[205]: Found directive in column 1. (ORG)
+                      00744 ORG     0x2100
+2100   007E 0009 0009 00745         de      0x7E, 0x09, 0x09, 0x09, 0x7E ;A
+       0009 007E 
+2105   007F 0049 0049 00746         de      0x7F, 0x49, 0x49, 0x49, 0x3E ;B
+       0049 003E 
+210A   003E 0041 0041 00747         de      0x3E, 0x41, 0x41, 0x41, 0x41 ;C
+       0041 0041 
+210F   007F 0041 0041 00748         de      0x7F, 0x41, 0x41, 0x41, 0x3E ;D
+       0041 003E 
+2114   007F 0049 0049 00749         de      0x7F, 0x49, 0x49, 0x49, 0x49 ;E
+       0049 0049 
+2119   007F 0009 0009 00750         de      0x7F, 0x09, 0x09, 0x09, 0x09 ;F
+       0009 0009 
+211E   007F 0009 0009 00751         de      0x7F, 0x09, 0x09, 0x09, 0x70 ;G
+       0009 0070 
+2123   007F 0008 0008 00752         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;H
+       0008 007F 
+2128   0041 0041 00EF 00753         de      0x41, 0x41, 0xEF, 0x41, 0x41 ;I
+       0041 0041 
+212D   0041 0041 0041 00754         de      0x41, 0x41, 0x41, 0x41, 0x7F ;J
+       0041 007F 
+2132   007F 0008 0008 00755         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;K
+       0008 007F 
+2137   007F 0008 0008 00756         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;L
+       0008 007F 
+213C   007F 0008 0008 00757         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;M
+       0008 007F 
+2141   007F 0008 0008 00758         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;N
+       0008 007F 
+2146   007F 0008 0008 00759         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;O
+       0008 007F 
+214B   007F 0008 0008 00760         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;P
+       0008 007F 
+2150   007F 0008 0008 00761         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;Q
+       0008 007F 
+2155   007F 0008 0008 00762         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;R
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+       0008 007F 
+215A   007F 0008 0008 00763         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;S
+       0008 007F 
+215F   007F 0008 0008 00764         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;T
+       0008 007F 
+2164   007F 0008 0008 00765         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;U
+       0008 007F 
+2169   007F 0008 0008 00766         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;V
+       0008 007F 
+216E   007F 0008 0008 00767         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;W
+       0008 007F 
+2173   007F 0008 0008 00768         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;X
+       0008 007F 
+2178   007F 0008 0008 00769         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;Y
+       0008 007F 
+217D   007F 0008 0008 00770         de      0x7F, 0x08, 0x08, 0x08, 0x7F ;Z
+       0008 007F 
+                      00771 
+Warning[205]: Found directive in column 1. (END)
+30E4                  00772 END
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ABDEN                             00000000
+ABDOVF                            00000007
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+ANS0                              00000000
+ANS1                              00000001
+ANS10                             00000002
+ANS11                             00000003
+ANS2                              00000002
+ANS3                              00000003
+ANS4                              00000004
+ANS5                              00000005
+ANS6                              00000006
+ANS7                              00000007
+ANS8                              00000000
+ANS9                              00000001
+ANSEL                             0000011E
+ANSELH                            0000011F
+BAUDCTL                           0000009B
+BF                                00000000
+BRG0                              00000000
+BRG1                              00000001
+BRG10                             00000002
+BRG11                             00000003
+BRG12                             00000004
+BRG13                             00000005
+BRG14                             00000006
+BRG15                             00000007
+BRG16                             00000003
+BRG2                              00000002
+BRG3                              00000003
+BRG4                              00000004
+BRG5                              00000005
+BRG6                              00000006
+BRG7                              00000007
+BRG8                              00000000
+BRG9                              00000001
+BRGH                              00000002
+C                                 00000000
+C1CH0                             00000000
+C1CH1                             00000001
+C1IE                              00000005
+C1IF                              00000005
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+C1OE                              00000005
+C1ON                              00000007
+C1OUT                             00000006
+C1POL                             00000004
+C1R                               00000002
+C1SEN                             00000005
+C1VREN                            00000007
+C2CH0                             00000000
+C2CH1                             00000001
+C2IE                              00000006
+C2IF                              00000006
+C2OE                              00000005
+C2ON                              00000007
+C2OUT                             00000006
+C2POL                             00000004
+C2R                               00000002
+C2REN                             00000004
+C2SYNC                            00000000
+C2VREN                            00000006
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCPR1H                            00000016
+CCPR1L                            00000015
+CHS0                              00000002
+CHS1                              00000003
+CHS2                              00000004
+CHS3                              00000005
+CKE                               00000006
+CKP                               00000004
+CM1CON0                           00000119
+CM2CON0                           0000011A
+CM2CON1                           0000011B
+CREN                              00000004
+CSRC                              00000007
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+D_A                               00000005
+D_NOT_A                           00000005
+ECCPAS                            0000001D
+ECCPAS0                           00000004
+ECCPAS1                           00000005
+ECCPAS2                           00000006
+ECCPASE                           00000007
+EEADR                             0000010D
+EEADRH                            0000010F
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+EECON1                            0000018C
+EECON2                            0000018D
+EEDAT                             0000010C
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GIE                               00000007
+GO                                00000001
+GO_DONE                           00000001
+GO_NOT_DONE                       00000001
+HTS                               00000002
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTERRUPT                         00000004
+INTF                              00000001
+IOC                               00000096
+IOC0                              00000000
+IOC1                              00000001
+IOC2                              00000002
+IOC3                              00000003
+IOC4                              00000004
+IOC5                              00000005
+IOCA                              00000096
+IOCA0                             00000000
+IOCA1                             00000001
+IOCA2                             00000002
+IOCA3                             00000003
+IOCA4                             00000004
+IOCA5                             00000005
+IOCB                              00000116
+IOCB4                             00000004
+IOCB5                             00000005
+IOCB6                             00000006
+IOCB7                             00000007
+IRCF0                             00000004
+IRCF1                             00000005
+IRCF2                             00000006
+IRP                               00000007
+LTS                               00000001
+MC1OUT                            00000007
+MC2OUT                            00000006
+MSK                               00000093
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+MSK0                              00000000
+MSK1                              00000001
+MSK2                              00000002
+MSK3                              00000003
+MSK4                              00000004
+MSK5                              00000005
+MSK6                              00000006
+MSK7                              00000007
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BOR                           00000000
+NOT_DONE                          00000001
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RABPU                         00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OERR                              00000001
+OPTION_REG                        00000081
+OSCCON                            0000008F
+OSCTUNE                           00000090
+OSFIE                             00000007
+OSFIF                             00000007
+OSTS                              00000003
+P                                 00000004
+P1M0                              00000006
+P1M1                              00000007
+PCD8544_COMMAND_MODE              
+PCD8544_DATA_MODE                 
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PDC0                              00000000
+PDC1                              00000001
+PDC2                              00000002
+PDC3                              00000003
+PDC4                              00000004
+PDC5                              00000005
+PDC6                              00000006
+PEIE                              00000006
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PORTA                             00000005
+PORTB                             00000006
+PORTC                             00000007
+PR2                               00000092
+PRSEN                             00000007
+PS0                               00000000
+PS1                               00000001
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 21
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PS2                               00000002
+PSA                               00000003
+PSSAC0                            00000002
+PSSAC1                            00000003
+PSSBD0                            00000000
+PSSBD1                            00000001
+PSTRCON                           0000019D
+PULSR                             00000002
+PULSS                             00000003
+PWM1CON                           0000001C
+R                                 00000002
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RABIE                             00000003
+RABIF                             00000000
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RC0                               00000000
+RC1                               00000001
+RC2                               00000002
+RC3                               00000003
+RC4                               00000004
+RC5                               00000005
+RC6                               00000006
+RC7                               00000007
+RCIDL                             00000006
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+READ_WRITE                        00000002
+RP0                               00000005
+RP1                               00000006
+RX9                               00000006
+RX9D                              00000000
+R_NOT_W                           00000002
+R_W                               00000002
+S                                 00000003
+SBOREN                            00000004
+SCKP                              00000004
+SCS                               00000000
+SENB                              00000003
+SENDB                             00000003
+SMP                               00000007
+SPBRG                             00000099
+SPBRGH                            0000009A
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 22
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SPEN                              00000007
+SR0                               00000006
+SR1                               00000007
+SRCON                             0000019E
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPMSK                            00000093
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+STRA                              00000000
+STRB                              00000001
+STRC                              00000002
+STRD                              00000003
+STRSYNC                           00000004
+SWDTEN                            00000000
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1GINV                            00000007
+T1GSS                             00000001
+T1IE                              00000000
+T1IF                              00000000
+T1OSCEN                           00000003
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+T2IE                              00000001
+T2IF                              00000001
+TMR0                              00000001
+TMR1CS                            00000001
+TMR1GE                            00000006
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 23
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISB                             00000086
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISC                             00000087
+TRISC0                            00000000
+TRISC1                            00000001
+TRISC2                            00000002
+TRISC3                            00000003
+TRISC4                            00000004
+TRISC5                            00000005
+TRISC6                            00000006
+TRISC7                            00000007
+TRMT                              00000001
+TUN0                              00000000
+TUN1                              00000001
+TUN2                              00000002
+TUN3                              00000003
+TUN4                              00000004
+TX9                               00000006
+TX9D                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+UA                                00000001
+ULPWUE                            00000005
+VCFG                              00000006
+VP6EN                             00000004
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             00000118
+VRR                               00000005
+W                                 00000000
+WCOL                              00000007
+WDTCON                            00000097
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 24
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+WDTPS0                            00000001
+WDTPS1                            00000002
+WDTPS2                            00000003
+WDTPS3                            00000004
+WPU                               00000095
+WPU0                              00000000
+WPU1                              00000001
+WPU2                              00000002
+WPU4                              00000004
+WPU5                              00000005
+WPUA                              00000095
+WPUA0                             00000000
+WPUA1                             00000001
+WPUA2                             00000002
+WPUA4                             00000004
+WPUA5                             00000005
+WPUB                              00000115
+WPUB4                             00000004
+WPUB5                             00000005
+WPUB6                             00000006
+WPUB7                             00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+WUE                               00000001
+Z                                 00000002
+_BOD_NSLEEP                       00003EFF
+_BOD_OFF                          00003CFF
+_BOD_ON                           00003FFF
+_BOD_SBODEN                       00003DFF
+_BOREN_NSLEEP                     00003EFF
+_BOREN_OFF                        00003CFF
+_BOREN_ON                         00003FFF
+_BOREN_SBODEN                     00003DFF
+_BOR_NSLEEP                       00003EFF
+_BOR_OFF                          00003CFF
+_BOR_ON                           00003FFF
+_BOR_SBODEN                       00003DFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003F7F
+_CP_OFF                           00003FFF
+_CP_ON                            00003FBF
+_DEVID1                           00002006
+_EC_OSC                           00003FFB
+_EXTRC                            00003FFF
+_EXTRCIO                          00003FFE
+_EXTRC_OSC_CLKOUT                 00003FFF
+_EXTRC_OSC_NOCLKOUT               00003FFE
+_FCMEN_OFF                        000037FF
+_FCMEN_ON                         00003FFF
+_FOSC_EC                          00003FFB
+_FOSC_EXTRCCLK                    00003FFF
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 25
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FFA
+_FOSC_INTRCCLK                    00003FFD
+_FOSC_INTRCIO                     00003FFC
+_FOSC_LP                          00003FF8
+_FOSC_XT                          00003FF9
+_HS_OSC                           00003FFA
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_IESO_OFF                         00003BFF
+_IESO_ON                          00003FFF
+_INTOSC                           00003FFD
+_INTOSCIO                         00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FF8
+_MAIN_PROG_0061                   00000061
+_MAIN_PROG_00DD                   000000DD
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FEF
+_WDTE_OFF                         00003FF7
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FF7
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FF9
+__16F690                          00000001
+__DEBUG                           1
+_charloop_                        0000007B
+_clearloop_                       000000F2
+_fbdisp_                          00000058
+_fbinit_                          00000038
+_flashloop_                       00000111
+chcount                           00000004
+clsch                             00000003
+delay_5_cycles                    0000002B
+device_init                       0000000D
+fb_display                        00000042
+fb_init                           0000002E
+fb_temp                           00000005
+framebuffer                       00000000
+lcounter                          00000002
+loop                              0000000C
+mDelay                            00000000
+pcd8544_clear                     000000E5
+pcd8544_flash                     0000010D
+pcd8544_init                      0000009B
+pcd8544_modeblank                 00000109
+pcd8544_putchar                   00000071
+pcd8544_putpixel                  00000125
+MPASM  5.43                          MAIN.ASM   7-31-2014  22:59:50         PAGE 26
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+pcd8544_reset                     0000008D
+pcd8544_resetxy                   0000012F
+pcd8544_sendbyte                  000000CE
+pcd8544_sendcmd                   000000B3
+pcd8544_senddata                  000000BF
+pclath_temp                       00000002
+sDelay                            00000000
+start                             00000000
+status_temp                       00000001
+temp                              00000000
+temp_flash                        00000001
+uDelay                            00000000
+w_temp                            00000000
+
+Errors   :     0
+Warnings :     6 reported,     0 suppressed
+Messages :     0 reported,    14 suppressed
+
+

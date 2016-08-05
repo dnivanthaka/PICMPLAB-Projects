@@ -1,0 +1,68 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Sat Jan 11 21:52:42 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000010
+                MAIN_PROG       code   0x00000c    program   0x000064
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                  INT_VAR      udata   0x000070       data   0x000006
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x00003d      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            66 out of 2182 program addresses used, program memory utilization is 3%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    DELAY   0x000021    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                    LEDON   0x00002a    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                 MAINLOOP   0x000019    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                    pat_1   0x000035    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+               reset_duty   0x000017    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                  tmr_clr   0x000022    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                tmr_inner   0x000023    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                     duty   0x000073       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                 duty_inc   0x000074       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                  pattern   0x000075       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+              timer_scale   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+               reset_duty   0x000017    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                 MAINLOOP   0x000019    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                    DELAY   0x000021    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                  tmr_clr   0x000022    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                tmr_inner   0x000023    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                    LEDON   0x00002a    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                    pat_1   0x000035    program     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+              timer_scale   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                     duty   0x000073       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                 duty_inc   0x000074       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+                  pattern   0x000075       data     static C:\Users\Dinusha\Documents\PICProjects\SWPWM1\MAIN.ASM
+
+

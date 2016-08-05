@@ -1,0 +1,7 @@
+_init: CODE, 186 0 37
+_debounce_lo: CODE, 223 0 33
+_main: CODE, 25 0 124
+_tc_int: CODE, 256 0 16
+_set_speed: CODE, 149 0 37
+__initialization: CODE, 21 0 0
+Total: 247

@@ -1,0 +1,58 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Sun Jan 05 15:20:22 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000010
+                MAIN_PROG       code   0x00000c    program   0x000056
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                  INT_VAR      udata   0x000070       data   0x000004
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x000036      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            59 out of 2182 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    DELAY   0x000025    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                 MAINLOOP   0x00001a    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                  tmr_clr   0x000027    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                 tmr_loop   0x000028    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+              scale_value   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+              time_scaler   0x000073       data     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                 MAINLOOP   0x00001a    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                    DELAY   0x000025    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                  tmr_clr   0x000027    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                 tmr_loop   0x000028    program     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+              scale_value   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+              time_scaler   0x000073       data     static C:\Users\Dinusha\Documents\PICProjects\SignalLight\MAIN.ASM
+
+

@@ -1,0 +1,62 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Sat Sep 14 21:10:33 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000010
+                MAIN_PROG       code   0x00000c    program   0x00003e
+    .config_2007_TIMERS.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                  INT_VAR      udata   0x000070       data   0x000005
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x00002a      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            47 out of 2182 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                 DELAY_10   0x00001e    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      DL1   0x000021    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      DL2   0x000024    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      DL3   0x000027    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                 MAINLOOP   0x000015    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      dc1   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      dc2   0x000073       data     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      dc3   0x000074       data     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                    START   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                 MAINLOOP   0x000015    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                 DELAY_10   0x00001e    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      DL1   0x000021    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      DL2   0x000024    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      DL3   0x000027    program     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      dc1   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      dc2   0x000073       data     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+                      dc3   0x000074       data     static C:\Users\Dinusha\Documents\PICProjects\Timers\TIMERS.ASM
+
+

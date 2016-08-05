@@ -1,0 +1,479 @@
+MPASM  5.43                       HD44780.ASM   2-11-2014  23:38:15         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 #include <p16F628A.inc>       ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F628A processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2011 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00383         LIST
+                      00002 
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00003 GLOBAL  lcd_init
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00004 GLOBAL  lcd_cmd
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00005 GLOBAL  lcd_newline
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00006 GLOBAL  lcd_char
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00007 GLOBAL  lcd_pulse
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00008 GLOBAL  lcd_busy
+                      00009 
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00010 EXTERN Delay255
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00011 EXTERN Delay30
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00012 EXTERN Delay15
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00013 EXTERN Delay5
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00014 EXTERN Delay3
+Warning[205]: Found directive in column 1. (EXTERN)
+  0000                00015 EXTERN Delay1
+                      00016 
+                      00017 #define lcd_port_tris   TRISB
+                      00018 #define lcd_port                PORTB
+                      00019 #define lcd_en                  PORTB, 4
+                      00020 #define lcd_rs                  PORTB, 5
+                      00021 #define lcd_rw                  PORTB, 6
+                      00022 #define lcd_busy_flag           RB3
+                      00023 
+Warning[205]: Found directive in column 1. (UDATA)
+                      00024 UDATA
+0000                  00025 temp                    RES 1
+                      00026 
+Warning[205]: Found directive in column 1. (CODE)
+                      00027 CODE
+                      00028 
+0000                  00029 lcd_init
+0000   1683           00030                 bsf             STATUS, RP0                     ; Switching to Bank 1
+MPASM  5.43                       HD44780.ASM   2-11-2014  23:38:15         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0001   1683 1303      00031                 banksel lcd_port_tris
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0003   0186           00032                 clrf    lcd_port_tris
+0004   1283           00033                 bcf             STATUS, RP0                     ; Switching to Bank 0
+                      00034 
+0005   2???           00035                 call    Delay30
+                      00036 
+                      00037                 ;--------------------
+0006   3003           00038                 movlw   b'00000011'
+0007   0086           00039                 movwf   lcd_port
+0008   2???           00040                 call    lcd_pulse
+0009   2???           00041                 call    Delay5
+                      00042 
+000A   3003           00043                 movlw   b'00000011'
+000B   0086           00044                 movwf   lcd_port
+000C   2???           00045                 call    lcd_pulse
+000D   2???           00046                 call    Delay1
+                      00047 
+000E   3003           00048                 movlw   b'00000011'
+000F   0086           00049                 movwf   lcd_port
+0010   2???           00050                 call    lcd_pulse
+0011   2???           00051                 call    Delay1
+                      00052                 ;call   lcd_busy
+                      00053                 ;--------------------
+                      00054 
+0012   3002           00055                 movlw   b'00000010'             ; Switch to 4bit mode
+0013   0086           00056                 movwf   lcd_port
+0014   2???           00057                 call    lcd_pulse
+                      00058                 ;call   lcd_busy
+                      00059                 ;--------------------
+                      00060                                                                 ;Set display shift
+0015   3028           00061                 movlw   b'00101000'
+0016   2???           00062                 call    lcd_cmd
+                      00063                                                                 ;Set display character mode
+0017   3006           00064                 movlw   b'00000110'
+0018   2???           00065                 call    lcd_cmd
+                      00066                                                                 ;Set display on/off and cursor command
+0019   300C           00067                 movlw   b'0001100'
+001A   2???           00068                 call    lcd_cmd
+                      00069 
+001B   3001           00070                 movlw   b'000000001'    ;Clear display
+001C   2???           00071                 call    lcd_cmd
+                      00072 
+001D   0008           00073                 return
+                      00074 
+001E                  00075 lcd_cmd
+001E   1286           00076                 bcf             lcd_rs
+001F   00??           00077                 movwf   temp
+0020   0E??           00078                 swapf   temp, w
+0021   390F           00079                 andlw   0x0f
+0022   0086           00080                 movwf   lcd_port
+0023   2???           00081                 call    lcd_pulse
+                      00082 
+MPASM  5.43                       HD44780.ASM   2-11-2014  23:38:15         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0024   08??           00083                 movf    temp, w
+0025   390F           00084                 andlw   0x0f
+0026   0086           00085                 movwf   lcd_port
+0027   2???           00086                 call    lcd_pulse
+                      00087 
+                      00088                 ;call Delay5
+                      00089                 ;pagesel        lcd_busy
+0028   2???           00090                 call    lcd_busy
+                      00091                 ;pagesel $
+                      00092 
+0029   0008           00093                 return
+                      00094 
+002A                  00095 lcd_newline
+002A   30C0           00096                 movlw   0xc0                ;put the cursor at the start of line 2
+002B   2???           00097         call    lcd_cmd
+                      00098 
+002C   0008           00099                 return
+                      00100 
+002D                  00101 lcd_char
+                      00102                 
+002D   00??           00103                 movwf   temp
+002E   0E??           00104                 swapf   temp, w
+002F   390F           00105                 andlw   0x0f
+0030   0086           00106                 movwf   lcd_port
+0031   1686           00107                 bsf             lcd_rs
+0032   2???           00108                 call    lcd_pulse
+                      00109 
+0033   08??           00110                 movf    temp, w
+0034   390F           00111                 andlw   0x0f
+0035   0086           00112                 movwf   lcd_port
+0036   1686           00113                 bsf             lcd_rs
+0037   2???           00114                 call    lcd_pulse
+                      00115 
+                      00116                 ;call Delay5
+                      00117                 ;pagesel        lcd_busy
+0038   2???           00118                 call    lcd_busy
+                      00119                 ;pagesel $
+                      00120                 ;call   lcd_busy
+                      00121 
+0039   0008           00122                 return
+                      00123 
+                      00124 
+                      00125 
+003A                  00126 lcd_pulse
+003A   1606           00127                 bsf     lcd_en
+003B   0000           00128                 nop
+003C   1206           00129                 bcf     lcd_en
+003D   0008           00130                 return
+                      00131 
+003E                  00132 lcd_busy
+                      00133                 ;bcf            lcd_port, lcd_busy_flag
+003E   1286           00134                 bcf             lcd_rs
+                      00135 
+MPASM  5.43                       HD44780.ASM   2-11-2014  23:38:15         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+003F   1683           00136                 bsf             STATUS, RP0                             ; Switching to Bank 1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0040   1586           00137                 bsf             lcd_port_tris, lcd_busy_flag ; Setting pin as input high impedence
+0041   1283           00138                 bcf             STATUS, RP0                             ; Switching to Bank 0
+                      00139 
+                      00140                 ;bcf            lcd_rs
+0042   1706           00141                 bsf             lcd_rw
+0043   1606           00142                 bsf             lcd_en
+                      00143 
+0044   1986           00144                 btfsc   lcd_port, lcd_busy_flag
+0045   2???           00145                 goto    $-1
+                      00146 
+0046   1206           00147                 bcf             lcd_en
+0047   1306           00148                 bcf             lcd_rw
+                      00149 
+0048   1683           00150                 bsf             STATUS, RP0                             ; Switching to Bank 1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0049   1186           00151                 bcf             lcd_port_tris, lcd_busy_flag ; Setting pin as output
+004A   1283           00152                 bcf             STATUS, RP0                             ; Switching to Bank 0
+                      00153 
+004B   0008           00154                 return
+Warning[205]: Found directive in column 1. (END)
+                      00155 END
+MPASM  5.43                       HD44780.ASM   2-11-2014  23:38:15         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADDEN                             00000003
+ADEN                              00000003
+BRGH                              00000002
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000001F
+CMIE                              00000006
+CMIF                              00000006
+CREN                              00000004
+CSRC                              00000007
+DATA_CP_OFF                       00003FFF
+DATA_CP_ON                        00003EFF
+DC                                00000001
+Delay1                            00000000
+Delay15                           00000000
+Delay255                          00000000
+Delay3                            00000000
+Delay30                           00000000
+Delay5                            00000000
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+MPASM  5.43                       HD44780.ASM   2-11-2014  23:38:15         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+IRP                               00000007
+NOT_BO                            00000000
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OERR                              00000001
+OPTION_REG                        00000081
+OSCF                              00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RA7                               00000007
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+RX9                               00000006
+RX9D                              00000000
+SPBRG                             00000099
+MPASM  5.43                       HD44780.ASM   2-11-2014  23:38:15         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SPEN                              00000007
+SREN                              00000005
+STATUS                            00000003
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISA6                            00000006
+TRISA7                            00000007
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRMT                              00000001
+TX9                               00000006
+TX9D                              00000000
+MPASM  5.43                       HD44780.ASM   2-11-2014  23:38:15         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             0000009F
+VREN                              00000007
+VROE                              00000006
+VRR                               00000005
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_.code_0045                       00000045
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DEVID1                           00002006
+_ER_OSC_CLKOUT                    00003FFF
+_ER_OSC_NOCLKOUT                  00003FFE
+_EXTCLK_OSC                       00003FEF
+_FOSC_ECIO                        00003FEF
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FEE
+_FOSC_INTOSCCLK                   00003FFD
+_FOSC_INTOSCIO                    00003FFC
+_FOSC_LP                          00003FEC
+_FOSC_XT                          00003FED
+_HS_OSC                           00003FEE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INTOSC_OSC_CLKOUT                00003FFD
+_INTOSC_OSC_NOCLKOUT              00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FEC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_MCLRE_OFF                        00003FDF
+MPASM  5.43                       HD44780.ASM   2-11-2014  23:38:15         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC_CLKOUT                    00003FFF
+_RC_OSC_NOCLKOUT                  00003FFE
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FED
+__16F628A                         00000001
+__DEBUG                           1
+lcd_busy                          0000003E
+lcd_busy_flag                     RB3
+lcd_char                          0000002D
+lcd_cmd                           0000001E
+lcd_en                            PORTB, 4
+lcd_init                          00000000
+lcd_newline                       0000002A
+lcd_port                          PORTB
+lcd_port_tris                     TRISB
+lcd_pulse                         0000003A
+lcd_rs                            PORTB, 5
+lcd_rw                            PORTB, 6
+temp                              00000000
+
+Errors   :     0
+Warnings :    15 reported,     0 suppressed
+Messages :     3 reported,     0 suppressed
+
+

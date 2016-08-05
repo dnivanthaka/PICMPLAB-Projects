@@ -1,0 +1,551 @@
+Microchip MPLAB XC8 Compiler V1.30 ()
+
+Linker command line:
+
+--edf=C:\Program Files (x86)\Microchip\xc8\v1.30\dat\en_msgs.txt -cs \
+  -h+serial.sym --cmf=serial.cmf -z -Q16F877A \
+  -oC:\Users\Dinusha\AppData\Local\Temp\sio.6 -Mserial.map -E1 -ver=XC8 \
+  -ASTACK=0110h-016fh -pstack=STACK -ACONST=00h-0FFhx32 -ACODE=00h-07FFhx4 \
+  -ASTRCODE=00h-01FFFh -AENTRY=00h-0FFhx32 -ASTRING=00h-0FFhx32 \
+  -ACOMMON=070h-07Fh -ABANK0=020h-06Fh -ABANK1=0A0h-0EFh \
+  -ABANK2=0110h-016Fh -ABANK3=0190h-01EFh \
+  -ARAM=020h-06Fh,0A0h-0EFh,0110h-016Fh,0190h-01EFh \
+  -AABS1=020h-07Fh,0A0h-0EFh,0110h-016Fh,0190h-01EFh -ASFR0=00h-01Fh \
+  -ASFR1=080h-09Fh -ASFR2=0100h-010Fh -ASFR3=0180h-018Fh \
+  -preset_vec=00h,intentry,init,end_init -ppowerup=CODE -pcinit=CODE \
+  -pfunctab=CODE -ACONFIG=02007h-02007h -pconfig=CONFIG -DCONFIG=2 \
+  -AIDLOC=02000h-02003h -pidloc=IDLOC -DIDLOC=2 -AEEDATA=00h-0FFh/02100h \
+  -peeprom_data=EEDATA -DEEDATA=2 -DCODE=2 -DSTRCODE=2 -DSTRING=2 -DCONST=2 \
+  -DENTRY=2 -k startup.obj serial.obj 
+
+Object code version is 3.11
+
+Machine type is 16F877A
+
+
+
+                Name                               Link     Load   Length Selector   Space Scale
+startup.obj     end_init                              0        0        3        0       0
+                config                             2007     2007        1     400E       0
+serial.obj      cinit                               7FC      7FC        4      FF8       0
+                text6                               76B      76B        A      ED6       0
+                text5                               763      763        8      EC6       0
+                text4                               7B3      7B3       24      F66       0
+                text3                               787      787       15      F0E       0
+                text2                               775      775       12      EEA       0
+                text1                               79C      79C       17      F38       0
+                maintext                            7D7      7D7       25      FAE       0
+                cstackBANK0                          20       20        B       20       1
+                cstackCOMMON                         70       70        A       70       1
+                strings                               3        3       1B        6       0
+
+TOTAL           Name                               Link     Load   Length     Space
+        CLASS   STACK          
+
+        CLASS   CONST          
+
+        CLASS   CODE           
+                end_init                              0        0        3         0
+                cinit                               7FC      7FC        4         0
+                text6                               76B      76B        A         0
+                text5                               763      763        8         0
+                text4                               7B3      7B3       24         0
+                text3                               787      787       15         0
+                text2                               775      775       12         0
+                text1                               79C      79C       17         0
+                maintext                            7D7      7D7       25         0
+
+        CLASS   STRCODE        
+
+        CLASS   ENTRY          
+
+        CLASS   STRING         
+                strings                               3        3       1B         0
+
+        CLASS   COMMON         
+                cstackCOMMON                         70       70        A         1
+
+        CLASS   BANK0          
+                cstackBANK0                          20       20        B         1
+
+        CLASS   BANK1          
+
+        CLASS   BANK2          
+
+        CLASS   BANK3          
+
+        CLASS   RAM            
+
+        CLASS   ABS1           
+                abs_s1                               7E       7E        2         1
+
+        CLASS   SFR0           
+
+        CLASS   SFR1           
+
+        CLASS   SFR2           
+
+        CLASS   SFR3           
+
+        CLASS   CONFIG         
+                config                             2007     2007        1         0
+
+        CLASS   IDLOC          
+
+        CLASS   EEDATA         
+
+
+
+SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class     Delta
+
+                reset_vec                      000000  000003  000003         0       0  CODE        2
+                strings                        000003  00001B  00001E         6       0  STRING      2
+                cstackBANK0                    000020  00000B  00002B        20       1  BANK0       1
+                cstackCOMMON                   000070  00000A  00007A        70       1  COMMON      1
+                text5                          000763  000008  00076B       EC6       0  CODE        2
+                text6                          00076B  00000A  000775       ED6       0  CODE        2
+                text2                          000775  000012  000787       EEA       0  CODE        2
+                text3                          000787  000015  00079C       F0E       0  CODE        2
+                text1                          00079C  000017  0007B3       F38       0  CODE        2
+                text4                          0007B3  000024  0007D7       F66       0  CODE        2
+                maintext                       0007D7  000025  0007FC       FAE       0  CODE        2
+                cinit                          0007FC  000004  000800       FF8       0  CODE        2
+                config                         002007  000001  002008      400E       0  CONFIG      2
+
+
+UNUSED ADDRESS RANGES
+
+        Name                Unused          Largest block    Delta
+        BANK0            002B-006F             45           1
+        BANK1            00A0-00EF             50           1
+        BANK2            0110-016F             60           1
+        BANK3            0190-01EF             60           1
+        CODE             001E-0762            745           2
+                         0800-1FFF            800
+        COMMON           007A-007D              4           1
+        CONST            001E-0762            100           2
+                         0800-1FFF            100
+        EEDATA           2100-21FF            100           2
+        ENTRY            001E-0762            100           2
+                         0800-1FFF            100
+        IDLOC            2000-2003              4           2
+        RAM              002B-006F             45           1
+                         00A0-00EF             50
+                         0110-016F             60
+                         0190-01EF             60
+        SFR0             0000-001F             20           1
+        SFR1             0080-009F             20           1
+        SFR2             0100-010F             10           1
+        SFR3             0180-018F             10           1
+        STACK            0110-016F             60           1
+        STRCODE          001E-0762            745           2
+                         0800-1FFF           1800
+        STRING           001E-0762            100           2
+                         0800-1FFF            100
+
+                                  Symbol Table
+
+RX_poll@ch               cstackCOMMON 0071
+RX_readline@buff         cstackCOMMON 0076
+RX_readline@ch           cstackCOMMON 0074
+RX_readline@i            cstackCOMMON 0075
+TX_poll@val              cstackCOMMON 0070
+TX_print@str             cstackCOMMON 0072
+TX_printline@str         cstackCOMMON 0073
+_PIR1bits                (abs)        000C
+_RCREG                   (abs)        001A
+_RX_poll                 text6        076B
+_RX_readline             text4        07B3
+_TRISB                   (abs)        0086
+_TXREG                   (abs)        0019
+_TX_poll                 text5        0763
+_TX_print                text3        0787
+_TX_printline            text2        0775
+__CFG_BOREN$ON           (abs)        0000
+__CFG_CP$OFF             (abs)        0000
+__CFG_CPD$OFF            (abs)        0000
+__CFG_FOSC$HS            (abs)        0000
+__CFG_LVP$OFF            (abs)        0000
+__CFG_PWRTE$ON           (abs)        0000
+__CFG_WDTE$OFF           (abs)        0000
+__Habs1                  abs1         0000
+__Hbank0                 bank0        0000
+__Hbank1                 bank1        0000
+__Hbank2                 bank2        0000
+__Hbank3                 bank3        0000
+__Hcinit                 cinit        0800
+__Hclrtext               clrtext      0000
+__Hcode                  code         0000
+__Hcommon                common       0000
+__Hconfig                config       2008
+__HcstackBANK0           cstackBANK0  0000
+__HcstackCOMMON          cstackCOMMON 0000
+__Heeprom_data           eeprom_data  0000
+__Hend_init              end_init     0003
+__Hfunctab               functab      0000
+__Hidloc                 idloc        0000
+__Hinit                  init         0000
+__Hintentry              intentry     0000
+__Hmaintext              maintext     0000
+__Hpowerup               powerup      0000
+__Hram                   ram          0000
+__Hreset_vec             reset_vec    0000
+__Hsfr0                  sfr0         0000
+__Hsfr1                  sfr1         0000
+__Hsfr2                  sfr2         0000
+__Hsfr3                  sfr3         0000
+__Hstack                 stack        0000
+__Hstrings               strings      0000
+__Htext                  text         0000
+__Labs1                  abs1         0000
+__Lbank0                 bank0        0000
+__Lbank1                 bank1        0000
+__Lbank2                 bank2        0000
+__Lbank3                 bank3        0000
+__Lcinit                 cinit        07FC
+__Lclrtext               clrtext      0000
+__Lcode                  code         0000
+__Lcommon                common       0000
+__Lconfig                config       2007
+__LcstackBANK0           cstackBANK0  0000
+__LcstackCOMMON          cstackCOMMON 0000
+__Leeprom_data           eeprom_data  0000
+__Lend_init              end_init     0000
+__Lfunctab               functab      0000
+__Lidloc                 idloc        0000
+__Linit                  init         0000
+__Lintentry              intentry     0000
+__Lmaintext              maintext     0000
+__Lpowerup               powerup      0000
+__Lram                   ram          0000
+__Lreset_vec             reset_vec    0000
+__Lsfr0                  sfr0         0000
+__Lsfr1                  sfr1         0000
+__Lsfr2                  sfr2         0000
+__Lsfr3                  sfr3         0000
+__Lstack                 stack        0000
+__Lstrings               strings      0000
+__Ltext                  text         0000
+__S0                     (abs)        2008
+__S1                     (abs)        007A
+__S2                     (abs)        0000
+__S3                     (abs)        0000
+___int_sp                stack        0000
+___latbits               (abs)        0002
+___sp                    stack        0000
+__end_of_RX_poll         text6        0775
+__end_of_RX_readline     text4        07D7
+__end_of_TX_poll         text5        076B
+__end_of_TX_print        text3        079C
+__end_of_TX_printline    text2        0787
+__end_of__initialization cinit        07FC
+__end_of__stringdata     strings      001E
+__end_of__stringtab      strings      0009
+__end_of_init            text1        07B3
+__end_of_main            maintext     07FC
+__initialization         cinit        07FC
+__pcstackBANK0           cstackBANK0  0020
+__pcstackCOMMON          cstackCOMMON 0070
+__pmaintext              maintext     07D7
+__pstrings               strings      0003
+__ptext1                 text1        079C
+__ptext2                 text2        0775
+__ptext3                 text3        0787
+__ptext4                 text4        07B3
+__ptext5                 text5        0763
+__ptext6                 text6        076B
+__size_of_RX_poll        (abs)        0000
+__size_of_RX_readline    (abs)        0000
+__size_of_TX_poll        (abs)        0000
+__size_of_TX_print       (abs)        0000
+__size_of_TX_printline   (abs)        0000
+__size_of_init           (abs)        0000
+__size_of_main           (abs)        0000
+__stringbase             strings      0008
+__stringdata             strings      0009
+__stringtab              strings      0003
+_init                    text1        079C
+_main                    maintext     07D7
+btemp                    (abs)        007E
+end_of_initialization    cinit        07FC
+intlevel0                functab      0000
+intlevel1                functab      0000
+intlevel2                functab      0000
+intlevel3                functab      0000
+intlevel4                functab      0000
+intlevel5                functab      0000
+ltemp                    (abs)        007E
+ltemp0                   (abs)        007E
+ltemp1                   (abs)        0082
+ltemp2                   (abs)        0086
+ltemp3                   (abs)        0080
+main@buff                cstackBANK0  0020
+main@str                 cstackBANK0  002A
+reset_vec                reset_vec    0000
+stackhi                  (abs)        0000
+stacklo                  (abs)        0000
+start                    init         0000
+start_initialization     cinit        07FC
+ttemp                    (abs)        007E
+ttemp0                   (abs)        007E
+ttemp1                   (abs)        0081
+ttemp2                   (abs)        0084
+ttemp3                   (abs)        0087
+ttemp4                   (abs)        007F
+wtemp                    (abs)        007E
+wtemp0                   (abs)        007E
+wtemp1                   (abs)        0080
+wtemp2                   (abs)        0082
+wtemp3                   (abs)        0084
+wtemp4                   (abs)        0086
+wtemp5                   (abs)        0088
+wtemp6                   (abs)        007F
+
+
+FUNCTION INFORMATION:
+
+ *************** function _main *****************
+ Defined at:
+		line 101 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\Serial00\main.c"
+ Parameters:    Size  Location     Type
+		None
+ Auto vars:     Size  Location     Type
+  buff           10    0[BANK0 ] unsigned char [10]
+  str             1   10[BANK0 ] PTR unsigned char 
+		 -> STR_1(21), 
+  ch              1    0        unsigned char 
+ Return value:  Size  Location     Type
+                  2   42[COMMON] int 
+ Registers used:
+		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
+ Tracked objects:
+		On entry : 
+		On exit  : 
+		Unchanged: 
+ Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+      Params:         0       0       0       0       0
+      Locals:         0      11       0       0       0
+      Temps:          3       0       0       0       0
+      Totals:         3      11       0       0       0
+Total ram usage:       14 bytes
+ Hardware stack levels required when called:    3
+ This function calls:
+		_RX_readline
+		_TX_printline
+		_init
+ This function is called by:
+		Startup code after reset
+ This function uses a non-reentrant model
+
+
+ *************** function _init *****************
+ Defined at:
+		line 8 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\Serial00\main.c"
+ Parameters:    Size  Location     Type
+		None
+ Auto vars:     Size  Location     Type
+		None
+ Return value:  Size  Location     Type
+		None               void
+ Registers used:
+		wreg
+ Tracked objects:
+		On entry : 
+		On exit  : 
+		Unchanged: 
+ Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+      Params:         0       0       0       0       0
+      Locals:         0       0       0       0       0
+      Temps:          0       0       0       0       0
+      Totals:         0       0       0       0       0
+Total ram usage:        0 bytes
+ Hardware stack levels used:    1
+ This function calls:
+		Nothing
+ This function is called by:
+		_main
+ This function uses a non-reentrant model
+
+
+ *************** function _TX_printline *****************
+ Defined at:
+		line 76 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\Serial00\main.c"
+ Parameters:    Size  Location     Type
+  str             1    wreg     PTR unsigned char 
+		 -> main@buff(10), 
+ Auto vars:     Size  Location     Type
+  str             1    3[COMMON] PTR unsigned char 
+		 -> main@buff(10), 
+ Return value:  Size  Location     Type
+		None               void
+ Registers used:
+		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
+ Tracked objects:
+		On entry : 
+		On exit  : 
+		Unchanged: 
+ Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+      Params:         0       0       0       0       0
+      Locals:         1       0       0       0       0
+      Temps:          0       0       0       0       0
+      Totals:         1       0       0       0       0
+Total ram usage:        1 bytes
+ Hardware stack levels used:    1
+ Hardware stack levels required when called:    2
+ This function calls:
+		_TX_poll
+		_TX_print
+ This function is called by:
+		_main
+ This function uses a non-reentrant model
+
+
+ *************** function _TX_print *****************
+ Defined at:
+		line 69 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\Serial00\main.c"
+ Parameters:    Size  Location     Type
+  str             1    wreg     PTR unsigned char 
+		 -> main@buff(10), 
+ Auto vars:     Size  Location     Type
+  str             1    2[COMMON] PTR unsigned char 
+		 -> main@buff(10), 
+ Return value:  Size  Location     Type
+		None               void
+ Registers used:
+		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
+ Tracked objects:
+		On entry : 
+		On exit  : 
+		Unchanged: 
+ Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+      Params:         0       0       0       0       0
+      Locals:         1       0       0       0       0
+      Temps:          1       0       0       0       0
+      Totals:         2       0       0       0       0
+Total ram usage:        2 bytes
+ Hardware stack levels used:    1
+ Hardware stack levels required when called:    1
+ This function calls:
+		_TX_poll
+ This function is called by:
+		_TX_printline
+ This function uses a non-reentrant model
+
+
+ *************** function _RX_readline *****************
+ Defined at:
+		line 86 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\Serial00\main.c"
+ Parameters:    Size  Location     Type
+  buff            1    wreg     PTR unsigned char 
+		 -> main@buff(10), 
+ Auto vars:     Size  Location     Type
+  buff            1    6[COMMON] PTR unsigned char 
+		 -> main@buff(10), 
+  i               1    5[COMMON] unsigned char 
+  ch              1    4[COMMON] unsigned char 
+ Return value:  Size  Location     Type
+		None               void
+ Registers used:
+		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
+ Tracked objects:
+		On entry : 
+		On exit  : 
+		Unchanged: 
+ Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+      Params:         0       0       0       0       0
+      Locals:         3       0       0       0       0
+      Temps:          2       0       0       0       0
+      Totals:         5       0       0       0       0
+Total ram usage:        5 bytes
+ Hardware stack levels used:    1
+ Hardware stack levels required when called:    1
+ This function calls:
+		_RX_poll
+		_TX_poll
+ This function is called by:
+		_main
+ This function uses a non-reentrant model
+
+
+ *************** function _TX_poll *****************
+ Defined at:
+		line 36 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\Serial00\main.c"
+ Parameters:    Size  Location     Type
+  val             1    wreg     unsigned char 
+ Auto vars:     Size  Location     Type
+  val             1    0[COMMON] unsigned char 
+ Return value:  Size  Location     Type
+		None               void
+ Registers used:
+		wreg
+ Tracked objects:
+		On entry : 
+		On exit  : 
+		Unchanged: 
+ Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+      Params:         0       0       0       0       0
+      Locals:         1       0       0       0       0
+      Temps:          0       0       0       0       0
+      Totals:         1       0       0       0       0
+Total ram usage:        1 bytes
+ Hardware stack levels used:    1
+ This function calls:
+		Nothing
+ This function is called by:
+		_TX_print
+		_TX_printline
+		_RX_readline
+ This function uses a non-reentrant model
+
+
+ *************** function _RX_poll *****************
+ Defined at:
+		line 59 in file "C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\Serial00\main.c"
+ Parameters:    Size  Location     Type
+		None
+ Auto vars:     Size  Location     Type
+  ch              1    1[COMMON] unsigned char 
+ Return value:  Size  Location     Type
+                  1    wreg      unsigned char 
+ Registers used:
+		wreg
+ Tracked objects:
+		On entry : 
+		On exit  : 
+		Unchanged: 
+ Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+      Params:         0       0       0       0       0
+      Locals:         1       0       0       0       0
+      Temps:          1       0       0       0       0
+      Totals:         2       0       0       0       0
+Total ram usage:        2 bytes
+ Hardware stack levels used:    1
+ This function calls:
+		Nothing
+ This function is called by:
+		_RX_readline
+ This function uses a non-reentrant model
+
+
+
+MODULE INFORMATION
+
+Module		Function		Class		Link	Load	Size
+C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\Serial00\main.c
+		_init          		CODE           	079C	0000	23
+		_TX_printline  		CODE           	0775	0000	18
+		_RX_poll       		CODE           	076B	0000	10
+		_TX_poll       		CODE           	0763	0000	8
+		_main          		CODE           	07D7	0000	37
+		_RX_readline   		CODE           	07B3	0000	36
+		_TX_print      		CODE           	0787	0000	21
+
+C:\Users\Dinusha\Documents\PICProjects\PIC877AProjects\CProjects\Serial00\main.c estimated size: 153
+
+shared
+		__stringtab    		STRING         	0003	0000	6
+		__stringdata   		STRING         	0009	0000	21
+		__initializatio		CODE           	07FC	0000	0
+
+shared estimated size: 27
+

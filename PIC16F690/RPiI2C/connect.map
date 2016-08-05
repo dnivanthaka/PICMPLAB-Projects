@@ -1,0 +1,71 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Sun Jul 27 23:25:24 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x00002c
+                MAIN_PROG       code   0x00001a    program   0x0000b6
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                   .udata      udata   0x000020       data   0x000002
+                  INT_VAR      udata   0x000070       data   0x000003
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x000074      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            121 out of 4359 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+              SSP_Handler   0x000044    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   State1   0x00004b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   State2   0x000058    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   State3   0x000065    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   State4   0x00006d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   State5   0x000074    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+         _INT_VECTOR_000C   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+          _MAIN_PROG_0001   0x00001b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+              device_init   0x00001c    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                    start   0x00001a    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   buffer   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                     temp   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+         _INT_VECTOR_000C   0x00000c    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                    start   0x00001a    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+          _MAIN_PROG_0001   0x00001b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+              device_init   0x00001c    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+              SSP_Handler   0x000044    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   State1   0x00004b    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   State2   0x000058    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   State3   0x000065    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   State4   0x00006d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   State5   0x000074    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                     temp   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   buffer   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\RPiI2C\MAIN.ASM
+
+

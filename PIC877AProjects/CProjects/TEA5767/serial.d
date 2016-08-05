@@ -1,0 +1,1 @@
+ serial.d  serial.p1:  C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/TEA5767/serial.c C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/TEA5767/serial.h

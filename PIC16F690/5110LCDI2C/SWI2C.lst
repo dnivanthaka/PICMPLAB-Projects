@@ -1,0 +1,1143 @@
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001  list      p=16F690           ; list directive to define processor
+                      00002  #include <p16F690.inc>        ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F690 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2011 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00753         LIST
+                      00003 
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00004 GLOBAL  swi2c_init
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00005 GLOBAL  swi2c_start
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00006 GLOBAL  swi2c_stop
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00007 GLOBAL  swi2c_sendaddrwrite
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00008 GLOBAL  swi2c_sendaddrread
+Warning[205]: Found directive in column 1. (GLOBAL)
+  0000                00009 GLOBAL  swi2c_senddata
+                      00010 
+                      00011 
+                      00012 ;**********************************************************************
+                      00013 ; PORT allocations
+                      00014 ;**********************************************************************
+                      00015 #define I2CTRIS TRISC
+                      00016 #define I2CPORT PORTC
+                      00017 #define SDA             RC0
+                      00018 #define SCL             RC1
+                      00019 ;**********************************************************************
+                      00020 ; Macro definitions
+                      00021 ;**********************************************************************
+                      00022 SDAHI   MACRO
+                      00023                 ;Setting SDA as input
+                      00024                 banksel I2CTRIS
+                      00025                 bsf             I2CTRIS, SDA
+                      00026 
+                      00027                 ;nop
+                      00028                 ;nop
+                      00029 
+                      00030                 ;Setting SDA pin low
+                      00031                 banksel I2CPORT
+                      00032                 bcf             I2CPORT, SDA
+                      00033                 ENDM
+                      00034 
+                      00035 SDALO   MACRO
+                      00036                 ;Setting SDA as output
+                      00037                 banksel I2CTRIS
+                      00038                 bcf             I2CTRIS, SDA
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00039 
+                      00040                 ;Setting SDA pin low
+                      00041                 banksel I2CPORT
+                      00042                 bcf             I2CPORT, SDA
+                      00043                 ENDM
+                      00044 
+                      00045 SCLHI   MACRO
+                      00046                 ;Setting SDA as input
+                      00047                 banksel I2CTRIS
+                      00048                 bsf             I2CTRIS, SCL
+                      00049 
+                      00050                 ;nop
+                      00051                 ;nop
+                      00052 
+                      00053                 ;Setting SDA pin low
+                      00054                 banksel I2CPORT
+                      00055                 bcf             I2CPORT, SCL
+                      00056                 ENDM
+                      00057 
+                      00058 SCLLO   MACRO
+                      00059                 ;Setting SDA as output
+                      00060                 banksel I2CTRIS
+                      00061                 bcf             I2CTRIS, SCL
+                      00062 
+                      00063                 ;Setting SDA pin low
+                      00064                 banksel I2CPORT
+                      00065                 bcf             I2CPORT, SCL
+                      00066                 ENDM
+                      00067 ;**********************************************************************
+Warning[205]: Found directive in column 1. (UDATA)
+                      00068 UDATA
+0000                  00069 i2ctemp         RES             1
+0001                  00070 i2cbcount       RES             1
+0002                  00071 i2timer         RES             1
+                      00072 
+Warning[205]: Found directive in column 1. (CODE)
+                      00073 CODE
+                      00074 ;**********************************************************************
+                      00075 ; Initialization of I2C
+                      00076 ;**********************************************************************
+0000                  00077 swi2c_init
+0000   1007           00078         bcf     I2CPORT, SDA
+0001   1087           00079         bcf     I2CPORT, SCL
+                      00080 
+                      00081         SDAHI
+                          M                 ;Setting SDA as input
+0002   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0004   1407               M                 bsf             I2CTRIS, SDA
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                          M                 ;Setting SDA pin low
+0005   1283 1303          M                 banksel I2CPORT
+0007   1007               M                 bcf             I2CPORT, SDA
+                      00082         SCLHI
+                          M                 ;Setting SDA as input
+0008   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000A   1487               M                 bsf             I2CTRIS, SCL
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+000B   1283 1303          M                 banksel I2CPORT
+000D   1087               M                 bcf             I2CPORT, SCL
+                      00083 
+000E   0008           00084         return
+                      00085 ;**********************************************************************
+                      00086 ; I2C Start
+                      00087 ;**********************************************************************
+000F                  00088 swi2c_start
+                      00089         SCLHI
+                          M                 ;Setting SDA as input
+000F   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0011   1487               M                 bsf             I2CTRIS, SCL
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+0012   1283 1303          M                 banksel I2CPORT
+0014   1087               M                 bcf             I2CPORT, SCL
+                      00090         SDAHI
+                          M                 ;Setting SDA as input
+0015   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0017   1407               M                 bsf             I2CTRIS, SDA
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+0018   1283 1303          M                 banksel I2CPORT
+001A   1007               M                 bcf             I2CPORT, SDA
+                      00091         ;pagesel        swi2c_delay
+                      00092         ;call   swi2c_delay
+                      00093         SDALO
+                          M                 ;Setting SDA as output
+001B   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+001D   1007               M                 bcf             I2CTRIS, SDA
+                          M 
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                          M                 ;Setting SDA pin low
+001E   1283 1303          M                 banksel I2CPORT
+0020   1007               M                 bcf             I2CPORT, SDA
+0021   ????           00094         pagesel swi2c_delay_4cycles
+0022   2???           00095         call    swi2c_delay_4cycles
+                      00096         SCLLO
+                          M                 ;Setting SDA as output
+0023   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0025   1087               M                 bcf             I2CTRIS, SCL
+                          M 
+                          M                 ;Setting SDA pin low
+0026   1283 1303          M                 banksel I2CPORT
+0028   1087               M                 bcf             I2CPORT, SCL
+                      00097 
+0029   0008           00098         return
+                      00099 ;**********************************************************************
+                      00100 ; I2C Stop
+                      00101 ;**********************************************************************
+002A                  00102 swi2c_stop
+                      00103         SCLHI
+                          M                 ;Setting SDA as input
+002A   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+002C   1487               M                 bsf             I2CTRIS, SCL
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+002D   1283 1303          M                 banksel I2CPORT
+002F   1087               M                 bcf             I2CPORT, SCL
+                      00104         SDALO
+                          M                 ;Setting SDA as output
+0030   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0032   1007               M                 bcf             I2CTRIS, SDA
+                          M 
+                          M                 ;Setting SDA pin low
+0033   1283 1303          M                 banksel I2CPORT
+0035   1007               M                 bcf             I2CPORT, SDA
+                      00105 
+0036   ????           00106         pagesel swi2c_delay
+0037   2???           00107         call    swi2c_delay
+                      00108 
+                      00109         SDAHI
+                          M                 ;Setting SDA as input
+0038   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+003A   1407               M                 bsf             I2CTRIS, SDA
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                          M 
+                          M                 ;Setting SDA pin low
+003B   1283 1303          M                 banksel I2CPORT
+003D   1007               M                 bcf             I2CPORT, SDA
+                      00110 
+003E   0008           00111         return
+                      00112 ;**********************************************************************
+                      00113 ; Sending address as write
+                      00114 ;**********************************************************************
+003F                  00115 swi2c_sendaddrwrite
+003F   ???? ????      00116         banksel i2ctemp
+0041   00??           00117         movwf   i2ctemp
+                      00118 
+0042   1003           00119         bcf     STATUS, C
+0043   ???? ????      00120         banksel i2ctemp
+0045   08??           00121         movf    i2ctemp, w
+                      00122 
+0046   ????           00123         pagesel swi2c_senddata
+0047   2???           00124         call    swi2c_senddata
+                      00125         
+0048   0008           00126         return
+                      00127 ;**********************************************************************
+                      00128 ; Sending address as read
+                      00129 ;**********************************************************************
+0049                  00130 swi2c_sendaddrread
+0049   ???? ????      00131         banksel i2ctemp
+004B   00??           00132         movwf   i2ctemp
+                      00133 
+004C   1403           00134         bsf     STATUS, C
+004D   ???? ????      00135         banksel i2ctemp
+004F   08??           00136         movf    i2ctemp, w
+                      00137 
+0050   ????           00138         pagesel swi2c_senddata
+0051   2???           00139         call    swi2c_senddata
+                      00140         
+0052   0008           00141         return
+                      00142 ;**********************************************************************
+                      00143 ; Macro definitions
+                      00144 ;**********************************************************************
+                      00145 ;swi2c_senddata
+                      00146         ;banksel        i2ctemp
+                      00147         ;movwf  i2ctemp
+                      00148 
+                      00149         ;bcf    STATUS, C
+                      00150 
+                      00151         ;No: of bits
+                      00152         ;movlw  .8
+                      00153         ;banksel        i2cbcount
+                      00154         ;movwf  i2cbcount
+                      00155 
+                      00156 ;_i2cdloop_
+                      00157         ;banksel        i2ctemp                 ;1
+                      00158         ;rlf            i2ctemp, f              ;1
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00159         ;pagesel        swi2c_sendbit   ;1
+                      00160         ;call   swi2c_sendbit   ;2
+                      00161         
+                      00162         ;banksel        i2cbcount               ;1
+                      00163         ;decfsz i2cbcount, f    ;1/2
+                      00164         ;goto   _i2cdloop_              ;2
+                      00165 
+                      00166         ;Waiting for ACK
+                      00167         ;pagesel        swi2c_ackwait
+                      00168         ;call   swi2c_ackwait
+                      00169 
+                      00170         ;return
+                      00171 
+0053                  00172 swi2c_senddata
+0053   ???? ????      00173         banksel i2ctemp
+0055   00??           00174         movwf   i2ctemp
+                      00175 
+0056   1003           00176         bcf     STATUS, C
+                      00177 
+                      00178         ;No: of bits
+                      00179         ;movlw  .8
+                      00180         ;banksel        i2cbcount
+                      00181         ;movwf  i2cbcount
+                      00182 
+                      00183 ;_i2cdloop_
+0057   ???? ????      00184         banksel i2ctemp                 ;1
+0059   0D??           00185         rlf             i2ctemp, f              ;1
+                      00186 
+005A   ????           00187         pagesel swi2c_sendbit   ;1
+005B   2???           00188         call    swi2c_sendbit   ;2
+                      00189 
+005C   ???? ????      00190         banksel i2ctemp                 ;1
+005E   0D??           00191         rlf             i2ctemp, f              ;1
+                      00192 
+005F   ????           00193         pagesel swi2c_sendbit   ;1
+0060   2???           00194         call    swi2c_sendbit   ;2
+                      00195 
+0061   ???? ????      00196         banksel i2ctemp                 ;1
+0063   0D??           00197         rlf             i2ctemp, f              ;1
+                      00198 
+                      00199 
+0064   ????           00200         pagesel swi2c_sendbit   ;1
+0065   2???           00201         call    swi2c_sendbit   ;2
+                      00202 
+0066   ???? ????      00203         banksel i2ctemp                 ;1
+0068   0D??           00204         rlf             i2ctemp, f              ;1
+                      00205 
+                      00206 
+0069   ????           00207         pagesel swi2c_sendbit   ;1
+006A   2???           00208         call    swi2c_sendbit   ;2
+                      00209 
+006B   ???? ????      00210         banksel i2ctemp                 ;1
+006D   0D??           00211         rlf             i2ctemp, f              ;1
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00212 
+                      00213 
+006E   ????           00214         pagesel swi2c_sendbit   ;1
+006F   2???           00215         call    swi2c_sendbit   ;2
+                      00216 
+0070   ???? ????      00217         banksel i2ctemp                 ;1
+0072   0D??           00218         rlf             i2ctemp, f              ;1
+                      00219 
+                      00220 
+0073   ????           00221         pagesel swi2c_sendbit   ;1
+0074   2???           00222         call    swi2c_sendbit   ;2
+                      00223 
+0075   ???? ????      00224         banksel i2ctemp                 ;1
+0077   0D??           00225         rlf             i2ctemp, f              ;1
+                      00226 
+                      00227 
+0078   ????           00228         pagesel swi2c_sendbit   ;1
+0079   2???           00229         call    swi2c_sendbit   ;2
+                      00230 
+007A   ???? ????      00231         banksel i2ctemp                 ;1
+007C   0D??           00232         rlf             i2ctemp, f              ;1
+                      00233 
+                      00234 
+007D   ????           00235         pagesel swi2c_sendbit   ;1
+007E   2???           00236         call    swi2c_sendbit   ;2
+                      00237         
+                      00238         ;banksel        i2cbcount               ;1
+                      00239         ;decfsz i2cbcount, f    ;1/2
+                      00240         ;goto   _i2cdloop_              ;2
+                      00241 
+                      00242         ;Waiting for ACK
+                      00243         ;pagesel        swi2c_ackwait
+                      00244         ;call   swi2c_ackwait
+                      00245 
+007F   0008           00246         return
+                      00247 ;**********************************************************************
+                      00248 ; Sending a bit
+                      00249 ;**********************************************************************
+0080                  00250 swi2c_sendbit
+                      00251         SCLLO                                   ;4
+                          M                 ;Setting SDA as output
+0080   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0082   1087               M                 bcf             I2CTRIS, SCL
+                          M 
+                          M                 ;Setting SDA pin low
+0083   1283 1303          M                 banksel I2CPORT
+0085   1087               M                 bcf             I2CPORT, SCL
+0086   1C03           00252         btfss   STATUS, C               ;1/2
+0087   2???           00253         goto    _i2czero_               ;2
+0088   2???           00254         goto    _i2cone_                ;2
+                      00255 
+0089                  00256 _i2czero_
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00257         SDALO                                   ;4
+                          M                 ;Setting SDA as output
+0089   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+008B   1007               M                 bcf             I2CTRIS, SDA
+                          M 
+                          M                 ;Setting SDA pin low
+008C   1283 1303          M                 banksel I2CPORT
+008E   1007               M                 bcf             I2CPORT, SDA
+008F   2???           00258         goto    _i2cdone_               ;2
+                      00259 
+0090                  00260 _i2cone_
+                      00261         SDAHI                                   ;4
+                          M                 ;Setting SDA as input
+0090   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0092   1407               M                 bsf             I2CTRIS, SDA
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+0093   1283 1303          M                 banksel I2CPORT
+0095   1007               M                 bcf             I2CPORT, SDA
+0096   2???           00262         goto    $+1                             ;2
+                      00263 
+0097                  00264 _i2cdone_
+                      00265         ;nop
+                      00266         ;nop
+                      00267         SCLHI                                   ;4
+                          M                 ;Setting SDA as input
+0097   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0099   1487               M                 bsf             I2CTRIS, SCL
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+009A   1283 1303          M                 banksel I2CPORT
+009C   1087               M                 bcf             I2CPORT, SCL
+                      00268         ;nop
+                      00269         ;nop
+                      00270         ;nop
+                      00271         ;nop
+                      00272         ;nop
+                      00273         ;pagesel        swi2c_delay
+                      00274         ;call   swi2c_delay
+                      00275         ;pagesel        swi2c_delay_4cycles     ;1
+                      00276         ;call   swi2c_delay_4cycles     ;2+2
+                      00277         ;nop                                            ;1
+                      00278         ;nop                                            ;1
+                      00279         
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+009D   0008           00280         return                                          ;2
+                      00281 ;**********************************************************************
+                      00282 ; Reading a bit
+                      00283 ;**********************************************************************
+009E                  00284 swi2c_readbit
+                      00285         SCLLO                                           ;4
+                          M                 ;Setting SDA as output
+009E   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00A0   1087               M                 bcf             I2CTRIS, SCL
+                          M 
+                          M                 ;Setting SDA pin low
+00A1   1283 1303          M                 banksel I2CPORT
+00A3   1087               M                 bcf             I2CPORT, SCL
+                      00286         SDAHI                                           ;4
+                          M                 ;Setting SDA as input
+00A4   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00A6   1407               M                 bsf             I2CTRIS, SDA
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+00A7   1283 1303          M                 banksel I2CPORT
+00A9   1007               M                 bcf             I2CPORT, SDA
+                      00287 
+00AA   0000           00288         nop
+00AB   0000           00289         nop
+00AC   0000           00290         nop
+00AD   0000           00291         nop
+                      00292         ;nop
+                      00293         ;pagesel        swi2c_delay_4cycles     ;1
+                      00294         ;call   swi2c_delay_4cycles     ;2+2
+                      00295 
+                      00296         SCLHI                                           ;4
+                          M                 ;Setting SDA as input
+00AE   1683 1303          M                 banksel I2CTRIS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+00B0   1487               M                 bsf             I2CTRIS, SCL
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+00B1   1283 1303          M                 banksel I2CPORT
+00B3   1087               M                 bcf             I2CPORT, SCL
+00B4   0000           00297         nop
+00B5   0000           00298         nop
+00B6   0000           00299         nop
+00B7   0000           00300         nop
+                      00301         ;nop
+                      00302         ;pagesel        swi2c_delay_4cycles     ;1
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00303         ;call   swi2c_delay_4cycles     ;2+2
+                      00304 
+                      00305         ;pagesel        swi2c_delay
+                      00306         ;call   swi2c_delay
+                      00307 
+00B8   1283 1303      00308         banksel I2CPORT                         ;1
+00BA   1C07           00309         btfss   I2CPORT, SDA            ;1/2
+00BB   3400           00310         retlw   0x0                                     ;2
+00BC   3401           00311         retlw   0x1                                     ;2
+                      00312         
+00BD   0008           00313         return
+                      00314 
+                      00315 ;**********************************************************************
+                      00316 ; ACK wait
+                      00317 ;**********************************************************************
+00BE                  00318 swi2c_ackwait
+                      00319 
+00BE                  00320 _i2cackwait_
+00BE   ????           00321         pagesel swi2c_readbit
+00BF   2???           00322         call    swi2c_readbit
+                      00323 
+00C0   ???? ????      00324         banksel i2ctemp
+00C2   00??           00325         movwf   i2ctemp
+00C3   1800           00326         btfsc   i2ctemp, 0      
+00C4   2???           00327         goto    _i2cackwait_
+                      00328 
+                      00329         
+00C5   0008           00330         return
+                      00331 ;**********************************************************************
+                      00332 ; I2C Delay
+                      00333 ;**********************************************************************
+00C6                  00334 swi2c_delay
+                      00335         ;100khz speed
+00C6   3001           00336         movlw   .1
+00C7   ???? ????      00337         banksel i2timer 
+00C9   00??           00338         movwf   i2timer 
+                      00339 
+00CA                  00340 i2c_delayloop
+00CA   0000           00341         nop
+00CB   0000           00342         nop
+                      00343 
+00CC   ???? ????      00344         banksel i2timer
+00CE   0B??           00345         decfsz  i2timer, f
+00CF   2???           00346         goto    i2c_delayloop
+                      00347         
+00D0   0008           00348         return
+                      00349 
+00D1                  00350 swi2c_delay_4cycles
+00D1   0008           00351         return
+00D2                  00352 swi2c_delay_8cycles
+00D2   0000           00353         nop
+00D3   0000           00354         nop
+00D4   0008           00355         return
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Warning[205]: Found directive in column 1. (END)
+                      00356 END
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ABDEN                             00000000
+ABDOVF                            00000007
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+ANS0                              00000000
+ANS1                              00000001
+ANS10                             00000002
+ANS11                             00000003
+ANS2                              00000002
+ANS3                              00000003
+ANS4                              00000004
+ANS5                              00000005
+ANS6                              00000006
+ANS7                              00000007
+ANS8                              00000000
+ANS9                              00000001
+ANSEL                             0000011E
+ANSELH                            0000011F
+BAUDCTL                           0000009B
+BF                                00000000
+BRG0                              00000000
+BRG1                              00000001
+BRG10                             00000002
+BRG11                             00000003
+BRG12                             00000004
+BRG13                             00000005
+BRG14                             00000006
+BRG15                             00000007
+BRG16                             00000003
+BRG2                              00000002
+BRG3                              00000003
+BRG4                              00000004
+BRG5                              00000005
+BRG6                              00000006
+BRG7                              00000007
+BRG8                              00000000
+BRG9                              00000001
+BRGH                              00000002
+C                                 00000000
+C1CH0                             00000000
+C1CH1                             00000001
+C1IE                              00000005
+C1IF                              00000005
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+C1OE                              00000005
+C1ON                              00000007
+C1OUT                             00000006
+C1POL                             00000004
+C1R                               00000002
+C1SEN                             00000005
+C1VREN                            00000007
+C2CH0                             00000000
+C2CH1                             00000001
+C2IE                              00000006
+C2IF                              00000006
+C2OE                              00000005
+C2ON                              00000007
+C2OUT                             00000006
+C2POL                             00000004
+C2R                               00000002
+C2REN                             00000004
+C2SYNC                            00000000
+C2VREN                            00000006
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCPR1H                            00000016
+CCPR1L                            00000015
+CHS0                              00000002
+CHS1                              00000003
+CHS2                              00000004
+CHS3                              00000005
+CKE                               00000006
+CKP                               00000004
+CM1CON0                           00000119
+CM2CON0                           0000011A
+CM2CON1                           0000011B
+CREN                              00000004
+CSRC                              00000007
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+D_A                               00000005
+D_NOT_A                           00000005
+ECCPAS                            0000001D
+ECCPAS0                           00000004
+ECCPAS1                           00000005
+ECCPAS2                           00000006
+ECCPASE                           00000007
+EEADR                             0000010D
+EEADRH                            0000010F
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+EECON1                            0000018C
+EECON2                            0000018D
+EEDAT                             0000010C
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GIE                               00000007
+GO                                00000001
+GO_DONE                           00000001
+GO_NOT_DONE                       00000001
+HTS                               00000002
+I2CPORT                           PORTC
+I2CTRIS                           TRISC
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IOC                               00000096
+IOC0                              00000000
+IOC1                              00000001
+IOC2                              00000002
+IOC3                              00000003
+IOC4                              00000004
+IOC5                              00000005
+IOCA                              00000096
+IOCA0                             00000000
+IOCA1                             00000001
+IOCA2                             00000002
+IOCA3                             00000003
+IOCA4                             00000004
+IOCA5                             00000005
+IOCB                              00000116
+IOCB4                             00000004
+IOCB5                             00000005
+IOCB6                             00000006
+IOCB7                             00000007
+IRCF0                             00000004
+IRCF1                             00000005
+IRCF2                             00000006
+IRP                               00000007
+LTS                               00000001
+MC1OUT                            00000007
+MC2OUT                            00000006
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+MSK                               00000093
+MSK0                              00000000
+MSK1                              00000001
+MSK2                              00000002
+MSK3                              00000003
+MSK4                              00000004
+MSK5                              00000005
+MSK6                              00000006
+MSK7                              00000007
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BOR                           00000000
+NOT_DONE                          00000001
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RABPU                         00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OERR                              00000001
+OPTION_REG                        00000081
+OSCCON                            0000008F
+OSCTUNE                           00000090
+OSFIE                             00000007
+OSFIF                             00000007
+OSTS                              00000003
+P                                 00000004
+P1M0                              00000006
+P1M1                              00000007
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PDC0                              00000000
+PDC1                              00000001
+PDC2                              00000002
+PDC3                              00000003
+PDC4                              00000004
+PDC5                              00000005
+PDC6                              00000006
+PEIE                              00000006
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PORTA                             00000005
+PORTB                             00000006
+PORTC                             00000007
+PR2                               00000092
+PRSEN                             00000007
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PSA                               00000003
+PSSAC0                            00000002
+PSSAC1                            00000003
+PSSBD0                            00000000
+PSSBD1                            00000001
+PSTRCON                           0000019D
+PULSR                             00000002
+PULSS                             00000003
+PWM1CON                           0000001C
+R                                 00000002
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RABIE                             00000003
+RABIF                             00000000
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RC0                               00000000
+RC1                               00000001
+RC2                               00000002
+RC3                               00000003
+RC4                               00000004
+RC5                               00000005
+RC6                               00000006
+RC7                               00000007
+RCIDL                             00000006
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+READ_WRITE                        00000002
+RP0                               00000005
+RP1                               00000006
+RX9                               00000006
+RX9D                              00000000
+R_NOT_W                           00000002
+R_W                               00000002
+S                                 00000003
+SBOREN                            00000004
+SCKP                              00000004
+SCL                               RC1
+SCLHI                             
+SCLLO                             
+SCS                               00000000
+SDA                               RC0
+SDAHI                             
+SDALO                             
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SENB                              00000003
+SENDB                             00000003
+SMP                               00000007
+SPBRG                             00000099
+SPBRGH                            0000009A
+SPEN                              00000007
+SR0                               00000006
+SR1                               00000007
+SRCON                             0000019E
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPMSK                            00000093
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+STRA                              00000000
+STRB                              00000001
+STRC                              00000002
+STRD                              00000003
+STRSYNC                           00000004
+SWDTEN                            00000000
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1GINV                            00000007
+T1GSS                             00000001
+T1IE                              00000000
+T1IF                              00000000
+T1OSCEN                           00000003
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+T2IE                              00000001
+T2IF                              00000001
+TMR0                              00000001
+TMR1CS                            00000001
+TMR1GE                            00000006
+TMR1H                             0000000F
+TMR1IE                            00000000
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISB                             00000086
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISC                             00000087
+TRISC0                            00000000
+TRISC1                            00000001
+TRISC2                            00000002
+TRISC3                            00000003
+TRISC4                            00000004
+TRISC5                            00000005
+TRISC6                            00000006
+TRISC7                            00000007
+TRMT                              00000001
+TUN0                              00000000
+TUN1                              00000001
+TUN2                              00000002
+TUN3                              00000003
+TUN4                              00000004
+TX9                               00000006
+TX9D                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+UA                                00000001
+ULPWUE                            00000005
+VCFG                              00000006
+VP6EN                             00000004
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+VRCON                             00000118
+VRR                               00000005
+W                                 00000000
+WCOL                              00000007
+WDTCON                            00000097
+WDTPS0                            00000001
+WDTPS1                            00000002
+WDTPS2                            00000003
+WDTPS3                            00000004
+WPU                               00000095
+WPU0                              00000000
+WPU1                              00000001
+WPU2                              00000002
+WPU4                              00000004
+WPU5                              00000005
+WPUA                              00000095
+WPUA0                             00000000
+WPUA1                             00000001
+WPUA2                             00000002
+WPUA4                             00000004
+WPUA5                             00000005
+WPUB                              00000115
+WPUB4                             00000004
+WPUB5                             00000005
+WPUB6                             00000006
+WPUB7                             00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+WUE                               00000001
+Z                                 00000002
+_.code_0096                       00000096
+_BOD_NSLEEP                       00003EFF
+_BOD_OFF                          00003CFF
+_BOD_ON                           00003FFF
+_BOD_SBODEN                       00003DFF
+_BOREN_NSLEEP                     00003EFF
+_BOREN_OFF                        00003CFF
+_BOREN_ON                         00003FFF
+_BOREN_SBODEN                     00003DFF
+_BOR_NSLEEP                       00003EFF
+_BOR_OFF                          00003CFF
+_BOR_ON                           00003FFF
+_BOR_SBODEN                       00003DFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003F7F
+_CP_OFF                           00003FFF
+_CP_ON                            00003FBF
+_DEVID1                           00002006
+_EC_OSC                           00003FFB
+_EXTRC                            00003FFF
+_EXTRCIO                          00003FFE
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_EXTRC_OSC_CLKOUT                 00003FFF
+_EXTRC_OSC_NOCLKOUT               00003FFE
+_FCMEN_OFF                        000037FF
+_FCMEN_ON                         00003FFF
+_FOSC_EC                          00003FFB
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FFA
+_FOSC_INTRCCLK                    00003FFD
+_FOSC_INTRCIO                     00003FFC
+_FOSC_LP                          00003FF8
+_FOSC_XT                          00003FF9
+_HS_OSC                           00003FFA
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_IESO_OFF                         00003BFF
+_IESO_ON                          00003FFF
+_INTOSC                           00003FFD
+_INTOSCIO                         00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FF8
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FEF
+_WDTE_OFF                         00003FF7
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FF7
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FF9
+__16F690                          00000001
+__DEBUG                           1
+_i2cackwait_                      000000BE
+_i2cdone_                         00000097
+_i2cone_                          00000090
+_i2czero_                         00000089
+i2c_delayloop                     000000CA
+i2cbcount                         00000001
+i2ctemp                           00000000
+i2timer                           00000002
+swi2c_ackwait                     000000BE
+swi2c_delay                       000000C6
+swi2c_delay_4cycles               000000D1
+swi2c_delay_8cycles               000000D2
+swi2c_init                        00000000
+swi2c_readbit                     0000009E
+swi2c_sendaddrread                00000049
+swi2c_sendaddrwrite               0000003F
+swi2c_sendbit                     00000080
+swi2c_senddata                    00000053
+MPASM  5.43                         SWI2C.ASM   8-15-2014  23:21:27         PAGE 21
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+swi2c_start                       0000000F
+swi2c_stop                        0000002A
+
+Errors   :     0
+Warnings :     9 reported,     0 suppressed
+Messages :    16 reported,     0 suppressed
+
+

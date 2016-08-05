@@ -1,0 +1,287 @@
+#include <xc.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <math.h>
+
+#include "serial.h"
+#include "i2c.h"
+#include "tea5767.h"
+#include "hd44780.h"
+
+#define _XTAL_FREQ 20000000 // 20MHz Clock
+
+#define DEVICE_WRITE_ADDR 0x60
+#define DEVICE_READ_ADDR  0x61
+
+#define BAUD	100   // In kbps
+#define FOSC_SPEED	20000 // Oscillator clock in Khz
+
+#pragma config BOREN = ON, CPD = OFF, FOSC = HS, WDTE = OFF, CP = OFF, LVP = OFF, PWRTE = ON
+
+//bit data_read = 0, tmp;
+
+//uint8_t data[5];
+
+
+
+void init()
+{
+	// RB1 = 1 and RB2 = 0, RB7 = 1
+	//TRISB = 0x81;
+	//TRISE = 0x00;
+	// Setting RE0 as high impedence
+	//TRISA = 0x01;
+	// Disabling A2D convertor
+	ADCON1 = 0x06;
+
+	TRISA = 0x00;
+	//TRISE = 0x07;
+	TRISE = 0x00;
+
+	PORTA = 0x00;
+	PORTE = 0x00;
+	// Setting TMR0, 1:16 => 1 tick = 200 * 16ns = 3.2us
+	//OPTION_REG = 0 << 5 | 0 << 4 | 0 << 3 | 0b000;
+	//TRISC = 0b00110000;
+	//TRISC = 0x00;
+	//TRISC = 0b00010000;
+	// Pins 3 and 4 MUST be set as inputs
+	TRISCbits.TRISC3 = 1;
+	TRISCbits.TRISC4 = 1;
+	PORTC = 0x00;
+
+	// Setting PORTB pin 1 as input
+	TRISB = 0x02;
+	PORTB = 0x00;
+
+	SSPCON  = 0b00101000; // Master Mode
+	SSPSTAT = 0b10000000; // Slew Rate Control Disabled
+	SSPADD  = (FOSC_SPEED / (4 * BAUD)) - 1;
+
+	__delay_ms(10);
+
+	OPTION_REGbits.T0CS = 0;
+	OPTION_REGbits.T0SE = 0;
+	OPTION_REGbits.PSA  = 0;
+
+	//1:2 Ratio
+	OPTION_REGbits.PS0  = 0;
+	OPTION_REGbits.PS1  = 0;
+	OPTION_REGbits.PS2  = 1;
+
+	serial_init();
+	hd44780_init();
+
+	//INTCONbits.GIE = 1;
+}
+void interrupt tc_int()
+{
+	if( TMR0IE && TMR0IF ){
+		TMR0IF = 0;
+		TMR0 = 0;
+
+		//TX_poll('Y');
+		return;
+	}
+}
+
+uint8_t debounce_lo( uint8_t prt )
+{
+	uint8_t count = 0;
+
+	if( !prt ){
+		while( !prt && count < 10 ){
+			__delay_ms(1);
+			count++;
+		}
+		if( count == 10 )
+			return 1;
+	}
+	return 0;
+}
+
+void print_freq()
+{
+	static uint8_t dec = 0;
+
+	int fr = tea5767_tuned_freq();
+	int i = fr / 10;
+	i = i * 10;
+	int f = fr - i;
+	i = i / 10;
+
+	if( dec != (i + f) ){
+		hd44780_block_erase( 5, 5 );
+		hd44780_printdecimal( i, f, 5 );
+		dec = i + f;
+	}
+}
+
+
+void print_signal_level()
+{
+	static uint8_t prev_lvl = 0;
+
+	int lvl = tea5767_signal_level();
+	
+	if( prev_lvl != lvl ){
+		hd44780_block_erase( 14, 3 );
+		hd44780_printint( lvl, 14 );
+		prev_lvl = lvl;
+	}
+}
+
+void print_mode()
+{
+	int mode = tea5767_mode();
+
+	if( mode == 1 ){
+		//hd44780_printstr( "S", 0x40 );
+		hd44780_printstr( "S", 0 );
+	}else{
+		hd44780_printstr( "M", 0 );
+	}
+}
+/*
+void round_freq()
+{
+	char buff[5];
+	double i;
+
+	int fr = tea5767_tuned_freq();
+	int i = fr / 10;
+	i = i * 10;
+	int f = fr - i;
+	i = i / 10;
+
+	sprintf(buff, "%d.%d", i, f);
+	i = atof( buff );
+}
+*/
+
+int main()
+{
+	//char *text = "Counting: ";
+	uint8_t button_pressed = 0;
+
+	init();
+	tea5767_init();
+	//tea5767_tune(87.8);
+	//tea5767_search();
+	//tea5767_search();
+	//tea5767_search();
+	//tea5767_search();
+	
+	//tea5767_search();
+	//tea5767_tune(98.9);
+	//tea5767_search_up();
+	//tea5767_search();
+	//TRISE = 0x01;
+	//TRISA = 0x01;
+	//ADCON1 = 0x06;
+	//RE0 = 1;
+	//itoa(buff, 1234, 10);
+
+	//__delay_ms(1000);
+	//dht11_read();
+
+	//TRISA = 0x01;
+	//while( !RA0 );
+	//PORTCbits.RC6 = 1;
+
+
+	// Checking Slave ACK
+	//if( ACKSTAT == 1 ){
+		//serial_tx_printline( "No Data ACK from slave" );
+	//}
+
+	// Sending stop condition
+	//SSPCON2bits.PEN = 0x01;
+
+	//i2c_start();
+	//i2c_send_controlbyte( 0x60, 0 );
+
+	//if( SSPCON2bits.ACKSTAT == 1 ){
+		//serial_tx_printline( "No Control Data ACK from slave" );
+	//}
+
+	//for(i=0;i<5;i++){
+		//i2c_send_data( bytes[i] );
+	//}
+
+	//if( SSPCON2bits.ACKSTAT == 1 ){
+			//serial_tx_printline( "No Data ACK from slave" );
+	//}
+
+	//i2c_stop();
+
+	//__delay_ms(100);
+
+	//i2c_start();
+	//i2c_send_controlbyte( 0x60, 0 );
+
+	//if( SSPCON2bits.ACKSTAT == 1 ){
+		//serial_tx_printline( "No Read Control Data ACK from slave" );
+	//}
+
+	// Reading data
+	//i2c_start();
+	//i2c_send_controlbyte( 0x60, 1 );
+
+	//if( SSPCON2bits.ACKSTAT == 1 ){
+		//serial_tx_printline( "No Read 2 Control Data ACK from slave" );
+	//}
+
+	//hd44780_printchr( 'H', 7 );
+	//hd44780_printstr( text, 1 );
+	//hd44780_printdecimal( 100.5, 0 );
+	//double f = (float)tea5767_tuned_freq() / 10;
+	//tea5767_read();
+	//print_freq();
+	//print_signal_level();
+	//print_mode();
+
+	while( 1 ){
+	
+		//__delay_ms(1000);
+		//dht11_read();
+		
+		//data_read = 0;
+		//TMR0 = 0;
+		//__delay_us(200);
+		//PORTAbits.RA0 = 0;
+		//itoa(buff, TMR0, 10);
+		//TX_printline(&buff);
+		//__delay_ms(1000);
+		tea5767_read();
+		print_signal_level();
+		print_freq();
+		print_mode();
+		
+		//hd44780_newline();
+		//hd44780_write( 0b00100001 );
+		//hd44780_char( 0b10100101 );
+		//hd44780_write( 223 );
+
+		if( !button_pressed && debounce_lo( RB1 ) ){
+			RB2 = 0x01;
+
+			//tea5767_search();
+			tea5767_search_up();
+			button_pressed = 1;
+			//f = (float)tea5767_tuned_freq() / 10;
+			//hd44780_printdecimal( f, 0 );
+			//print_freq();
+			//print_signal_level();
+		}else{
+			RB2 = 0x00;
+			if(!debounce_lo( RB1 ))
+				button_pressed = 0;
+		}
+		
+		__delay_ms(100);
+	}
+	
+	return 0;
+}

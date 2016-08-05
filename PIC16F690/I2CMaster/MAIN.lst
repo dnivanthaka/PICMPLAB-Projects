@@ -1,0 +1,1360 @@
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;**********************************************************************
+                      00002 ;   This file is a basic code template for object module code         *
+                      00003 ;   generation on the PIC16F690. This file contains the               *
+                      00004 ;   basic code building blocks to build upon.                         *
+                      00005 ;                                                                     *
+                      00006 ;   Refer to the MPASM User's Guide for additional information on     *
+                      00007 ;   features of the assembler and linker (Document DS33014).          *
+                      00008 ;                                                                     *
+                      00009 ;   Refer to the respective PIC data sheet for additional             *
+                      00010 ;   information on the instruction set.                               *
+                      00011 ;                                                                     *
+                      00012 ;**********************************************************************
+                      00013 ;                                                                     *
+                      00014 ;    Filename:      xxx.asm                                           *
+                      00015 ;    Date:                                                            *
+                      00016 ;    File Version:                                                    *
+                      00017 ;                                                                     *
+                      00018 ;    Author:                                                          *
+                      00019 ;    Company:                                                         *
+                      00020 ;                                                                     *
+                      00021 ;                                                                     *
+                      00022 ;**********************************************************************
+                      00023 ;                                                                     *
+                      00024 ;    Files required: P16F690.INC                                      *
+                      00025 ;                                                                     *
+                      00026 ;                                                                     *
+                      00027 ;                                                                     *
+                      00028 ;**********************************************************************
+                      00029 ;                                                                     *
+                      00030 ;    Notes:                                                           *
+                      00031 ;                                                                     *
+                      00032 ;                                                                     *
+                      00033 ;                                                                     *
+                      00034 ;                                                                     *
+                      00035 ;**********************************************************************
+                      00036 
+                      00037     list      p=16F690           ; list directive to define processor
+                      00038     #include <p16F690.inc>        ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F690 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2011 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00753         LIST
+                      00039 
+                      00040     errorlevel  -302              ; suppress message 302 from list file
+                      00041 
+2007   30E4           00042     __CONFIG   _CP_OFF & _CPD_OFF & _BOR_OFF & _MCLRE_ON & _WDT_OFF & _PWRTE_ON & _INTRC_OSC_NOCLKOUT & 
+                            _FCMEN_OFF & _IESO_OFF 
+                      00043 
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00044 ; '__CONFIG' directive is used to embed configuration word within .asm file.
+                      00045 ; The lables following the directive are located in the respective .inc file.
+                      00046 ; See data sheet for additional information on configuration word settings.
+                      00047 
+                      00048 ;Start
+                      00049 ;wait for SSPIF and clear it
+                      00050 ;Send Addresss
+                      00051 ;wait for SSPIF and clear it
+                      00052 ;loop while more bytes:
+                      00053 ;  Send a byte
+                      00054 ;  wait for SSPIF and clear it
+                      00055 ;Stop
+                      00056 
+                      00057 ;***** VARIABLE DEFINITIONS (examples)
+                      00058 ;SSPADD = ((Fosc/BitRate)/4)-1
+                      00059 ;SSPADD = ( 4MHz / 100KHz ) - 1
+                      00060 #define FOSC    D'8000000'
+                      00061 #define I2CCLOCK        D'100000'
+                      00062 ;#define BAUDRATE       0x06    ;100Khz
+                      00063 #define BAUDRATE        (((FOSC/I2CCLOCK)/4) -1)        ;100Khz
+                      00064 
+                      00065 #define SLAVE_ADDR      0x20
+                      00066 
+                      00067 ;**********************************************************************
+                      00068 ; PORT allocations
+                      00069 ;**********************************************************************
+                      00070 #define I2CTRIS TRISB
+                      00071 #define I2CPORT PORTB
+                      00072 #define SDA             RB4
+                      00073 #define SCL             RB6
+                      00074 ;**********************************************************************
+                      00075 ; Macro definitions
+                      00076 ;**********************************************************************
+                      00077 SDAHI   MACRO
+                      00078                 ;Setting SDA as input
+                      00079                 banksel I2CTRIS
+                      00080                 bsf             I2CTRIS, SDA
+                      00081 
+                      00082                 ;nop
+                      00083                 ;nop
+                      00084 
+                      00085                 ;Setting SDA pin low
+                      00086                 ;banksel        I2CPORT
+                      00087                 ;bcf            I2CPORT, SDA
+                      00088                 ENDM
+                      00089 
+                      00090 SDALO   MACRO
+                      00091                 ;Setting SDA as output
+                      00092                 banksel I2CTRIS
+                      00093                 bcf             I2CTRIS, SDA
+                      00094 
+                      00095                 ;Setting SDA pin low
+                      00096                 ;banksel        I2CPORT
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00097                 ;bcf            I2CPORT, SDA
+                      00098                 ENDM
+                      00099 
+                      00100 SCLHI   MACRO
+                      00101                 ;Setting SDA as input
+                      00102                 banksel I2CTRIS
+                      00103                 bsf             I2CTRIS, SCL
+                      00104 
+                      00105                 ;nop
+                      00106                 ;nop
+                      00107 
+                      00108                 ;Setting SDA pin low
+                      00109                 ;banksel        I2CPORT
+                      00110                 ;bcf            I2CPORT, SCL
+                      00111                 ENDM
+                      00112 
+                      00113 SCLLO   MACRO
+                      00114                 ;Setting SDA as output
+                      00115                 banksel I2CTRIS
+                      00116                 bcf             I2CTRIS, SCL
+                      00117 
+                      00118                 ;Setting SDA pin low
+                      00119                 ;banksel        I2CPORT
+                      00120                 ;bcf            I2CPORT, SCL
+                      00121                 ENDM
+                      00122 ;**********************************************************************
+                      00123 
+                      00124 ; example of using Shared Uninitialized Data Section
+                      00125 INT_VAR     UDATA_SHR     
+0000                  00126 w_temp      RES     1       ; variable used for context saving 
+0001                  00127 status_temp RES     1       ; variable used for context saving
+0002                  00128 pclath_temp RES     1       ; variable used for context saving
+                      00129 
+Warning[205]: Found directive in column 1. (UDATA)
+                      00130 UDATA
+0000                  00131 temp                    RES     1
+0001                  00132 temp_address    RES     1
+0002                  00133 bit_counter             RES     1
+                      00134 
+                      00135 ;**********************************************************************
+                      00136 RESET_VECTOR    CODE    0x0000       ; processor reset vector
+0000   2???           00137         goto    start                ; go to beginning of program
+                      00138 
+                      00139 INT_VECTOR      CODE    0x0004       ; interrupt vector location
+                      00140 
+0004                  00141 INTERRUPT
+                      00142 
+0004   00??           00143         movwf   w_temp            ; save off current W register contents
+0005   0803           00144         movf    STATUS,w          ; move status register into W register
+0006   00??           00145         movwf   status_temp       ; save off contents of STATUS register
+0007   080A           00146         movf    PCLATH,w          ; move pclath register into W register
+0008   00??           00147         movwf   pclath_temp       ; save off contents of PCLATH register
+                      00148 
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00149 
+                      00150 
+                      00151 ; isr code can go here or be located as a call subroutine elsewhere
+                      00152 
+                      00153 
+0009   08??           00154         movf    pclath_temp,w     ; retrieve copy of PCLATH register
+000A   008A           00155         movwf   PCLATH            ; restore pre-isr PCLATH register contents
+000B   08??           00156         movf    status_temp,w     ; retrieve copy of STATUS register
+000C   0083           00157         movwf   STATUS            ; restore pre-isr STATUS register contents
+000D   0E??           00158         swapf   w_temp,f
+000E   0E??           00159         swapf   w_temp,w          ; restore pre-isr W register contents
+000F   0009           00160         retfie                    ; return from interrupt
+                      00161 
+                      00162 MAIN_PROG       CODE
+                      00163 
+0000                  00164 start
+0000   ????           00165                 pagesel init
+0001   2???           00166                 call    init
+                      00167 
+0002   ????           00168                 pagesel i2c_start
+0003   2???           00169                 call    i2c_start
+                      00170 
+                      00171                 ;pagesel        i2c_stop
+                      00172                 ;call   i2c_stop
+                      00173 
+0004   3020           00174                 movlw   SLAVE_ADDR
+0005   ????           00175                 pagesel i2c_sendwriteaddr
+0006   2???           00176                 call    i2c_sendwriteaddr
+                      00177 
+                      00178                 ;pagesel        i2c_sendbyte
+                      00179                 ;call   i2c_sendbyte
+                      00180 
+                      00181 
+                      00182                 ;pagesel        i2c_read_bit
+                      00183                 ;call   i2c_read_bit
+                      00184 
+                      00185                 ;banksel        PIR1
+                      00186                 ;btfss  PIR1, SSPIF
+                      00187                 ;goto   $-1
+                      00188                 ;bcf            PIR1, SSPIF
+                      00189 
+                      00190                 ;pagesel        i2c_stop
+                      00191                 ;call   i2c_stop
+                      00192 
+                      00193                 ;movlw  SLAVE_ADDR
+                      00194                 ;banksel        temp_address
+                      00195                 ;movwf  temp_address
+                      00196 
+                      00197                 ;pagesel        i2c_sendwriteaddr
+                      00198                 ;call   i2c_sendwriteaddr
+                      00199                 ;pagesel        i2c_ackwait
+                      00200                 ;call   i2c_ackwait
+0007   3A00           00201                 xorlw   0x0
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0008   1D03           00202                 btfss   STATUS, Z
+0009   2???           00203                 goto    _skip_
+                      00204 
+000A   1283 1303      00205                 banksel PORTB
+000C   1686           00206                 bsf             PORTB, RB5
+000D                  00207 _skip_
+                      00208                 
+                      00209                 ;pagesel        i2c_sendwriteaddr
+000D                  00210 loop
+                      00211 
+000D   2???           00212         goto    loop             ; loop forever
+                      00213 
+                      00214 ;------------------------------------------------------------
+                      00215 ; Initialization of Device
+                      00216 ;------------------------------------------------------------
+000E                  00217 init
+                      00218         ; Setting Oscillator
+000E   3070           00219         movlw b'01110000'
+                      00220                   ;--111----    ; 8Mhz Crystal
+                      00221                   ;-----0---    ; OSTS - Intrnal Oscillator
+                      00222                   ;------0--    ; HFINTOSC - High Frequency Oscillator
+                      00223                   ;-------0-    ; LFINTOSC - Low Freq. Oscillator
+                      00224                   ;---------1   ; Internal Oscillator is used for Clock
+000F   1683 1303      00225         banksel OSCCON
+0011   008F           00226         movwf   OSCCON
+                      00227 
+                      00228         ; Setting Ports
+0012   1283           00229         bcf     STATUS, RP0     ; Bank 0
+0013   1303           00230         bcf     STATUS, RP1
+                      00231 
+0014   0186           00232         clrf    PORTB
+                      00233 
+0015   1703           00234         bsf     STATUS, RP1     ; Bank 2
+                      00235 
+0016   019E           00236         clrf    ANSEL
+0017   019F           00237         clrf    ANSELH
+                      00238 
+0018   1683           00239         bsf     STATUS, RP0     ; Bank 1
+0019   1303           00240         bcf     STATUS, RP1
+                      00241 
+                      00242         ;movlw  b'01010000'
+                      00243         ;movwf  TRISB
+001A   3050           00244         movlw   b'01010000'
+                      00245         ;movlw  b'00000000'
+001B   0086           00246         movwf   TRISB
+                      00247 
+001C   1283           00248         bcf     STATUS, RP0     ; Bank 0
+                      00249 
+                      00250         ; Setting up I2C peripheral
+001D   1283 1303      00251         banksel SSPBUF
+001F   0193           00252         clrf    SSPBUF
+                      00253 
+                      00254         ; Setting baud rate
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0020   3013           00255         movlw   BAUDRATE
+0021   1683 1303      00256         banksel SSPADD
+0023   0093           00257         movwf   SSPADD
+                      00258 
+0024   1683 1303      00259         banksel SSPSTAT
+0026   1314           00260         bcf             SSPSTAT, 6
+0027   1394           00261         bcf             SSPSTAT, 7
+                      00262 
+                      00263         ; Mastermode, SSP Enable
+                      00264         ;movlw  b'00111000'
+0028   302B           00265         movlw   b'00101011'
+0029   1283 1303      00266         banksel SSPCON
+002B   0094           00267         movwf   SSPCON
+                      00268 
+                      00269         ; Enabling the SSPIF Flag
+002C   1283 1303      00270         banksel PIR1
+002E   118C           00271         bcf             PIR1, SSPIF
+                      00272         ;banksel        PIE1
+                      00273         ;bsf            PIE1, SSPIE
+                      00274         
+002F   0008           00275         return
+                      00276 ;------------------------------------------------------------
+                      00277 
+                      00278 ;------------------------------------------------------------
+                      00279 ; Write data to slave
+                      00280 ;------------------------------------------------------------
+                      00281 
+                      00282 ;i2c_start
+                      00283         
+                      00284         ;banksel        SSPCON
+                      00285         ;bsf            SSPCON, SSPEN
+                      00286 
+                      00287         ;banksel        PIR1
+                      00288         ;btfss  PIR1, SSPIF
+                      00289         ;goto   $-1
+                      00290         ;bcf            PIR1, SSPIF
+                      00291 
+                      00292         ;return
+                      00293 
+                      00294 ;i2c_sendwriteaddr
+                      00295 
+                      00296         ;bcf            STATUS, C
+                      00297         ;banksel        temp_address
+                      00298         ;rlf            temp_address, w
+                      00299 
+                      00300         ;banksel        SSPBUF
+                      00301         ;movwf  SSPBUF
+                      00302 
+                      00303         ;banksel        PIR1
+                      00304         ;btfss  PIR1, SSPIF
+                      00305         ;goto   $-1
+                      00306         ;bcf            PIR1, SSPIF
+                      00307 
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00308         ;return
+                      00309 
+                      00310 ;i2c_writedata
+                      00311         ;banksel        SSPBUF
+                      00312         ;movwf  SSPBUF
+                      00313 
+                      00314         ;banksel        PIR1
+                      00315         ;btfss  PIR1, SSPIF
+                      00316         ;goto   $-1
+                      00317         ;bcf            PIR1, SSPIF
+                      00318 
+                      00319         ;return
+                      00320 
+                      00321 ;i2c_stop
+                      00322         ;banksel        SSPCON
+                      00323         ;bcf            SSPCON, SSPEN   
+                      00324         ;return
+                      00325 ;------------------------------------------------------------
+                      00326 ; I2C Start
+                      00327 ;------------------------------------------------------------
+0030                  00328 i2c_start
+                      00329 
+                      00330         SCLHI
+                          M                 ;Setting SDA as input
+0030   1683 1303          M                 banksel I2CTRIS
+0032   1706               M                 bsf             I2CTRIS, SCL
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SCL
+                      00331         SDAHI
+                          M                 ;Setting SDA as input
+0033   1683 1303          M                 banksel I2CTRIS
+0035   1606               M                 bsf             I2CTRIS, SDA
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SDA
+                      00332 
+                      00333         ;pagesel        i2c_delay
+                      00334         ;call   i2c_delay
+                      00335 
+                      00336         SDALO
+                          M                 ;Setting SDA as output
+0036   1683 1303          M                 banksel I2CTRIS
+0038   1206               M                 bcf             I2CTRIS, SDA
+                          M 
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                          M                 ;Setting SDA pin low
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SDA
+                      00337 
+0039   ????           00338         pagesel i2c_delay
+003A   2???           00339         call    i2c_delay
+                      00340 
+                      00341         ;banksel        TRISB
+                      00342         ;bcf            TRISB, RB6      ; SCL is driven Low
+                      00343 
+                      00344         SCLLO
+                          M                 ;Setting SDA as output
+003B   1683 1303          M                 banksel I2CTRIS
+003D   1306               M                 bcf             I2CTRIS, SCL
+                          M 
+                          M                 ;Setting SDA pin low
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SCL
+                      00345 
+003E   1283 1303      00346         banksel PIR1
+0040   1D8C           00347         btfss   PIR1, SSPIF
+0041   2???           00348         goto    $-1
+0042   118C           00349         bcf             PIR1, SSPIF
+                      00350 
+0043   0008           00351         return
+                      00352 ;------------------------------------------------------------
+                      00353 
+                      00354 ;------------------------------------------------------------
+                      00355 ; I2C Stop
+                      00356 ;------------------------------------------------------------
+0044                  00357 i2c_stop
+                      00358         ;banksel        PORTB   
+                      00359         ;bcf            PORTB, RB4
+                      00360 
+                      00361         ;banksel        PORTB   
+                      00362         ;bcf            PORTB, RB6
+                      00363 
+                      00364         SCLHI
+                          M                 ;Setting SDA as input
+0044   1683 1303          M                 banksel I2CTRIS
+0046   1706               M                 bsf             I2CTRIS, SCL
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SCL
+                      00365 
+0047   ????           00366         pagesel i2c_delay
+0048   2???           00367         call    i2c_delay
+                      00368 
+Warning[207]: Found label after column 1. (SDLHI)
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0049                  00369         SDLHI
+                      00370 
+0049   1283 1303      00371         banksel PIR1
+004B   1D8C           00372         btfss   PIR1, SSPIF
+004C   2???           00373         goto    $-1
+004D   118C           00374         bcf             PIR1, SSPIF
+                      00375 
+004E   0008           00376         return
+                      00377 ;------------------------------------------------------------
+                      00378 
+                      00379 ;------------------------------------------------------------
+                      00380 ; I2C send write address
+                      00381 ;------------------------------------------------------------
+004F                  00382 i2c_sendwriteaddr
+004F   ???? ????      00383         banksel temp_address
+0051   00??           00384         movwf   temp_address
+                      00385 
+0052   1003           00386         bcf             STATUS, C
+0053   0D??           00387         rlf             temp_address, w
+                      00388 
+0054   ????           00389         pagesel i2c_sendbyte
+0055   2???           00390         call    i2c_sendbyte
+                      00391 
+0056   ????           00392         pagesel i2c_read_bit
+0057   2???           00393         call    i2c_read_bit
+                      00394 
+                      00395         ;pagesel        i2c_ackwait
+                      00396         ;call   i2c_ackwait
+                      00397         ;banksel        PIR1
+                      00398         ;btfss  PIR1, SSPIF
+                      00399         ;goto   $-1
+                      00400         ;bcf            PIR1, SSPIF
+                      00401 
+0058   0008           00402         return
+                      00403 ;------------------------------------------------------------
+                      00404 
+                      00405 ;------------------------------------------------------------
+                      00406 ; Waits for slave ACK
+                      00407 ;------------------------------------------------------------
+0059                  00408 i2c_ackwait
+0059   1683 1303      00409         banksel TRISB
+005B   1606           00410         bsf             TRISB, RB4      ; SDA is input
+                      00411 
+005C   ????           00412         pagesel i2c_pulse
+005D   2???           00413         call    i2c_pulse
+                      00414 
+005E   1283 1303      00415         banksel PORTB
+0060   1A06           00416         btfsc   PORTB, RB4
+0061   2???           00417         goto    $-1
+                      00418 
+0062   0008           00419         return
+                      00420 ;------------------------------------------------------------
+                      00421 ;------------------------------------------------------------
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00422 ; Write byte
+                      00423 ;------------------------------------------------------------
+                      00424 
+0063                  00425 i2c_sendbyte
+0063   ???? ????      00426         banksel temp
+0065   00??           00427         movwf   temp
+                      00428 
+0066   1003           00429         bcf             STATUS, C
+0067   ???? ????      00430         banksel temp
+0069   0D??           00431         rlf             temp, f
+                      00432 
+006A   ????           00433         pagesel i2c_send_bit
+006B   2???           00434         call    i2c_send_bit
+                      00435 
+006C   ???? ????      00436         banksel temp
+006E   0D??           00437         rlf             temp, f
+                      00438 
+006F   ????           00439         pagesel i2c_send_bit
+0070   2???           00440         call    i2c_send_bit
+                      00441 
+0071   ???? ????      00442         banksel temp
+0073   0D??           00443         rlf             temp, f
+                      00444 
+0074   ????           00445         pagesel i2c_send_bit
+0075   2???           00446         call    i2c_send_bit
+                      00447 
+0076   ???? ????      00448         banksel temp
+0078   0D??           00449         rlf             temp, f
+                      00450 
+0079   ????           00451         pagesel i2c_send_bit
+007A   2???           00452         call    i2c_send_bit
+                      00453 
+007B   ???? ????      00454         banksel temp
+007D   0D??           00455         rlf             temp, f
+                      00456 
+007E   ????           00457         pagesel i2c_send_bit
+007F   2???           00458         call    i2c_send_bit
+                      00459 
+0080   ???? ????      00460         banksel temp
+0082   0D??           00461         rlf             temp, f
+                      00462 
+0083   ????           00463         pagesel i2c_send_bit
+0084   2???           00464         call    i2c_send_bit
+                      00465 
+0085   ???? ????      00466         banksel temp
+0087   0D??           00467         rlf             temp, f
+                      00468 
+0088   ????           00469         pagesel i2c_send_bit
+0089   2???           00470         call    i2c_send_bit
+                      00471 
+008A   ???? ????      00472         banksel temp
+008C   0D??           00473         rlf             temp, f
+                      00474 
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+008D   ????           00475         pagesel i2c_send_bit
+008E   2???           00476         call    i2c_send_bit
+                      00477 
+                      00478         ;pagesel        i2c_read_bit
+                      00479         ;call   i2c_read_bit
+                      00480 
+                      00481         ;SCLHI
+                      00482         ;pagesel        i2c_delay
+                      00483         ;call   i2c_delay
+                      00484         ;SCLLO
+                      00485         ;nop
+                      00486         ;nop
+                      00487 
+                      00488         ;pagesel        i2c_ackwait
+                      00489         ;call   i2c_ackwait
+                      00490         ;banksel        PIR1
+                      00491         ;btfss  PIR1, SSPIF
+                      00492         ;goto   $-1
+                      00493         ;bcf            PIR1, SSPIF
+                      00494 
+008F   0008           00495         return
+                      00496 ;------------------------------------------------------------
+                      00497 ;------------------------------------------------------------
+                      00498 ; Send bit
+                      00499 ;------------------------------------------------------------
+0090                  00500 i2c_send_bit
+                      00501         ;SCLLO
+                      00502 
+0090   1C03           00503         btfss   STATUS, C
+0091   2???           00504         goto    _zero_
+0092   2???           00505         goto    _one_
+                      00506 
+0093                  00507 _one_
+                      00508         SDAHI
+                          M                 ;Setting SDA as input
+0093   1683 1303          M                 banksel I2CTRIS
+0095   1606               M                 bsf             I2CTRIS, SDA
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SDA
+0096   2???           00509         goto    _done_
+                      00510 
+0097                  00511 _zero_
+                      00512         SDALO
+                          M                 ;Setting SDA as output
+0097   1683 1303          M                 banksel I2CTRIS
+0099   1206               M                 bcf             I2CTRIS, SDA
+                          M 
+                          M                 ;Setting SDA pin low
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SDA
+                      00513 
+009A                  00514 _done_
+                      00515         ;nop
+                      00516         ;nop
+                      00517         SCLHI
+                          M                 ;Setting SDA as input
+009A   1683 1303          M                 banksel I2CTRIS
+009C   1706               M                 bsf             I2CTRIS, SCL
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SCL
+009D   ????           00518         pagesel i2c_delay
+009E   2???           00519         call    i2c_delay
+                      00520         ;nop
+                      00521         ;nop
+                      00522         ;nop
+                      00523         ;nop
+                      00524         SCLLO
+                          M                 ;Setting SDA as output
+009F   1683 1303          M                 banksel I2CTRIS
+00A1   1306               M                 bcf             I2CTRIS, SCL
+                          M 
+                          M                 ;Setting SDA pin low
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SCL
+                      00525 
+                      00526                 
+                      00527 
+00A2   0008           00528         return
+                      00529 
+                      00530 
+                      00531 ;------------------------------------------------------------
+                      00532 ;------------------------------------------------------------
+                      00533 ; Read bit
+                      00534 ;------------------------------------------------------------
+00A3                  00535 i2c_read_bit
+                      00536         SCLLO
+                          M                 ;Setting SDA as output
+00A3   1683 1303          M                 banksel I2CTRIS
+00A5   1306               M                 bcf             I2CTRIS, SCL
+                          M 
+                          M                 ;Setting SDA pin low
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SCL
+                      00537         SDAHI
+                          M                 ;Setting SDA as input
+00A6   1683 1303          M                 banksel I2CTRIS
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00A8   1606               M                 bsf             I2CTRIS, SDA
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SDA
+                      00538 
+                      00539         SCLHI
+                          M                 ;Setting SDA as input
+00A9   1683 1303          M                 banksel I2CTRIS
+00AB   1706               M                 bsf             I2CTRIS, SCL
+                          M 
+                          M                 ;nop
+                          M                 ;nop
+                          M 
+                          M                 ;Setting SDA pin low
+                          M                 ;banksel        I2CPORT
+                          M                 ;bcf            I2CPORT, SCL
+00AC   ????           00540         pagesel i2c_delay
+00AD   2???           00541         call    i2c_delay
+                      00542         ;SCLLO
+                      00543 
+00AE   1283 1303      00544         banksel I2CPORT
+00B0   1E06           00545         btfss   I2CPORT, SDA
+00B1   3400           00546         retlw   0x0
+00B2   3400           00547         retlw   0x0
+                      00548 
+00B3   0008           00549         return
+                      00550 
+                      00551 
+                      00552 ;------------------------------------------------------------
+                      00553 ;------------------------------------------------------------
+                      00554 ; Pulses the SCL Line
+                      00555 ;------------------------------------------------------------
+00B4                  00556 i2c_pulse
+                      00557         ;banksel        PORTB   
+                      00558         ;bcf            PORTB, RB6
+                      00559         ;pagesel        i2c_delay
+                      00560         ;call   i2c_delay
+                      00561 
+00B4   1683 1303      00562         banksel TRISB
+00B6   1706           00563         bsf             TRISB, RB6      ; SCL is driven High
+                      00564 
+00B7   ????           00565         pagesel i2c_delay
+00B8   2???           00566         call    i2c_delay
+                      00567 
+00B9   1683 1303      00568         banksel TRISB
+00BB   1306           00569         bcf             TRISB, RB6 ; SCL is driven Low
+                      00570 
+                      00571         ;pagesel        i2c_delay
+                      00572         ;call   i2c_delay
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00573 
+                      00574         ;banksel        TRISB
+                      00575         ;bcf            TRISB, RB6
+                      00576 
+                      00577         ;pagesel        i2c_delay
+                      00578         ;call   i2c_delay
+00BC   0008           00579         return
+                      00580 ;------------------------------------------------------------
+                      00581 ;------------------------------------------------------------
+                      00582 ; I2C Delay
+                      00583 ;------------------------------------------------------------
+00BD                  00584 i2c_delay
+00BD   3005           00585         movlw   .5
+00BE   ???? ????      00586         banksel temp
+00C0   00??           00587         movwf   temp
+                      00588 
+00C1                  00589 _delay_
+00C1   0000           00590         nop
+00C2   0000           00591         nop
+00C3   ???? ????      00592         banksel temp
+00C5   0B??           00593         decfsz  temp, f
+00C6   2???           00594         goto    _delay_
+00C7   0008           00595         return
+                      00596 ;------------------------------------------------------------
+                      00597 ; initialize eeprom locations
+                      00598 
+                      00599 EE      CODE    0x2100
+2100   0000 0001 0002 00600         DE  0x00, 0x01, 0x02, 0x03
+       0003 
+                      00601 
+30E4                  00602         END                       ; directive 'end of program'
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ABDEN                             00000000
+ABDOVF                            00000007
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+ANS0                              00000000
+ANS1                              00000001
+ANS10                             00000002
+ANS11                             00000003
+ANS2                              00000002
+ANS3                              00000003
+ANS4                              00000004
+ANS5                              00000005
+ANS6                              00000006
+ANS7                              00000007
+ANS8                              00000000
+ANS9                              00000001
+ANSEL                             0000011E
+ANSELH                            0000011F
+BAUDCTL                           0000009B
+BAUDRATE                          (((FOSC/I2CCLOCK)/4) -1)
+BF                                00000000
+BRG0                              00000000
+BRG1                              00000001
+BRG10                             00000002
+BRG11                             00000003
+BRG12                             00000004
+BRG13                             00000005
+BRG14                             00000006
+BRG15                             00000007
+BRG16                             00000003
+BRG2                              00000002
+BRG3                              00000003
+BRG4                              00000004
+BRG5                              00000005
+BRG6                              00000006
+BRG7                              00000007
+BRG8                              00000000
+BRG9                              00000001
+BRGH                              00000002
+C                                 00000000
+C1CH0                             00000000
+C1CH1                             00000001
+C1IE                              00000005
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+C1IF                              00000005
+C1OE                              00000005
+C1ON                              00000007
+C1OUT                             00000006
+C1POL                             00000004
+C1R                               00000002
+C1SEN                             00000005
+C1VREN                            00000007
+C2CH0                             00000000
+C2CH1                             00000001
+C2IE                              00000006
+C2IF                              00000006
+C2OE                              00000005
+C2ON                              00000007
+C2OUT                             00000006
+C2POL                             00000004
+C2R                               00000002
+C2REN                             00000004
+C2SYNC                            00000000
+C2VREN                            00000006
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCPR1H                            00000016
+CCPR1L                            00000015
+CHS0                              00000002
+CHS1                              00000003
+CHS2                              00000004
+CHS3                              00000005
+CKE                               00000006
+CKP                               00000004
+CM1CON0                           00000119
+CM2CON0                           0000011A
+CM2CON1                           0000011B
+CREN                              00000004
+CSRC                              00000007
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+D_A                               00000005
+D_NOT_A                           00000005
+ECCPAS                            0000001D
+ECCPAS0                           00000004
+ECCPAS1                           00000005
+ECCPAS2                           00000006
+ECCPASE                           00000007
+EEADR                             0000010D
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+EEADRH                            0000010F
+EECON1                            0000018C
+EECON2                            0000018D
+EEDAT                             0000010C
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+F                                 00000001
+FERR                              00000002
+FOSC                              D'8000000'
+FSR                               00000004
+GIE                               00000007
+GO                                00000001
+GO_DONE                           00000001
+GO_NOT_DONE                       00000001
+HTS                               00000002
+I2CCLOCK                          D'100000'
+I2CPORT                           PORTB
+I2CTRIS                           TRISB
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTERRUPT                         00000004
+INTF                              00000001
+IOC                               00000096
+IOC0                              00000000
+IOC1                              00000001
+IOC2                              00000002
+IOC3                              00000003
+IOC4                              00000004
+IOC5                              00000005
+IOCA                              00000096
+IOCA0                             00000000
+IOCA1                             00000001
+IOCA2                             00000002
+IOCA3                             00000003
+IOCA4                             00000004
+IOCA5                             00000005
+IOCB                              00000116
+IOCB4                             00000004
+IOCB5                             00000005
+IOCB6                             00000006
+IOCB7                             00000007
+IRCF0                             00000004
+IRCF1                             00000005
+IRCF2                             00000006
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+IRP                               00000007
+LTS                               00000001
+MC1OUT                            00000007
+MC2OUT                            00000006
+MSK                               00000093
+MSK0                              00000000
+MSK1                              00000001
+MSK2                              00000002
+MSK3                              00000003
+MSK4                              00000004
+MSK5                              00000005
+MSK6                              00000006
+MSK7                              00000007
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BOR                           00000000
+NOT_DONE                          00000001
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RABPU                         00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OERR                              00000001
+OPTION_REG                        00000081
+OSCCON                            0000008F
+OSCTUNE                           00000090
+OSFIE                             00000007
+OSFIF                             00000007
+OSTS                              00000003
+P                                 00000004
+P1M0                              00000006
+P1M1                              00000007
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PDC0                              00000000
+PDC1                              00000001
+PDC2                              00000002
+PDC3                              00000003
+PDC4                              00000004
+PDC5                              00000005
+PDC6                              00000006
+PEIE                              00000006
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PORTA                             00000005
+PORTB                             00000006
+PORTC                             00000007
+PR2                               00000092
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PRSEN                             00000007
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSSAC0                            00000002
+PSSAC1                            00000003
+PSSBD0                            00000000
+PSSBD1                            00000001
+PSTRCON                           0000019D
+PULSR                             00000002
+PULSS                             00000003
+PWM1CON                           0000001C
+R                                 00000002
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RABIE                             00000003
+RABIF                             00000000
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RC0                               00000000
+RC1                               00000001
+RC2                               00000002
+RC3                               00000003
+RC4                               00000004
+RC5                               00000005
+RC6                               00000006
+RC7                               00000007
+RCIDL                             00000006
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+READ_WRITE                        00000002
+RP0                               00000005
+RP1                               00000006
+RX9                               00000006
+RX9D                              00000000
+R_NOT_W                           00000002
+R_W                               00000002
+S                                 00000003
+SBOREN                            00000004
+SCKP                              00000004
+SCL                               RB6
+SCLHI                             
+SCLLO                             
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SCS                               00000000
+SDA                               RB4
+SDAHI                             
+SDALO                             
+SDLHI                             00000049
+SENB                              00000003
+SENDB                             00000003
+SLAVE_ADDR                        0x20
+SMP                               00000007
+SPBRG                             00000099
+SPBRGH                            0000009A
+SPEN                              00000007
+SR0                               00000006
+SR1                               00000007
+SRCON                             0000019E
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPMSK                            00000093
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+STRA                              00000000
+STRB                              00000001
+STRC                              00000002
+STRD                              00000003
+STRSYNC                           00000004
+SWDTEN                            00000000
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1GINV                            00000007
+T1GSS                             00000001
+T1IE                              00000000
+T1IF                              00000000
+T1OSCEN                           00000003
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+T2IE                              00000001
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 21
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T2IF                              00000001
+TMR0                              00000001
+TMR1CS                            00000001
+TMR1GE                            00000006
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISB                             00000086
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISC                             00000087
+TRISC0                            00000000
+TRISC1                            00000001
+TRISC2                            00000002
+TRISC3                            00000003
+TRISC4                            00000004
+TRISC5                            00000005
+TRISC6                            00000006
+TRISC7                            00000007
+TRMT                              00000001
+TUN0                              00000000
+TUN1                              00000001
+TUN2                              00000002
+TUN3                              00000003
+TUN4                              00000004
+TX9                               00000006
+TX9D                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+UA                                00000001
+ULPWUE                            00000005
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 22
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+VCFG                              00000006
+VP6EN                             00000004
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             00000118
+VRR                               00000005
+W                                 00000000
+WCOL                              00000007
+WDTCON                            00000097
+WDTPS0                            00000001
+WDTPS1                            00000002
+WDTPS2                            00000003
+WDTPS3                            00000004
+WPU                               00000095
+WPU0                              00000000
+WPU1                              00000001
+WPU2                              00000002
+WPU4                              00000004
+WPU5                              00000005
+WPUA                              00000095
+WPUA0                             00000000
+WPUA1                             00000001
+WPUA2                             00000002
+WPUA4                             00000004
+WPUA5                             00000005
+WPUB                              00000115
+WPUB4                             00000004
+WPUB5                             00000005
+WPUB6                             00000006
+WPUB7                             00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+WUE                               00000001
+Z                                 00000002
+_BOD_NSLEEP                       00003EFF
+_BOD_OFF                          00003CFF
+_BOD_ON                           00003FFF
+_BOD_SBODEN                       00003DFF
+_BOREN_NSLEEP                     00003EFF
+_BOREN_OFF                        00003CFF
+_BOREN_ON                         00003FFF
+_BOREN_SBODEN                     00003DFF
+_BOR_NSLEEP                       00003EFF
+_BOR_OFF                          00003CFF
+_BOR_ON                           00003FFF
+_BOR_SBODEN                       00003DFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003F7F
+_CP_OFF                           00003FFF
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 23
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_CP_ON                            00003FBF
+_DEVID1                           00002006
+_EC_OSC                           00003FFB
+_EXTRC                            00003FFF
+_EXTRCIO                          00003FFE
+_EXTRC_OSC_CLKOUT                 00003FFF
+_EXTRC_OSC_NOCLKOUT               00003FFE
+_FCMEN_OFF                        000037FF
+_FCMEN_ON                         00003FFF
+_FOSC_EC                          00003FFB
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FFA
+_FOSC_INTRCCLK                    00003FFD
+_FOSC_INTRCIO                     00003FFC
+_FOSC_LP                          00003FF8
+_FOSC_XT                          00003FF9
+_HS_OSC                           00003FFA
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_IESO_OFF                         00003BFF
+_IESO_ON                          00003FFF
+_INTOSC                           00003FFD
+_INTOSCIO                         00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FF8
+_MAIN_PROG_0041                   00000041
+_MAIN_PROG_004C                   0000004C
+_MAIN_PROG_0061                   00000061
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FEF
+_WDTE_OFF                         00003FF7
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FF7
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FF9
+__16F690                          00000001
+__DEBUG                           1
+_delay_                           000000C1
+_done_                            0000009A
+_one_                             00000093
+_skip_                            0000000D
+_zero_                            00000097
+bit_counter                       00000002
+i2c_ackwait                       00000059
+i2c_delay                         000000BD
+i2c_pulse                         000000B4
+i2c_read_bit                      000000A3
+MPASM  5.43                          MAIN.ASM   8-18-2014  23:57:19         PAGE 24
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+i2c_send_bit                      00000090
+i2c_sendbyte                      00000063
+i2c_sendwriteaddr                 0000004F
+i2c_start                         00000030
+i2c_stop                          00000044
+init                              0000000E
+loop                              0000000D
+pclath_temp                       00000002
+start                             00000000
+status_temp                       00000001
+temp                              00000000
+temp_address                      00000001
+w_temp                            00000000
+
+Errors   :     0
+Warnings :     2 reported,     0 suppressed
+Messages :     0 reported,    22 suppressed
+
+

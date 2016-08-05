@@ -1,0 +1,8 @@
+_init: CODE, 140 0 16
+_main: CODE, 25 0 86
+_tc_int: CODE, 156 0 16
+__initialization: CODE, 21 0 0
+_read_eeprom: CODE, 185 0 13
+_write_eeprom: CODE, 111 0 29
+_ssp_init: CODE, 172 0 13
+Total: 173

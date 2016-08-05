@@ -1,0 +1,95 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Mon Aug 18 23:57:20 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000018
+                MAIN_PROG       code   0x000010    program   0x000190
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                   .udata      udata   0x000020       data   0x000003
+                  INT_VAR      udata   0x000070       data   0x000003
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x0000d7      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            220 out of 4359 program addresses used, program memory utilization is 5%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                    SDLHI   0x000059    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+          _MAIN_PROG_0041   0x000051    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+          _MAIN_PROG_004C   0x00005c    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+          _MAIN_PROG_0061   0x000071    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                  _delay_   0x0000d1    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                   _done_   0x0000aa    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                    _one_   0x0000a3    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                   _skip_   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                   _zero_   0x0000a7    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+              i2c_ackwait   0x000069    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                i2c_delay   0x0000cd    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                i2c_pulse   0x0000c4    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+             i2c_read_bit   0x0000b3    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+             i2c_send_bit   0x0000a0    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+             i2c_sendbyte   0x000073    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+        i2c_sendwriteaddr   0x00005f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                i2c_start   0x000040    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                 i2c_stop   0x000054    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                     init   0x00001e    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                     loop   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                    start   0x000010    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+              bit_counter   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                     temp   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+             temp_address   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                    start   0x000010    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                     loop   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                   _skip_   0x00001d    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                     init   0x00001e    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                i2c_start   0x000040    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+          _MAIN_PROG_0041   0x000051    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                 i2c_stop   0x000054    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                    SDLHI   0x000059    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+          _MAIN_PROG_004C   0x00005c    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+        i2c_sendwriteaddr   0x00005f    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+              i2c_ackwait   0x000069    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+          _MAIN_PROG_0061   0x000071    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+             i2c_sendbyte   0x000073    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+             i2c_send_bit   0x0000a0    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                    _one_   0x0000a3    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                   _zero_   0x0000a7    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                   _done_   0x0000aa    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+             i2c_read_bit   0x0000b3    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                i2c_pulse   0x0000c4    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                i2c_delay   0x0000cd    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                  _delay_   0x0000d1    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                     temp   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+             temp_address   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+              bit_counter   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\I2CMaster\MAIN.ASM
+
+

@@ -1,0 +1,1 @@
+ tea5767.d  tea5767.p1:  C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/TEA5767/tea5767.c C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/TEA5767/i2c.h C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/TEA5767/tea5767.h C:/Users/Dinusha/Documents/PICProjects/PIC877AProjects/CProjects/TEA5767/serial.h

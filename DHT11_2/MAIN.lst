@@ -1,0 +1,1107 @@
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;**********************************************************************
+                      00002 ;   This file is a basic code template for object module code         *
+                      00003 ;   generation on the PIC16F628A. This file contains the              *
+                      00004 ;   basic code building blocks to build upon.                         *
+                      00005 ;                                                                     *
+                      00006 ;   Refer to the MPASM User's Guide for additional information on     *
+                      00007 ;   features of the assembler and linker (Document DS33014).          *
+                      00008 ;                                                                     *
+                      00009 ;   Refer to the respective PIC data sheet for additional             *
+                      00010 ;   information on the instruction set.                               *
+                      00011 ;                                                                     *
+                      00012 ;**********************************************************************
+                      00013 ;                                                                     *
+                      00014 ;    Filename:        xxx.asm                                         *
+                      00015 ;    Date:                                                            *
+                      00016 ;    File Version:                                                    *
+                      00017 ;                                                                     *
+                      00018 ;    Author:                                                          *
+                      00019 ;    Company:                                                         *
+                      00020 ;                                                                     *
+                      00021 ;                                                                     *
+                      00022 ;**********************************************************************
+                      00023 ;                                                                     *
+                      00024 ;    Files required: P16F628A.INC                                     *
+                      00025 ;                                                                     *
+                      00026 ;**********************************************************************
+                      00027 ;                                                                     *
+                      00028 ;    Notes:                                                           *
+                      00029 ;                                                                     *
+                      00030 ;**********************************************************************
+                      00031 
+                      00032     list      p=16F628A           ; list directive to define processor
+                      00033     #include <p16F628A.inc>       ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F628A processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2011 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00383         LIST
+                      00034 
+                      00035     errorlevel  -302              ; suppress message 302 from list file
+                      00036 
+                      00037     ;__CONFIG   _CP_OFF & _DATA_CP_OFF & _LVP_OFF & _BOREN_OFF & _MCLRE_ON & _WDT_OFF & _PWRTE_ON & _INT
+                            OSC_OSC_NOCLKOUT 
+2007   3F61           00038         __CONFIG   _XT_OSC & _LVP_OFF & _WDT_OFF & _PWRTE_ON & _BODEN_ON
+                      00039 
+                      00040 ; '__CONFIG' directive is used to embed configuration word within .asm file.
+                      00041 ; The lables following the directive are located in the respective .inc file.
+                      00042 ; See data sheet for additional information on configuration word settings.
+                      00043 
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00044 ;***** VARIABLE DEFINITIONS (examples)
+                      00045 
+                      00046 ; example of using Shared Uninitialized Data Section
+                      00047 INT_VAR        UDATA_SHR     
+0000                  00048 w_temp         RES     1        ; variable used for context saving 
+0001                  00049 status_temp    RES     1        ; variable used for context saving
+                      00050 
+                      00051                                 UDATA
+0000                  00052 count1         RES 1       ;variable used in delay routines.
+0001                  00053 counta         RES 1       ;variable used in delay routines.
+0002                  00054 countb         RES 1       ;variable used in delay routines.
+                      00055 
+0003                  00056 ucount                  RES     1
+0004                  00057 bit_count               RES     1
+                      00058 
+0005                  00059 rh_integer              RES     1
+0006                  00060 rh_decimal              RES     1
+0007                  00061 temp_integer    RES     1
+0008                  00062 temp_decimal    RES     1
+0009                  00063 data_checksum   RES     1
+000A                  00064 temp                    RES 1
+000B                  00065 ones_count              RES     1
+000C                  00066 tens_count              RES     1
+000D                  00067 hundreds_count  RES     1
+000E                  00068 data_buffer             RES 1
+                      00069 
+                      00070 #define lcd_port_tris   TRISB
+                      00071 #define lcd_port                PORTB
+                      00072 #define lcd_en                  PORTB, 4
+                      00073 #define lcd_rs                  PORTB, 5
+                      00074 
+                      00075 #define sensor_port             PORTA
+                      00076 #define sensor_pin              RA0
+                      00077 #define sensor_tris             TRISA
+                      00078 
+                      00079 
+                      00080 ;**********************************************************************
+                      00081 RESET_VECTOR    CODE   0x0000     ; processor reset vector
+0000   2???           00082         goto    START             ; go to beginning of program
+                      00083     
+                      00084 INT_VECTOR    CODE    0x0004      ; interrupt vector location
+                      00085 
+0004                  00086 INTERRUPT
+                      00087 
+0004   00??           00088         movwf   w_temp            ; save off current W register contents
+0005   0803           00089         movf    STATUS,w          ; move status register into W register
+0006   00??           00090         movwf   status_temp       ; save off contents of STATUS register
+                      00091 
+                      00092 
+                      00093 ; isr code can go here or be located as a call subroutine elsewhere
+                      00094 
+                      00095 
+0007   08??           00096         movf    status_temp,w     ; retrieve copy of STATUS register
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0008   0083           00097         movwf   STATUS            ; restore pre-isr STATUS register contents
+0009   0E??           00098         swapf   w_temp,f
+000A   0E??           00099         swapf   w_temp,w          ; restore pre-isr W register contents
+000B   0009           00100         retfie                    ; return from interrupt
+                      00101 
+                      00102 MAIN_PROG     CODE
+                      00103 
+0000                  00104 START
+0000   3007           00105                 movlw   0x07
+0001   009F           00106                 movwf   CMCON                           ; Turning off comparators
+                      00107 
+                      00108                 ;bcf            led_port, led_pin
+                      00109                 ;bcf            sensor_port, sensor_pin
+                      00110                 ;bcf            sensor_port, sensor_pin
+0002   01??           00111                 clrf    rh_integer
+0003   01??           00112                 clrf    rh_decimal
+0004   01??           00113                 clrf    temp_integer
+0005   01??           00114                 clrf    temp_decimal
+0006   01??           00115                 clrf    data_checksum
+                      00116 
+0007   1683           00117                 bsf             STATUS, RP0                     ; Switching to Bank 1
+                      00118 
+0008   0186           00119                 clrf    lcd_port_tris
+                      00120                 ;bcf            led_tris, led_pin               ; Setting led pin as output
+                      00121                 ;bsf            led_tris, led_pin               ; Setting led pin as input, high impeden
+                            ce
+0009   1005           00122                 bcf             sensor_tris, sensor_pin         ; Setting sensor pin as output
+                      00123                 ;bsf            sensor_tris, sensor_pin ; Setting sensor pin as input
+                      00124 
+000A   3000           00125                 movlw   b'00000000'                             ; Timer0 Enabled, No prescaler
+000B   0081           00126                 movwf   OPTION_REG
+                      00127 
+000C   1283           00128                 bcf             STATUS, RP0                     ; Switching to Bank 0
+                      00129 
+                      00130 
+000D                  00131 mainloop
+                      00132                 ;bsf            led_port, led_pin
+                      00133                 ;bcf            led_port, led_pin
+                      00134                 ;bsf            sensor_port, sensor_pin
+000D   2???           00135                 call    lcd_init
+                      00136 
+                      00137                 ;movlw  'H'
+                      00138                 ;call   lcd_char
+                      00139 
+000E                  00140 _readloop
+000E   2???           00141                 call    sensor_init
+                      00142 
+000F   2???           00143                 call    sensor_start
+                      00144                 ;bcf            led_port, led_pin
+                      00145                 ;btfss  sensor_port, sensor_pin
+                      00146                 ;bsf            led_port, led_pin
+                      00147                 ;goto   mainloop
+0010   3001           00148                 movlw   b'000000001'    ;Clear display
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0011   2???           00149                 call    lcd_cmd
+                      00150 
+                      00151                 ;---------------------------------------------
+                      00152                 ; Checking data is correct or not
+0012   2???           00153                 call    sensor_data_correct
+0013   3A01           00154                 xorlw   0x1
+0014   1903           00155                 btfsc   STATUS, Z
+0015   2???           00156                 goto    _sensor_data_error
+0016   0000           00157                 nop
+                      00158                 ;---------------------------------------------
+                      00159 
+0017   2???           00160                 call    text1
+                      00161 
+0018   08??           00162                 movf    temp_integer, w
+0019   2???           00163                 call    data_display
+                      00164 
+001A   302E           00165                 movlw   '.'
+001B   2???           00166                 call    lcd_char
+                      00167 
+001C   08??           00168                 movf    temp_decimal, w
+001D   2???           00169                 call    data_display
+                      00170                 
+                      00171 
+001E   2???           00172                 call    lcd_newline
+                      00173 
+                      00174                 ;movlw  ' '
+                      00175                 ;call   lcd_char
+                      00176 
+001F   2???           00177                 call     text2
+                      00178 
+0020   08??           00179                 movf    rh_integer, w
+0021   2???           00180                 call    data_display
+                      00181 
+0022   302E           00182                 movlw   '.'
+0023   2???           00183                 call    lcd_char
+                      00184 
+0024   08??           00185                 movf    rh_decimal, w
+0025   2???           00186                 call    data_display
+                      00187 
+                      00188 
+0026   2???           00189                 call    sensor_init
+0027   2???           00190                 call    sensor_init
+0028   2???           00191                 goto    _readloop
+                      00192                 ;call   sensor_init
+0029                  00193 _sensor_data_error
+0029   2???           00194                 call     text3
+                      00195 
+002A   2???           00196                 goto    _readloop
+                      00197         ;goto     $                ; loop forever
+                      00198 
+002B                  00199 sensor_init
+002B   2???           00200                 call    Delay255
+002C   2???           00201                 call    Delay255
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+002D   2???           00202                 call    Delay255
+002E   2???           00203                 call    Delay255
+                      00204                 
+002F   0008           00205                 return
+                      00206 
+                      00207 
+0030                  00208 sensor_response
+0030                  00209 _lo_s1_
+0030   1805           00210                 btfsc   sensor_port, sensor_pin
+0031   2???           00211                 goto    _lo_s1_
+                      00212                 
+0032                  00213 _hi_s1_
+0032   1C05           00214                 btfss   sensor_port, sensor_pin
+0033   2???           00215                 goto    _hi_s1_
+                      00216 
+0034                  00217 _lo_s2_
+0034   1805           00218                 btfsc   sensor_port, sensor_pin
+0035   2???           00219                 goto    _lo_s2_
+                      00220                 
+                      00221                 
+0036   0008           00222                 return
+                      00223 
+0037                  00224 sensor_start
+0037   01??           00225                 clrf    rh_integer
+0038   01??           00226                 clrf    rh_decimal
+0039   01??           00227                 clrf    temp_integer
+003A   01??           00228                 clrf    temp_decimal
+                      00229 
+003B   1005           00230                 bcf             sensor_port, sensor_pin
+                      00231                 ;call   Delay255
+003C   2???           00232                 call    Delay15
+003D   2???           00233                 call    Delay5
+                      00234 
+003E   1405           00235                 bsf             sensor_port, sensor_pin
+003F   2???           00236                 call    Delayu30
+                      00237                 
+0040   1683           00238                 bsf             STATUS, RP0                             ; Switching to Bank 1
+0041   1405           00239                 bsf             sensor_tris, sensor_pin
+0042   1283           00240                 bcf             STATUS, RP0                             ; Switching to Bank 0
+                      00241 
+                      00242                 
+0043   2???           00243                 call    Delayu80
+0044   2???           00244                 call    Delayu80
+                      00245                 
+                      00246 
+0045   2???           00247                 call    read_byte
+0046   00??           00248                 movwf   rh_integer
+                      00249 
+                      00250         
+0047   2???           00251                 call    read_byte
+0048   00??           00252                 movwf   rh_decimal
+                      00253 
+                      00254         
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0049   2???           00255                 call    read_byte
+004A   00??           00256                 movwf   temp_integer
+                      00257 
+                      00258         
+004B   2???           00259                 call    read_byte
+004C   00??           00260                 movwf   temp_decimal
+                      00261 
+                      00262 
+004D   2???           00263                 call    read_byte
+004E   00??           00264                 movwf   data_checksum
+                      00265 
+004F                  00266 _check_end_
+004F   1C05           00267                 btfss   sensor_port, sensor_pin
+0050   2???           00268                 goto    _check_end_
+                      00269 
+                      00270                 ; Changing sensor pin as output
+0051   1683           00271                 bsf             STATUS, RP0                             ; Switching to Bank 1
+0052   1005           00272                 bcf             sensor_tris, sensor_pin
+0053   1283           00273                 bcf             STATUS, RP0                             ; Switching to Bank 0
+                      00274 
+                      00275 
+0054   0008           00276                 return
+                      00277 
+                      00278 
+                      00279 ;-----------------------------------------------
+0055                  00280 read_byte
+0055   01??           00281                 clrf    temp
+                      00282 
+0056   3008           00283                 movlw   .8
+0057   00??           00284                 movwf   bit_count
+                      00285 
+                      00286                 ;movlw  0x1
+                      00287                 ;movwf  temp
+                      00288 
+0058                  00289 _read_loop_
+                      00290                 
+0058   0181           00291                 clrf    TMR0
+0059                  00292 _lo_
+0059   1C05           00293                 btfss   sensor_port, sensor_pin
+005A   2???           00294                 goto    _lo_
+                      00295                 
+                      00296                 ;clrf   TMR0
+005B                  00297 _hi_
+005B   1805           00298                 btfsc   sensor_port, sensor_pin
+005C   2???           00299                 goto    _hi_
+                      00300 
+005D   3028           00301                 movlw   .40
+005E   0201           00302                 subwf   TMR0, w
+005F   1803           00303                 btfsc   STATUS, C
+0060   1903           00304                 btfsc   STATUS, Z
+0061   2???           00305                 goto    _z_
+0062   2???           00306                 goto    _o_
+0063                  00307 _z_
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0063   3000           00308                 movlw   0x0
+                      00309                 ;bsf            temp, 1
+0064   2???           00310                 goto    _done_
+0065                  00311 _o_
+0065   3001           00312                 movlw   0x1
+0066                  00313 _done_
+0066   3EFF           00314                 addlw   .255
+                      00315                 ;movlw  0x1
+0067   0D??           00316                 rlf             temp, f
+                      00317 
+                      00318                 ;call   Delay1
+                      00319 
+0068   0B??           00320                 decfsz  bit_count, f
+0069   2???           00321                 goto    _read_loop_
+                      00322 
+006A   08??           00323                 movf    temp, w
+                      00324                 ;movlw  .255
+                      00325                 ;clrf   temp
+006B   0008           00326                 return
+                      00327 ;-----------------------------------------------
+                      00328 ;-----------------------------------------------
+006C                  00329 sensor_data_correct
+006C   01??           00330                 clrf    temp
+006D   08??           00331                 movf    rh_integer, w
+                      00332                 ;movwf  temp
+006E   07??           00333                 addwf   rh_decimal, w
+006F   07??           00334                 addwf   temp_integer, w
+0070   07??           00335                 addwf   temp_decimal, w
+0071   00??           00336                 movwf   temp    
+                      00337 
+0072   08??           00338                 movf    data_checksum, w
+Message[305]: Using default destination of 1 (file).
+0073   06??           00339                 xorwf   temp
+0074   3001           00340                 movlw   0x1
+0075   1903           00341                 btfsc   STATUS, Z
+0076   3000           00342                 movlw   0x0
+0077   0000           00343                 nop
+                      00344                 ;call   _decimal
+                      00345                 ;call   lcd_char
+                      00346 
+0078   0008           00347                 return
+                      00348 ;-----------------------------------------------
+                      00349 
+0079                  00350 lcd_init
+0079   2???           00351                 call    Delay30
+                      00352 
+                      00353                 ;--------------------
+007A   3003           00354                 movlw   b'00000011'
+007B   0086           00355                 movwf   lcd_port
+007C   2???           00356                 call    lcd_pulse
+007D   2???           00357                 call    Delay5
+                      00358 
+007E   3003           00359                 movlw   b'00000011'
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+007F   0086           00360                 movwf   lcd_port
+0080   2???           00361                 call    lcd_pulse
+0081   2???           00362                 call    Delay1
+                      00363 
+0082   3003           00364                 movlw   b'00000011'
+0083   0086           00365                 movwf   lcd_port
+0084   2???           00366                 call    lcd_pulse
+0085   2???           00367                 call    Delay1
+                      00368                 ;call   lcd_busy
+                      00369                 ;--------------------
+                      00370 
+0086   3002           00371                 movlw   b'00000010'             ; Switch to 4bit mode
+0087   0086           00372                 movwf   lcd_port
+0088   2???           00373                 call    lcd_pulse
+                      00374                 ;call   lcd_busy
+                      00375                 ;--------------------
+                      00376                                                                 ;Set display shift
+0089   3028           00377                 movlw   b'00101000'
+008A   2???           00378                 call    lcd_cmd
+                      00379                                                                 ;Set display character mode
+008B   3006           00380                 movlw   b'00000110'
+008C   2???           00381                 call    lcd_cmd
+                      00382                                                                 ;Set display on/off and cursor command
+008D   300C           00383                 movlw   b'0001100'
+008E   2???           00384                 call    lcd_cmd
+                      00385 
+008F   3001           00386                 movlw   b'000000001'    ;Clear display
+0090   2???           00387                 call    lcd_cmd
+                      00388 
+0091   0008           00389                 return
+                      00390 
+0092                  00391 lcd_cmd
+0092   1286           00392                 bcf             lcd_rs
+0093   00??           00393                 movwf   temp
+0094   0E??           00394                 swapf   temp, w
+0095   390F           00395                 andlw   0x0f
+0096   0086           00396                 movwf   lcd_port
+0097   2???           00397                 call    lcd_pulse
+                      00398 
+0098   08??           00399                 movf    temp, w
+0099   390F           00400                 andlw   0x0f
+009A   0086           00401                 movwf   lcd_port
+009B   2???           00402                 call    lcd_pulse
+                      00403 
+009C   2???           00404                 call Delay5
+                      00405 
+009D   0008           00406                 return
+                      00407 
+009E                  00408 lcd_newline
+009E   30C0           00409                 movlw   0xc0                ;put the cursor at the start of line 2
+009F   2???           00410         call    lcd_cmd
+                      00411 
+00A0   0008           00412                 return
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00413 
+00A1                  00414 lcd_char
+                      00415                 
+00A1   00??           00416                 movwf   temp
+00A2   0E??           00417                 swapf   temp, w
+00A3   390F           00418                 andlw   0x0f
+00A4   0086           00419                 movwf   lcd_port
+00A5   1686           00420                 bsf             lcd_rs
+00A6   2???           00421                 call    lcd_pulse
+                      00422 
+00A7   08??           00423                 movf    temp, w
+00A8   390F           00424                 andlw   0x0f
+00A9   0086           00425                 movwf   lcd_port
+00AA   1686           00426                 bsf             lcd_rs
+00AB   2???           00427                 call    lcd_pulse
+                      00428 
+00AC   2???           00429                 call Delay5
+                      00430 
+00AD   0008           00431                 return
+                      00432 
+                      00433 
+00AE                  00434 lcd_pulse
+00AE   1606           00435                 bsf     lcd_en
+00AF   0000           00436                 nop
+00B0   1206           00437                 bcf     lcd_en
+00B1   0008           00438                 return
+                      00439 
+00B2                  00440 data_display
+                      00441                 ;pagesel        data_buffer
+                      00442                 ;movf   rh_integer, w
+                      00443                 ;movf   temp_integer, w
+                      00444                 ;movlw  .55
+00B2   00??           00445                 movwf   data_buffer
+                      00446 
+00B3   01??           00447                 clrf    tens_count
+00B4   01??           00448                 clrf    ones_count
+00B5   01??           00449                 clrf    hundreds_count
+                      00450 
+00B6                  00451 _hundreds
+Message[305]: Using default destination of 1 (file).
+00B6   0A??           00452                 incf    hundreds_count
+00B7   08??           00453                 movf    data_buffer, w
+00B8   00??           00454                 movwf   temp
+00B9   3064           00455                 movlw   .100
+00BA   02??           00456                 subwf   data_buffer, f
+                      00457                 ;btfss  STATUS, Z
+00BB   1C03           00458                 btfss   STATUS, C
+00BC   1903           00459                 btfsc   STATUS, Z
+00BD   2???           00460                 goto    _hundreds
+                      00461         
+00BE   08??           00462                 movf    temp, w
+00BF   00??           00463                 movwf   data_buffer
+                      00464 
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00C0                  00465 _tens
+                      00466 
+Message[305]: Using default destination of 1 (file).
+00C0   0A??           00467                 incf    tens_count
+00C1   08??           00468                 movf    data_buffer, w
+00C2   00??           00469                 movwf   temp
+00C3   300A           00470                 movlw   .10
+00C4   02??           00471                 subwf   data_buffer, f
+                      00472                 ;btfss  STATUS, Z
+00C5   1C03           00473                 btfss   STATUS, C
+00C6   1903           00474                 btfsc   STATUS, Z
+00C7   2???           00475                 goto    _tens
+                      00476 
+00C8   08??           00477                 movf    temp, w
+00C9   00??           00478                 movwf   data_buffer
+                      00479 
+00CA                  00480 _ones
+Message[305]: Using default destination of 1 (file).
+00CA   0A??           00481                 incf    ones_count
+                      00482                 ;decfsz data_buffer
+                      00483                 ;goto   _ones
+00CB   3001           00484                 movlw   .1
+00CC   02??           00485                 subwf   data_buffer, f
+                      00486                 ;btfss  STATUS, Z
+00CD   1C03           00487                 btfss   STATUS, C
+00CE   1903           00488                 btfsc   STATUS, Z
+00CF   2???           00489                 goto    _ones
+                      00490 
+                      00491                 ;movlw  .2
+                      00492                 ;subwf  tens_count, f
+Message[305]: Using default destination of 1 (file).
+00D0   03??           00493                 decf    hundreds_count
+Message[305]: Using default destination of 1 (file).
+00D1   03??           00494                 decf    tens_count
+Message[305]: Using default destination of 1 (file).
+00D2   03??           00495                 decf    ones_count
+                      00496 
+                      00497                 ;incf   tens_count, f
+                      00498                 ;movf   tens_count, w
+                      00499                 ;andlw  0x09
+                      00500                 ;movwf  
+                      00501                 ;movlw  .1
+                      00502                 ;movwf  tens_count
+                      00503                 ;subwf  hundreds_count, f
+                      00504                 ;movlw  .5
+                      00505                 ;movwf  tens_count
+                      00506                 ;-------------------------------
+                      00507                 ;movf   hundreds_count, w
+                      00508                 ;andlw  0x0F
+                      00509                 ;call   _decimal
+                      00510                 ;call   lcd_char
+                      00511                 ;-------------------------------
+                      00512 
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00D3   08??           00513                 movf    tens_count, w
+00D4   390F           00514                 andlw   0x0F
+                      00515                 ;pagesel        _decimal
+                      00516                 ;movf   tens_count, w
+00D5   2???           00517                 call    _decimal
+                      00518                 ;pagesel        $
+                      00519                 ;pagesel        lcd_char
+00D6   2???           00520                 call    lcd_char
+                      00521                 ;pagesel        $
+                      00522 
+00D7   08??           00523                 movf    ones_count, w
+00D8   390F           00524                 andlw   0x0F
+                      00525                 ;pagesel        _decimal
+                      00526                 ;movf   tens_count, w
+00D9   2???           00527                 call    _decimal
+                      00528                 ;pagesel        $
+                      00529                 ;pagesel        lcd_char
+00DA   2???           00530                 call    lcd_char
+                      00531                 ;pagesel        $
+                      00532 
+                      00533                 ;clrf   temp
+                      00534 
+00DB   0008           00535                 return
+                      00536 
+00DC                  00537 _decimal
+00DC   0782           00538                 addwf   PCL, f
+00DD   3430           00539                 retlw   b'00110000'                             ; Decimal 0
+00DE   3431           00540                 retlw   b'00110001'                             ; Decimal 1
+00DF   3432           00541                 retlw   b'00110010'                             ; Decimal 2
+00E0   3433           00542                 retlw   b'00110011'                             ; Decimal 3
+00E1   3434           00543                 retlw   b'00110100'                             ; Decimal 4
+00E2   3435           00544                 retlw   b'00110101'                             ; Decimal 5
+00E3   3436           00545                 retlw   b'00110110'                             ; Decimal 6
+00E4   3437           00546                 retlw   b'00110111'                             ; Decimal 7
+00E5   3438           00547                 retlw   b'00111000'                             ; Decimal 8
+00E6   3439           00548                 retlw   b'00111001'                             ; Decimal 9
+                      00549 
+00E7                  00550 text1
+00E7   3054           00551                 movlw   'T'
+00E8   2???           00552                 call    lcd_char
+00E9   3065           00553                 movlw   'e'
+00EA   2???           00554                 call    lcd_char
+00EB   306D           00555                 movlw   'm'
+00EC   2???           00556                 call    lcd_char
+00ED   3070           00557                 movlw   'p'
+00EE   2???           00558                 call    lcd_char
+00EF   302E           00559                 movlw   '.'
+00F0   2???           00560                 call    lcd_char
+00F1   303A           00561                 movlw   ':'
+00F2   2???           00562                 call    lcd_char
+                      00563                 
+00F3   0008           00564                 return
+                      00565 
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00F4                  00566 text3
+00F4   3044           00567                 movlw   'D'
+00F5   2???           00568                 call    lcd_char
+00F6   3061           00569                 movlw   'a'
+00F7   2???           00570                 call    lcd_char
+00F8   3074           00571                 movlw   't'
+00F9   2???           00572                 call    lcd_char
+00FA   3061           00573                 movlw   'a'
+00FB   2???           00574                 call    lcd_char
+00FC   3020           00575                 movlw   ' '
+00FD   2???           00576                 call    lcd_char
+00FE   3045           00577                 movlw   'E'
+00FF   2???           00578                 call    lcd_char
+0100   3072           00579                 movlw   'r'
+0101   2???           00580                 call    lcd_char
+0102   3072           00581                 movlw   'r'
+0103   2???           00582                 call    lcd_char
+0104   306F           00583                 movlw   'o'
+0105   2???           00584                 call    lcd_char
+0106   3072           00585                 movlw   'r'
+0107   2???           00586                 call    lcd_char
+                      00587 
+0108   0008           00588                 return
+                      00589 
+0109                  00590 text2
+0109   3052           00591                 movlw   'R'
+010A   2???           00592                 call    lcd_char
+010B   302E           00593                 movlw   '.'
+010C   2???           00594                 call    lcd_char
+010D   3048           00595                 movlw   'H'
+010E   2???           00596                 call    lcd_char
+010F   3075           00597                 movlw   'u'
+0110   2???           00598                 call    lcd_char
+0111   306D           00599                 movlw   'm'
+0112   2???           00600                 call    lcd_char
+0113   3069           00601                 movlw   'i'
+0114   2???           00602                 call    lcd_char
+0115   3064           00603                 movlw   'd'
+0116   2???           00604                 call    lcd_char
+0117   3069           00605                 movlw   'i'
+0118   2???           00606                 call    lcd_char
+0119   3074           00607                 movlw   't'
+011A   2???           00608                 call    lcd_char
+011B   3079           00609                 movlw   'y'
+011C   2???           00610                 call    lcd_char
+011D   303A           00611                 movlw   ':'
+011E   2???           00612                 call    lcd_char
+                      00613 
+011F   0008           00614                 return
+                      00615 
+                      00616 ;______________________________________________________________________________________________
+                      00617 ;Delays originated here: http://www.winpicprog.co.uk/pic_tutorial3.htm
+                      00618 ;All delays here assume a 4Mhz clock.
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0120                  00619 Delay255
+0120   30FF           00620         movlw   .255            ;delay 255ms.
+0121   2???           00621         goto    d0
+0122                  00622 Delay30
+0122   301E           00623         movlw   .30             ;delay 30mS.
+0123   2???           00624         goto    d0
+0124                  00625 Delay15 
+0124   300F           00626                 movlw   .15
+0125   2???           00627                 goto    d0
+0126                  00628 Delay5
+0126   3005           00629         movlw   .5              ;delay 5ms.
+0127   2???           00630         goto    d0
+0128                  00631 Delay3
+0128   3003           00632         movlw   .3              ;delay 3ms.
+0129   2???           00633         goto    d0
+012A                  00634 Delay1
+012A   3001           00635         movlw   .1              ;delay 1mS.
+                      00636                 
+012B   00??           00637 d0      movwf   count1
+012C   30C7           00638 d1      movlw   0xC7
+012D   00??           00639         movwf   counta
+012E   3001           00640         movlw   0x01
+012F   00??           00641         movwf   countb
+0130                  00642 Delay_0
+Message[305]: Using default destination of 1 (file).
+0130   0B??           00643         decfsz  counta
+0131   2???           00644         goto    $+2
+Message[305]: Using default destination of 1 (file).
+0132   0B??           00645         decfsz  countb
+0133   2???           00646         goto    Delay_0
+Message[305]: Using default destination of 1 (file).
+0134   0B??           00647         decfsz  count1
+0135   2???           00648         goto    d1
+0136   3400           00649         retlw   .0              ;return from the delay routine.
+                      00650 
+0137                  00651 Delayu80
+0137   301B           00652                 movlw   .27
+0138   2???           00653                 goto    uDelay
+0139                  00654 Delayu30
+0139   300A           00655                 movlw   .10
+013A   2???           00656                 goto    uDelay
+                      00657 
+013B                  00658 uDelay
+013B   00??           00659                 movwf   ucount
+013C                  00660 _uloop
+                      00661                 ;nop
+013C   0B??           00662                 decfsz  ucount, f
+013D   2???           00663                 goto    _uloop
+013E   3400           00664                 retlw   .0
+                      00665 
+                      00666 ; initialize eeprom locations
+                      00667 
+                      00668 EE        CODE    0x2100
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+2100   0000 0001 0002 00669         DE    0x00, 0x01, 0x02, 0x03
+       0003 
+                      00670 
+3F61                  00671         END                       ; directive 'end of program'
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADDEN                             00000003
+ADEN                              00000003
+BRGH                              00000002
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000001F
+CMIE                              00000006
+CMIF                              00000006
+CREN                              00000004
+CSRC                              00000007
+DATA_CP_OFF                       00003FFF
+DATA_CP_ON                        00003EFF
+DC                                00000001
+Delay1                            0000012A
+Delay15                           00000124
+Delay255                          00000120
+Delay3                            00000128
+Delay30                           00000122
+Delay5                            00000126
+Delay_0                           00000130
+Delayu30                          00000139
+Delayu80                          00000137
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INTCON                            0000000B
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+INTE                              00000004
+INTEDG                            00000006
+INTERRUPT                         00000004
+INTF                              00000001
+IRP                               00000007
+NOT_BO                            00000000
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OERR                              00000001
+OPTION_REG                        00000081
+OSCF                              00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RA7                               00000007
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RP0                               00000005
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RP1                               00000006
+RX9                               00000006
+RX9D                              00000000
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+START                             00000000
+STATUS                            00000003
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISA6                            00000006
+TRISA7                            00000007
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISB6                            00000006
+TRISB7                            00000007
+TRMT                              00000001
+TX9                               00000006
+TX9D                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             0000009F
+VREN                              00000007
+VROE                              00000006
+VRR                               00000005
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DEVID1                           00002006
+_ER_OSC_CLKOUT                    00003FFF
+_ER_OSC_NOCLKOUT                  00003FFE
+_EXTCLK_OSC                       00003FEF
+_FOSC_ECIO                        00003FEF
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FEE
+_FOSC_INTOSCCLK                   00003FFD
+_FOSC_INTOSCIO                    00003FFC
+_FOSC_LP                          00003FEC
+_FOSC_XT                          00003FED
+_HS_OSC                           00003FEE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INTOSC_OSC_CLKOUT                00003FFD
+_INTOSC_OSC_NOCLKOUT              00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_LP_OSC                           00003FEC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_MAIN_PROG_0131                   00000131
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC_CLKOUT                    00003FFF
+_RC_OSC_NOCLKOUT                  00003FFE
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FED
+__16F628A                         00000001
+__DEBUG                           1
+_check_end_                       0000004F
+_decimal                          000000DC
+_done_                            00000066
+_hi_                              0000005B
+_hi_s1_                           00000032
+_hundreds                         000000B6
+_lo_                              00000059
+_lo_s1_                           00000030
+_lo_s2_                           00000034
+_o_                               00000065
+_ones                             000000CA
+_read_loop_                       00000058
+_readloop                         0000000E
+_sensor_data_error                00000029
+_tens                             000000C0
+_uloop                            0000013C
+_z_                               00000063
+bit_count                         00000004
+count1                            00000000
+counta                            00000001
+countb                            00000002
+d0                                0000012B
+d1                                0000012C
+data_buffer                       0000000E
+data_checksum                     00000009
+data_display                      000000B2
+hundreds_count                    0000000D
+lcd_char                          000000A1
+lcd_cmd                           00000092
+lcd_en                            PORTB, 4
+lcd_init                          00000079
+lcd_newline                       0000009E
+lcd_port                          PORTB
+lcd_port_tris                     TRISB
+lcd_pulse                         000000AE
+lcd_rs                            PORTB, 5
+MPASM  5.43                          MAIN.ASM   2-8-2014  23:44:35         PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+mainloop                          0000000D
+ones_count                        0000000B
+read_byte                         00000055
+rh_decimal                        00000006
+rh_integer                        00000005
+sensor_data_correct               0000006C
+sensor_init                       0000002B
+sensor_pin                        RA0
+sensor_port                       PORTA
+sensor_response                   00000030
+sensor_start                      00000037
+sensor_tris                       TRISA
+status_temp                       00000001
+temp                              0000000A
+temp_decimal                      00000008
+temp_integer                      00000007
+tens_count                        0000000C
+text1                             000000E7
+text2                             00000109
+text3                             000000F4
+uDelay                            0000013B
+ucount                            00000003
+w_temp                            00000000
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :    10 reported,     5 suppressed
+
+

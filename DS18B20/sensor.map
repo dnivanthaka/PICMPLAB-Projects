@@ -1,0 +1,186 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Sun Mar 02 13:39:56 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000010
+                    .code       code   0x00000c    program   0x000164
+                MAIN_PROG       code   0x0000be    program   0x00015e
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                  INT_VAR      udata   0x000070       data   0x000002
+                   .udata      udata   0x000120       data   0x00001f
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x00016c      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            369 out of 2182 program addresses used, program memory utilization is 16%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   Delay1   0x0000ab    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay15   0x0000a5    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                 Delay255   0x0000a1    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   Delay3   0x0000a9    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay30   0x0000a3    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   Delay5   0x0000a7    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay_0   0x0000b1    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                    START   0x0000be    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+              _.code_0011   0x0000b2    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+              _.code_0045   0x000051    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+          _MAIN_PROG_002A   0x0000e8    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          _MAIN_PROG_0040   0x0000fe    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          _MAIN_PROG_0051   0x00010f    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                  _brloop   0x000118    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                  _bwloop   0x000132    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                 _decimal   0x000096    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 _decimal   0x00014d    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                _hundreds   0x00006c    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                    _ones   0x000080    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                    _tens   0x000076    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                       d0   0x0000ac    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                       d1   0x0000ad    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                device_ok   0x000158    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+             ds18b20_init   0x0000ff    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+        ds18b20_read_byte   0x00012f    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+       ds18b20_write_byte   0x000115    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                 lcd_busy   0x00004a    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_char   0x000039    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                lcd_clear   0x000065    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                  lcd_cmd   0x00002a    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              lcd_display   0x000068    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_home   0x000061    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_init   0x00000c    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              lcd_newline   0x000036    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                lcd_pulse   0x000046    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+               lcd_put_at   0x000058    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 mainloop   0x0000c4    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                       u0   0x0000b9    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   uDelay   0x0000b8    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                 bcounter   0x000122       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                byte_data   0x000120       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                   count1   0x00013b       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   counta   0x00013c       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   countb   0x00013d       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+              data_buffer   0x00013a       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+          ds18b20_addr_b0   0x00012a       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b1   0x00012b       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b2   0x00012c       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b3   0x00012d       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b4   0x00012e       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b5   0x00012f       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b6   0x000130       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b7   0x000131       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_conf_reg   0x000127       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_data_crc   0x000128       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+        ds18b20_family_id   0x000129       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_temp_lsb   0x000123       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_temp_msb   0x000124       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_temp_val   0x000132       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_user_lsb   0x000125       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_user_msb   0x000126       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                   l_char   0x000134       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+               l_hundreds   0x000138       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                    l_loc   0x000135       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                   l_ones   0x000136       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                   l_tens   0x000137       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              l_thousands   0x000139       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                     temp   0x000121       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                     temp   0x000133       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                   ucount   0x00013e       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                 lcd_init   0x00000c    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                  lcd_cmd   0x00002a    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              lcd_newline   0x000036    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_char   0x000039    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                lcd_pulse   0x000046    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_busy   0x00004a    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              _.code_0045   0x000051    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+               lcd_put_at   0x000058    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 lcd_home   0x000061    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                lcd_clear   0x000065    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              lcd_display   0x000068    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                _hundreds   0x00006c    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                    _tens   0x000076    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                    _ones   0x000080    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 _decimal   0x000096    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                 Delay255   0x0000a1    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay30   0x0000a3    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay15   0x0000a5    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   Delay5   0x0000a7    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   Delay3   0x0000a9    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   Delay1   0x0000ab    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                       d0   0x0000ac    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                       d1   0x0000ad    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                  Delay_0   0x0000b1    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+              _.code_0011   0x0000b2    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   uDelay   0x0000b8    program     extern C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                       u0   0x0000b9    program     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                    START   0x0000be    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                 mainloop   0x0000c4    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          _MAIN_PROG_002A   0x0000e8    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          _MAIN_PROG_0040   0x0000fe    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+             ds18b20_init   0x0000ff    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          _MAIN_PROG_0051   0x00010f    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+       ds18b20_write_byte   0x000115    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                  _brloop   0x000118    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+        ds18b20_read_byte   0x00012f    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                  _bwloop   0x000132    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                 _decimal   0x00014d    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                device_ok   0x000158    program     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                byte_data   0x000120       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                     temp   0x000121       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                 bcounter   0x000122       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_temp_lsb   0x000123       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_temp_msb   0x000124       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_user_lsb   0x000125       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_user_msb   0x000126       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_conf_reg   0x000127       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_data_crc   0x000128       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+        ds18b20_family_id   0x000129       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b0   0x00012a       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b1   0x00012b       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b2   0x00012c       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b3   0x00012d       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b4   0x00012e       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b5   0x00012f       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b6   0x000130       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+          ds18b20_addr_b7   0x000131       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+         ds18b20_temp_val   0x000132       data     static C:\Users\Dinusha\Documents\PICProjects\DS18B20\MAIN.ASM
+                     temp   0x000133       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                   l_char   0x000134       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                    l_loc   0x000135       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                   l_ones   0x000136       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                   l_tens   0x000137       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+               l_hundreds   0x000138       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              l_thousands   0x000139       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+              data_buffer   0x00013a       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\HD44780.ASM
+                   count1   0x00013b       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   counta   0x00013c       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   countb   0x00013d       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+                   ucount   0x00013e       data     static C:\Users\Dinusha\Documents\PICProjects\DHT11_4\DELAYS.ASM
+
+

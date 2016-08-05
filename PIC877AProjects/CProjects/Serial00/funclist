@@ -1,0 +1,11 @@
+_init: CODE, 1948 0 23
+_TX_printline: CODE, 1909 0 18
+_RX_poll: CODE, 1899 0 10
+_TX_poll: CODE, 1891 0 8
+__stringtab: STRING, 3 0 6
+__stringdata: STRING, 9 0 21
+_main: CODE, 2007 0 37
+_RX_readline: CODE, 1971 0 36
+__initialization: CODE, 2044 0 0
+_TX_print: CODE, 1927 0 21
+Total: 180

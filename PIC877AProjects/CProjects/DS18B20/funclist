@@ -1,0 +1,20 @@
+_init: CODE, 977 0 21
+__stringtab: STRING, 683 0 16
+__stringdata: STRING, 699 0 39
+_serial_tx_print: CODE, 920 0 35
+_ds18b20_write_byte: CODE, 546 0 73
+_main: CODE, 25 0 308
+_tc_int: CODE, 1017 0 16
+__initialization: CODE, 21 0 0
+___lwdiv: CODE, 619 0 64
+_serial_tx_printline: CODE, 955 0 22
+_serial_init: CODE, 998 0 19
+_ds18b20_init: CODE, 790 0 50
+_ds18b20_busy: CODE, 882 0 38
+___lwmod: CODE, 738 0 52
+_itoa: CODE, 840 0 42
+_serial_tx_newline: CODE, 1033 0 11
+_serial_tx_poll: CODE, 1044 0 8
+_ds18b20_read_byte: CODE, 459 0 87
+_utoa: CODE, 333 0 126
+Total: 1027

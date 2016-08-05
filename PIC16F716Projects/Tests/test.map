@@ -1,0 +1,49 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Sun Jul 13 12:33:16 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000014
+                MAIN_PROG       code   0x00000e    program   0x000010
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                  INT_VAR      udata   0x0000a0       data   0x000002
+                 INT_VAR1      udata   0x0000a2       data   0x000001
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x000015      
+                            0x002007    0x002007      
+            22 out of 2054 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+                     loop   0x000015    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+                    start   0x00000e    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+              status_temp   0x0000a1       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+                  w1_temp   0x0000a2       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+                   w_temp   0x0000a0       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+                    start   0x00000e    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+                     loop   0x000015    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+                   w_temp   0x0000a0       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+              status_temp   0x0000a1       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+                  w1_temp   0x0000a2       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F716Projects\Tests\MAIN.ASM
+
+

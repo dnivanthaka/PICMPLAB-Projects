@@ -1,0 +1,25 @@
+Warning[205] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 4 : Found directive in column 1. (GLOBAL)
+Warning[205] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 5 : Found directive in column 1. (GLOBAL)
+Warning[205] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 6 : Found directive in column 1. (GLOBAL)
+Warning[205] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 7 : Found directive in column 1. (GLOBAL)
+Warning[205] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 8 : Found directive in column 1. (GLOBAL)
+Warning[205] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 9 : Found directive in column 1. (GLOBAL)
+Warning[205] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 68 : Found directive in column 1. (UDATA)
+Warning[205] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 73 : Found directive in column 1. (CODE)
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 25 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 48 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 48 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 25 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 38 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 61 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 48 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 38 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 25 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 61 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 38 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 25 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 48 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 61 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 25 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 48 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[205] C:\USERS\DINUSHA\DOCUMENTS\PICPROJECTS\PIC16F690\5110LCDI2C\SWI2C.ASM 356 : Found directive in column 1. (END)

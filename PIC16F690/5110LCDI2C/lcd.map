@@ -1,0 +1,96 @@
+MPLINK 4.41, Linker
+Linker Map File - Created Fri Aug 15 23:21:29 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+             RESET_VECTOR       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+               INT_VECTOR       code   0x000004    program   0x000018
+                    .code       code   0x000010    program   0x0001aa
+                MAIN_PROG       code   0x0000e5    program   0x00003e
+      .config_2007_MAIN.O       code   0x002007    program   0x000002
+                       EE       code   0x002100    program   0x000008
+                   .udata      udata   0x000020       data   0x000003
+                  INT_VAR      udata   0x000070       data   0x000003
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000004    0x000103      
+                            0x002007    0x002007      
+                            0x002100    0x002103      
+            264 out of 4359 program addresses used, program memory utilization is 6%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+              _.code_0096   0x0000a6    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+             _i2cackwait_   0x0000ce    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                _i2cdone_   0x0000a7    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                 _i2cone_   0x0000a0    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                _i2czero_   0x000099    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+              device_init   0x0000f4    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+            i2c_delayloop   0x0000da    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                     loop   0x0000e9    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+                    start   0x0000e5    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+            swi2c_ackwait   0x0000ce    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+              swi2c_delay   0x0000d6    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+      swi2c_delay_4cycles   0x0000e1    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+      swi2c_delay_8cycles   0x0000e2    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+               swi2c_init   0x000010    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+            swi2c_readbit   0x0000ae    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+       swi2c_sendaddrread   0x000059    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+      swi2c_sendaddrwrite   0x00004f    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+            swi2c_sendbit   0x000090    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+           swi2c_senddata   0x000063    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+              swi2c_start   0x00001f    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+               swi2c_stop   0x00003a    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                i2cbcount   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                  i2ctemp   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                  i2timer   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                INTERRUPT   0x000004    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+               swi2c_init   0x000010    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+              swi2c_start   0x00001f    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+               swi2c_stop   0x00003a    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+      swi2c_sendaddrwrite   0x00004f    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+       swi2c_sendaddrread   0x000059    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+           swi2c_senddata   0x000063    program     extern C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+            swi2c_sendbit   0x000090    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                _i2czero_   0x000099    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                 _i2cone_   0x0000a0    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+              _.code_0096   0x0000a6    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                _i2cdone_   0x0000a7    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+            swi2c_readbit   0x0000ae    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+            swi2c_ackwait   0x0000ce    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+             _i2cackwait_   0x0000ce    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+              swi2c_delay   0x0000d6    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+            i2c_delayloop   0x0000da    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+      swi2c_delay_4cycles   0x0000e1    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+      swi2c_delay_8cycles   0x0000e2    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                    start   0x0000e5    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+                     loop   0x0000e9    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+              device_init   0x0000f4    program     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+                  i2ctemp   0x000020       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                i2cbcount   0x000021       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                  i2timer   0x000022       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\SWI2C.asm
+                   w_temp   0x000070       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+              status_temp   0x000071       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+              pclath_temp   0x000072       data     static C:\Users\Dinusha\Documents\PICProjects\PIC16F690\5110LCDI2C\MAIN.ASM
+
+
